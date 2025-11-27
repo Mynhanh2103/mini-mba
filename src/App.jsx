@@ -423,7 +423,7 @@ export default function App() {
 
             {/* Ảnh chính */}
             <img
-              src="/public/images/team-doctors-meeting.jpg"
+              src="/images/team-doctors-meeting.jpg"
               className="relative rounded-3xl shadow-2xl z-10 w-full object-cover"
               alt="Medical Management"
             />
@@ -576,7 +576,7 @@ export default function App() {
             <div className="bg-white p-6 rounded-2xl shadow-sm text-center">
               <div className="w-24 h-24 bg-blue-100 rounded-full mx-auto mb-4 overflow-hidden">
                 <img
-                  src="/public/images/Volker-Schulte.jpg"
+                  src="/images/Volker-Schulte.jpg"
                   alt="Volker"
                   className="w-full h-full object-cover"
                 />
@@ -595,7 +595,7 @@ export default function App() {
             <div className="bg-white p-6 rounded-2xl shadow-sm text-center">
               <div className="w-24 h-24 bg-blue-100 rounded-full mx-auto mb-4 overflow-hidden">
                 <img
-                  src="/public/images/IMG_3742.jpg.jpeg"
+                  src="/images/IMG_3742.jpg.jpeg"
                   alt="Kathrin"
                   className="w-full h-full object-cover"
                 />
@@ -611,7 +611,7 @@ export default function App() {
             <div className="bg-white p-6 rounded-2xl shadow-sm text-center">
               <div className="w-24 h-24 bg-blue-100 rounded-full mx-auto mb-4 overflow-hidden">
                 <img
-                  src="/public/images/Reineke_Rolf-Dieter_300-dpi-scaled-e1662626023357.webp"
+                  src="/images/Reineke_Rolf-Dieter_300-dpi-scaled-e1662626023357.webp"
                   alt="Dieter"
                   className="w-full h-full object-cover"
                 />
