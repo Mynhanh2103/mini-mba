@@ -116,12 +116,12 @@ FRONTEND_URL = os.environ.get('FRONTEND_URL', 'http://localhost:5173')
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
-    FRONTEND_URL, # Link Render Frontend
+    "https://mini-mba-frontend.onrender.com/"
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://*.onrender.com",
-    FRONTEND_URL,
+    "https://mini-mba-admin.onrender.com",
+    "https://mini-mba-frontend.onrender.com/",
 ]
 
 # Config giao diện Admin Unfold (Giữ nguyên của bạn)
