@@ -19,7 +19,7 @@ import {
   User,
 } from "lucide-react";
 
-const BASE_URL = "https://mini-mba-admin.onrender.com/admin";
+const BASE_URL = "https://mini-mba-admin.onrender.com";
 
 // Hàm xử lý link ảnh: Nếu thiếu domain thì tự động thêm vào
 const getImageUrl = (imagePath) => {
