@@ -19,8 +19,7 @@ import {
   User,
 } from "lucide-react";
 
-const BASE_URL = "https://mini-mba-admin.onrender.com";
-
+const BASE_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
 // Hàm xử lý link ảnh: Nếu thiếu domain thì tự động thêm vào
 const getImageUrl = (imagePath) => {
   if (!imagePath) return null;
@@ -226,19 +225,19 @@ export default function App() {
     const fetchData = async () => {
       try {
         // 1. Modules
-        const modRes = await fetch("http://127.0.0.1:8000/api/modules/");
+        const modRes = await fetch(`${BASE_URL}/api/modules/`);
         if (modRes.ok) setModules(await modRes.json());
 
         // 2. Schedule
-        const schRes = await fetch("http://127.0.0.1:8000/api/schedule/");
+        const schRes = await fetch(`${BASE_URL}/api/schedule/`);
         if (schRes.ok) setSchedule(await schRes.json());
 
         // 3. Instructors (Giảng viên)
-        const instRes = await fetch("http://127.0.0.1:8000/api/instructors/");
+        const instRes = await fetch(`${BASE_URL}/api/instructors/`);
         if (instRes.ok) setInstructors(await instRes.json());
 
         // 4. Overviews (Tổng quan)
-        const overRes = await fetch("http://127.0.0.1:8000/api/overviews/");
+        const overRes = await fetch(`${BASE_URL}/api/overviews/`);
         if (overRes.ok) setOverviews(await overRes.json());
       } catch (error) {
         console.error("Không kết nối được Django:", error);
@@ -261,7 +260,7 @@ export default function App() {
     };
 
     try {
-      const res = await fetch("http://127.0.0.1:8000/api/register/", {
+      const res = await fetch(`${BASE_URL}/api/register/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
