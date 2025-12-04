@@ -416,7 +416,7 @@ export default function App() {
             transition={{ duration: 0.8 }}
           >
             <span className="inline-block py-1 px-4 rounded-full bg-white/10 border border-white/20 backdrop-blur-sm text-yellow-400 text-sm font-bold mb-6 tracking-wider uppercase">
-              Đối tác: TRAF Academy & EDOPROVED
+              Đối tác: TRAF Academy & EDUPROVED
             </span>
             <h1 className="text-4xl md:text-6xl font-extrabold leading-tight mb-6">
               Quản Trị <br />{" "}
@@ -429,7 +429,7 @@ export default function App() {
               Study thực tế.
             </p>
             <p className="text-lg md:text-xl text-blue-100 mb-10 max-w-3xl mx-auto font-light">
-              Nhận chứng nhận EDOPROVED quốc tế sau khóa học.
+              Nhận chứng nhận EDUPROVED quốc tế sau khóa học.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <button
@@ -488,7 +488,7 @@ export default function App() {
                   <CheckCircle size={20} />
                 </div>
                 <span className="font-bold text-slate-800">
-                  Chứng nhận EDOPROVED
+                  Chứng nhận EDUPROVED
                 </span>
               </div>
               <p className="text-xs text-slate-500">
@@ -755,7 +755,7 @@ export default function App() {
                 Học phí: 17.000.000 VNĐ
               </div>
               <p className="text-blue-200">
-                Bao gồm 10 buổi học, tài liệu và chứng nhận EDOPROVED.
+                Bao gồm 10 buổi học, tài liệu và chứng nhận EDUPROVED.
               </p>
             </div>
 
