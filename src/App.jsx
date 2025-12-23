@@ -1555,7 +1555,7 @@ export default function App() {
             <span className="text-blue-600 font-bold tracking-wider uppercase text-sm block mb-2">
               {t("why_choose")}
             </span>
-            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-6 leading-tight">
+            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-6 leading-tight whitespace-pre-line">
               {getData(config, "benefit_title", lang) || t("benefit_def_title")}
             </h2>
             <p className="text-slate-600 text-lg leading-relaxed mb-8">

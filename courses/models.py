@@ -97,9 +97,8 @@ class HomepageConfig(models.Model):
     stat_4 = models.CharField(max_length=50, default="TRAF", verbose_name="Số liệu 4")
     
     # Lợi ích
-    benefit_title = models.CharField(max_length=200, default="Giải quyết...", verbose_name="Tiêu đề Lợi ích (VN)")
-    benefit_title_en = models.CharField(max_length=200, default="Solving...", verbose_name="Tiêu đề Lợi ích (EN)", blank=True)
-
+    benefit_title = models.TextField(default="Giải quyết bài toán thực tế của bản thân\n& tổ chức", verbose_name="Tiêu đề Lợi ích (VN)")
+    benefit_title_en = models.TextField(default="Solving real problems for yourself\n& your organization", verbose_name="Tiêu đề Lợi ích (EN)", blank=True)
     benefit_desc = models.TextField(verbose_name="Mô tả Lợi ích (VN)", default="...")
     benefit_desc_en = models.TextField(verbose_name="Mô tả Lợi ích (EN)", default="...", blank=True)
 
