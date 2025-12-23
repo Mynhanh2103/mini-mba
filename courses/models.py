@@ -104,7 +104,8 @@ class HomepageConfig(models.Model):
 
     benefits_list = models.TextField(verbose_name="List Lợi ích (VN)", help_text="Xuống dòng để tách ý", default="...")
     benefits_list_en = models.TextField(verbose_name="List Lợi ích (EN)", help_text="Xuống dòng để tách ý", default="...", blank=True)
-
+    footer_text = models.CharField(max_length=200, default="© 2025 TBI. All rights reserved.", verbose_name="Footer Text (VN)")
+    footer_text_en = models.CharField(max_length=200, default="© 2025 TBI. All rights reserved.", verbose_name="Footer Text (EN)", blank=True)
     def __str__(self): return "Cấu hình Trang chủ"
     class Meta: verbose_name = "Cấu hình Trang chủ"
 class Registration(models.Model):
@@ -122,8 +123,7 @@ class Registration(models.Model):
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='new', verbose_name="Trạng thái")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Ngày đăng ký")
     # Footer
-    footer_text = models.CharField(max_length=200, default="© 2025 TBI. All rights reserved.", verbose_name="Footer Text (VN)")
-    footer_text_en = models.CharField(max_length=200, default="© 2025 TBI. All rights reserved.", verbose_name="Footer Text (EN)", blank=True)
+    
     def __str__(self):
         return f"{self.full_name} ({self.get_status_display()})"
 
