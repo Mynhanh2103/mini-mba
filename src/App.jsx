@@ -140,10 +140,34 @@ const StatItem = ({ number, label }) => (
   </div>
 );
 
+const isDatePassed = (dateString) => {
+  if (!dateString) return false;
+  try {
+    // Giả sử định dạng ngày là "DD/MM/YYYY" (ví dụ: 06/12/2025)
+    const parts = dateString.split('/');
+    if (parts.length === 3) {
+      // Tạo ngày từ chuỗi (Lưu ý: Tháng trong JS bắt đầu từ 0 nên phải trừ 1)
+      const eventDate = new Date(parts[2], parts[1] - 1, parts[0]);
+      const today = new Date();
+      // Reset giờ về 0 để so sánh chính xác theo ngày
+      today.setHours(0, 0, 0, 0);
+      
+      // Nếu ngày sự kiện nhỏ hơn hôm nay -> Đã qua
+      return eventDate < today;
+    }
+  } catch (e) {
+    return false;
+  }
+  return false;
+};
+
 const TimelineRow = ({ item, index }) => {
   const isHoliday = item.item_type === "holiday" || item.item_type === "break";
   const dateDisplay = item.date_str || item.date;
   const profDisplay = item.prof_name || item.prof;
+
+  // (MỚI) Gọi hàm kiểm tra xem ngày này đã qua chưa
+  const isPassed = isDatePassed(dateDisplay);
 
   return (
     <motion.div
@@ -151,17 +175,28 @@ const TimelineRow = ({ item, index }) => {
       whileInView={{ opacity: 1, x: 0 }}
       viewport={{ once: true }}
       transition={{ delay: index * 0.05 }}
+      // (MỚI) Thêm hiệu ứng: Nếu đã qua (isPassed) thì làm mờ (opacity-50) và đen trắng (grayscale)
       className={`relative flex gap-6 pb-8 last:pb-0 ${
-        isHoliday ? "opacity-70" : ""
+        isHoliday ? "opacity-70" : isPassed ? "opacity-50 grayscale" : ""
       }`}
     >
       <div className="absolute left-[19px] top-8 bottom-0 w-0.5 bg-slate-200 last:hidden"></div>
+      
+      {/* (MỚI) Logic đổi màu Icon: Ngày lễ (Đỏ), Đã qua (Xám), Sắp tới (Xanh) */}
       <div
         className={`relative z-10 w-10 h-10 rounded-full flex items-center justify-center shrink-0 border-4 border-white shadow-sm
-        ${isHoliday ? "bg-red-100 text-red-500" : "bg-blue-600 text-white"}`}
+        ${
+          isHoliday 
+            ? "bg-red-100 text-red-500" 
+            : isPassed 
+              ? "bg-slate-200 text-slate-500" // Màu xám nếu đã học xong
+              : "bg-blue-600 text-white"      // Màu xanh nếu chưa học
+        }`}
       >
-        {isHoliday ? <Star size={18} /> : <Calendar size={18} />}
+        {/* (MỚI) Đổi Icon: Nếu đã qua thì hiện dấu tích (CheckCircle), chưa qua hiện lịch (Calendar) */}
+        {isHoliday ? <Star size={18} /> : isPassed ? <CheckCircle size={18}/> : <Calendar size={18} />}
       </div>
+
       <div
         className={`flex-grow border-b border-slate-100 pb-8 last:border-0 ${
           isHoliday ? "pt-2" : ""
@@ -171,27 +206,40 @@ const TimelineRow = ({ item, index }) => {
           <span
             className={`text-sm font-bold tracking-wide px-3 py-1 rounded-full w-fit
             ${
-              isHoliday ? "bg-red-100 text-red-600" : "bg-blue-50 text-blue-700"
+              isHoliday 
+                ? "bg-red-100 text-red-600" 
+                : isPassed 
+                  ? "bg-slate-100 text-slate-500" // Badge màu xám
+                  : "bg-blue-50 text-blue-700"
             }`}
           >
             {dateDisplay}
           </span>
           {!isHoliday && (
             <span className="flex items-center gap-1 text-xs text-slate-400 uppercase font-semibold">
-              <Clock size={14} /> 4 Tiếng/Buổi (Hybrid)
+              <Clock size={14} /> 
+              {/* (MỚI) SỬA LỖI GIỜ CỨNG: Lấy từ item.duration, nếu không có mới hiện mặc định */}
+              {item.duration || "09:00 - 16:30"}
             </span>
           )}
         </div>
+        
+        {/* (MỚI) Tên bài học: Nếu đã qua thì gạch ngang (line-through) */}
         <h3
           className={`text-lg font-bold ${
-            isHoliday ? "text-red-500 italic" : "text-slate-900"
+            isHoliday 
+              ? "text-red-500 italic" 
+              : isPassed 
+                ? "text-slate-500 line-through" 
+                : "text-slate-900"
           }`}
         >
           {item.topic}
         </h3>
+
         {!isHoliday && profDisplay && (
           <div className="flex items-center gap-2 mt-2 text-slate-600 text-sm">
-            <User size={16} className="text-yellow-500" />
+            <User size={16} className={isPassed ? "text-slate-400" : "text-yellow-500"} />
             <span className="font-medium">{profDisplay}</span>
           </div>
         )}
