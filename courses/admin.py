@@ -31,7 +31,7 @@ class InstructorAdmin(ModelAdmin):
 class ModuleAdmin(ModelAdmin):
     list_display = ('title', 'icon_badge', 'description_short')
     search_fields = ('title',)
-
+    fields = ('title', 'description', 'image', 'image_url', 'icon_name')
     def description_short(self, obj):
         return obj.description[:50] + "..." if len(obj.description) > 50 else obj.description
     description_short.short_description = "Mô tả ngắn"
@@ -70,7 +70,7 @@ class RegistrationAdmin(ModelAdmin):
     list_display = ('full_name', 'phone', 'email', 'created_at')
     search_fields = ('full_name', 'email', 'phone')
     readonly_fields = ('created_at',) # Không cho sửa ngày tạo
-    list_filter = ('created_at',)
+    list_filter = ('status', 'created_at')
 
 @admin.register(CourseOverview)
 class CourseOverviewAdmin(admin.ModelAdmin):

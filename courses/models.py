@@ -25,7 +25,8 @@ class Instructor(models.Model):
 class Module(models.Model):
     title = models.CharField(max_length=200, verbose_name="Tên Môn học")
     description = models.TextField(verbose_name="Mô tả")
-    image_url = models.URLField(verbose_name="Link Ảnh", blank=True)
+    image = models.ImageField(upload_to='modules/', verbose_name="Upload Ảnh bìa", blank=True, null=True)
+    image_url = models.URLField(verbose_name="Hoặc Link Ảnh Online", blank=True, null=True)
     # Icon lưu tên dạng text (vd: trending, users)
     icon_name = models.CharField(max_length=50, default="book", verbose_name="Tên Icon (VD: users, trending)") 
 
@@ -57,14 +58,22 @@ class ScheduleItem(models.Model):
         verbose_name_plural = "Quản lý Lịch học"
 
 class Registration(models.Model):
+    # --- CẬP NHẬT MỚI: QUẢN LÝ TRẠNG THÁI ---
+    STATUS_CHOICES = [
+        ('new', 'Mới đăng ký'),
+        ('contacted', 'Đã liên hệ'),
+        ('paid', 'Đã thanh toán'),
+        ('canceled', 'Hủy bỏ'),
+    ]
     full_name = models.CharField(max_length=100, verbose_name="Họ tên học viên")
     phone = models.CharField(max_length=20, verbose_name="Số điện thoại")
     email = models.EmailField(verbose_name="Email")
     position = models.CharField(max_length=100, blank=True, verbose_name="Nguồn/Chức vụ")
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='new', verbose_name="Trạng thái")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Ngày đăng ký")
 
     def __str__(self):
-        return self.full_name
+        return f"{self.full_name} ({self.get_status_display()})"
 
     class Meta:
         verbose_name = "Đơn đăng ký"

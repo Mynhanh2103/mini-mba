@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 from .models import Module, ScheduleItem, Instructor, Registration, CourseOverview
 from .serializers import ModuleSerializer, ScheduleItemSerializer, InstructorSerializer, RegistrationSerializer, CourseOverviewSerializer
-
+from rest_framework import mixins, viewsets
 class ModuleViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Module.objects.all()
     serializer_class = ModuleSerializer
@@ -14,7 +14,7 @@ class InstructorViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Instructor.objects.all()
     serializer_class = InstructorSerializer
 
-class RegistrationViewSet(viewsets.ModelViewSet):
+class RegistrationViewSet(mixins.CreateModelMixin,viewsets.ModelViewSet):
     queryset = Registration.objects.all()
     serializer_class = RegistrationSerializer
 
