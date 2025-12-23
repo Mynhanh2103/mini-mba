@@ -88,23 +88,31 @@ USE_TZ = True
 # --- STATIC FILES (CSS, JS) ---
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-# Dùng Whitenoise để nén và phục vụ file tĩnh
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# --- CẤU HÌNH STORAGES (DÀNH CHO DJANGO 5.X) ---
+# Đây là phần thay đổi quan trọng nhất để sửa lỗi upload ảnh
+STORAGES = {
+    # 1. Quản lý file Media (Ảnh upload) -> Luôn dùng Cloudinary
+    "default": {
+        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
+    },
+    # 2. Quản lý file Static (CSS, JS) -> Dùng Whitenoise
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
 
 # --- MEDIA FILES (ẢNH UPLOAD) ---
-# LƯU Ý: Render Free sẽ XÓA ẢNH sau 15 phút nếu lưu trên máy chủ.
-# Bắt buộc dùng Cloudinary để lưu ảnh vĩnh viễn.
+# Các thông số kết nối Cloudinary
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME'),
     'API_KEY': os.environ.get('CLOUDINARY_API_KEY'),
     'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET'),
 }
+
 MEDIA_URL = '/media/'
-# Nếu đang ở Render (Production) thì dùng Cloudinary, Local dùng thư mục thường
-if not DEBUG:
-    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-else:
-    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# Đường dẫn dự phòng (vẫn giữ để tránh lỗi path, nhưng storage chính đã là Cloudinary)
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 

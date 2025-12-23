@@ -72,7 +72,7 @@ const OverviewCard = ({ item, index }) => (
           className="w-full h-full object-cover opacity-50"
         />
       )}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent"></div>
+      <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent pointer-events-none"></div>
     </div>
 
     {/* 2. PHẦN NỘI DUNG (CHỨA ICON + TEXT) */}
