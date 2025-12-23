@@ -931,7 +931,7 @@ import {
 
 const BASE_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
 
-// --- TỪ ĐIỂN UI TĨNH ---
+// --- 1. TỪ ĐIỂN UI (Dùng cho các chữ cố định trên giao diện) ---
 const translations = {
   vi: {
     nav_program: "Chương trình",
@@ -941,6 +941,10 @@ const translations = {
     nav_register: "Đăng ký ngay",
     nav_consult: "Đăng ký tư vấn",
     partner_badge: "Đối tác: TRAF Academy & EDUPROVED",
+    hero_default_1: "Quản Trị",
+    hero_default_2: "Chuyển Đổi Số Y Tế",
+    hero_desc:
+      "Dành cho Lãnh đạo Y tế. Chương trình thực chiến giải quyết Case Study thực tế.",
     btn_brochure: "Nhận Brochure",
     btn_content: "Xem Nội Dung",
     stat_sessions: "Buổi Học (4h/Buổi)",
@@ -948,18 +952,20 @@ const translations = {
     stat_case: "Case Study Thực Tế",
     stat_advisor: "Giảng Viên & Cố Vấn",
     why_choose: "TẠI SAO CHỌN MINI MBA Y TẾ?",
+    benefit_def_title: "Giải quyết bài toán thực tế của bản thân & tổ chức",
+    benefit_def_desc:
+      "Chương trình Mini MBA Y tế được thiết kế theo mô hình Hybrid linh hoạt.",
     cert_title: "Chứng nhận EDUPROVED",
     cert_desc: "Được công nhận quốc tế, cấp bởi Viện TRAF Academy.",
-    section_overview: "Tổng Quan Khóa Học",
-    section_overview_sub:
-      "4 Trụ cột kiến thức dành cho nhà quản lý y tế hiện đại.",
-    section_program: "Chương Trình Đào Tạo",
-    section_program_sub:
+    sec_overview: "Tổng Quan Khóa Học",
+    sec_overview_sub: "4 Trụ cột kiến thức dành cho nhà quản lý y tế hiện đại.",
+    sec_program: "Chương Trình Đào Tạo",
+    sec_program_sub:
       "Cấu trúc bài giảng tối ưu hóa sự tương tác và tính thực tiễn.",
-    section_roadmap: "Lộ Trình Đào Tạo Hybrid",
-    section_roadmap_sub: "Lịch học chi tiết",
-    section_instructors: "Đội Ngũ Giảng Viên",
-    section_instructors_sub: "Đến từ đối tác TRAF Academy",
+    sec_roadmap: "Lộ Trình Đào Tạo Hybrid",
+    sec_roadmap_sub: "Lịch học chi tiết",
+    sec_instructors: "Đội Ngũ Giảng Viên",
+    sec_instructors_sub: "Đến từ đối tác TRAF Academy",
     form_title: "Đăng ký giữ chỗ khóa học",
     form_tuition: "Học phí: 17.000.000 VNĐ",
     form_note: "Bao gồm 10 buổi học, tài liệu và chứng nhận EDUPROVED.",
@@ -967,11 +973,11 @@ const translations = {
     form_phone: "Số điện thoại",
     form_email: "Email (Công việc)",
     form_submit: "Gửi Đăng Ký",
-    project_grad: "Project Tốt Nghiệp",
-    project_desc: "Giải quyết vấn đề thực tế của học viên.",
+    proj_grad: "Project Tốt Nghiệp",
+    proj_desc: "Giải quyết vấn đề thực tế của học viên.",
     loading: "Đang tải dữ liệu...",
     no_data: "Chưa có dữ liệu.",
-    footer_rights: "© 2025 TBI. All rights reserved.",
+    footer: "© 2025 TBI. All rights reserved.",
   },
   en: {
     nav_program: "Program",
@@ -981,6 +987,10 @@ const translations = {
     nav_register: "Register Now",
     nav_consult: "Get Consultation",
     partner_badge: "Partner: TRAF Academy & EDUPROVED",
+    hero_default_1: "Healthcare",
+    hero_default_2: "Digital Transformation",
+    hero_desc:
+      "For Healthcare Leaders. Practical program solving real-world Case Studies.",
     btn_brochure: "Get Brochure",
     btn_content: "View Content",
     stat_sessions: "Sessions (4h/Session)",
@@ -988,18 +998,20 @@ const translations = {
     stat_case: "Real Case Studies",
     stat_advisor: "Lecturers & Advisors",
     why_choose: "WHY CHOOSE MINI MBA HEALTHCARE?",
+    benefit_def_title: "Solving real problems for yourself & your organization",
+    benefit_def_desc:
+      "The Mini MBA Healthcare program is designed with a flexible Hybrid model.",
     cert_title: "EDUPROVED Certification",
     cert_desc: "Internationally recognized, issued by TRAF Academy.",
-    section_overview: "Course Overview",
-    section_overview_sub:
-      "4 Pillars of knowledge for modern healthcare managers.",
-    section_program: "Training Program",
-    section_program_sub:
+    sec_overview: "Course Overview",
+    sec_overview_sub: "4 Pillars of knowledge for modern healthcare managers.",
+    sec_program: "Training Program",
+    sec_program_sub:
       "Lecture structure optimized for interaction and practicality.",
-    section_roadmap: "Hybrid Training Roadmap",
-    section_roadmap_sub: "Detailed Schedule",
-    section_instructors: "Our Instructors",
-    section_instructors_sub: "From our partner TRAF Academy",
+    sec_roadmap: "Hybrid Training Roadmap",
+    sec_roadmap_sub: "Detailed Schedule",
+    sec_instructors: "Our Instructors",
+    sec_instructors_sub: "From our partner TRAF Academy",
     form_title: "Register for the course",
     form_tuition: "Tuition: 17,000,000 VND",
     form_note: "Includes 10 sessions, materials, and EDUPROVED certification.",
@@ -1007,32 +1019,31 @@ const translations = {
     form_phone: "Phone Number",
     form_email: "Email (Work)",
     form_submit: "Submit Registration",
-    project_grad: "Graduation Project",
-    project_desc: "Solving real-world problems for students.",
+    proj_grad: "Graduation Project",
+    proj_desc: "Solving real-world problems for students.",
     loading: "Loading data...",
     no_data: "No data available.",
-    footer_rights: "© 2025 TBI. All rights reserved.",
+    footer: "© 2025 TBI. All rights reserved.",
   },
 };
 
-// --- HÀM HELPER THÔNG MINH ---
-const getImageUrl = (imagePath) => {
-  if (!imagePath) return null;
-  if (imagePath.startsWith("http")) return imagePath;
-  return `${BASE_URL}${imagePath}`;
-};
-
-// Hàm lấy dữ liệu theo ngôn ngữ: getData(item, 'title', 'en') -> trả về title_en
+// --- 2. HÀM XỬ LÝ DỮ LIỆU ĐỘNG (QUAN TRỌNG) ---
+// Hàm này giúp: Nếu Lang='en' thì tìm cột 'title_en', nếu rỗng thì lấy cột 'title'
 const getData = (item, field, lang) => {
   if (!item) return "";
   if (lang === "en") {
-    // Nếu đang là tiếng Anh, thử lấy trường _en (ví dụ title_en)
     const enValue = item[`${field}_en`];
-    // Nếu có dữ liệu tiếng Anh thì trả về, nếu không thì quay về tiếng Việt (fallback)
+    // Nếu có dữ liệu tiếng Anh (không rỗng) thì trả về
     if (enValue && enValue.trim() !== "") return enValue;
   }
   // Mặc định trả về tiếng Việt
   return item[field];
+};
+
+const getImageUrl = (imagePath) => {
+  if (!imagePath) return null;
+  if (imagePath.startsWith("http")) return imagePath;
+  return `${BASE_URL}${imagePath}`;
 };
 
 const getOverviewIcon = (type) => {
@@ -1067,7 +1078,7 @@ const isDatePassed = (dateString) => {
   return false;
 };
 
-// --- SUB COMPONENTS (Đã cập nhật để dùng getData) ---
+// --- 3. SUB COMPONENTS ---
 
 const OverviewCard = ({ item, index, lang }) => (
   <motion.div
@@ -1149,11 +1160,6 @@ const StatItem = ({ number, label }) => (
 const TimelineRow = ({ item, index, lang }) => {
   const isHoliday = item.item_type === "holiday" || item.item_type === "break";
   const dateDisplay = item.date_str || item.date;
-
-  // Xử lý tên giảng viên (hơi phức tạp vì nó nằm trong object lồng nhau)
-  // Nếu có object professor thì lấy name của nó, chưa hỗ trợ name_en cho giảng viên trong lịch (có thể làm sau)
-  const profDisplay = item.prof_name;
-
   const isPassed = isDatePassed(dateDisplay);
 
   return (
@@ -1218,13 +1224,13 @@ const TimelineRow = ({ item, index, lang }) => {
         >
           {getData(item, "topic", lang)}
         </h3>
-        {!isHoliday && profDisplay && (
+        {!isHoliday && item.prof_name && (
           <div className="flex items-center gap-2 mt-2 text-slate-600 text-sm">
             <User
               size={16}
               className={isPassed ? "text-slate-400" : "text-yellow-500"}
             />
-            <span className="font-medium">{profDisplay}</span>
+            <span className="font-medium">{item.prof_name}</span>
           </div>
         )}
       </div>
@@ -1232,13 +1238,14 @@ const TimelineRow = ({ item, index, lang }) => {
   );
 };
 
-// --- MAIN APP ---
+// --- 4. MAIN APP ---
 
 export default function App() {
-  const [lang, setLang] = useState("vi");
+  const [lang, setLang] = useState("vi"); // Mặc định Tiếng Việt
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
+  // Helper dịch UI tĩnh
   const t = (key) => translations[lang][key] || key;
   const toggleLang = () => setLang((prev) => (prev === "vi" ? "en" : "vi"));
 
@@ -1272,7 +1279,7 @@ export default function App() {
           }),
         ]);
       } catch (error) {
-        console.error("Error:", error);
+        console.error("Error fetching data:", error);
       } finally {
         setLoading(false);
       }
@@ -1282,8 +1289,29 @@ export default function App() {
 
   const handleRegister = async (e) => {
     e.preventDefault();
-    // ... (Giữ nguyên logic đăng ký)
-    alert(lang === "vi" ? "Đăng ký thành công!" : "Registration successful!");
+    const formData = {
+      full_name: e.target.fullname.value,
+      phone: e.target.phone.value,
+      email: e.target.email.value,
+      position: "Học viên",
+    };
+    try {
+      const res = await fetch(`${BASE_URL}/api/register/`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+      if (res.ok) {
+        alert(
+          lang === "vi" ? "Đăng ký thành công!" : "Registration successful!"
+        );
+        e.target.reset();
+      } else {
+        alert("Error.");
+      }
+    } catch (err) {
+      alert("Server Error.");
+    }
   };
 
   const scrollToSection = (id) => {
@@ -1294,18 +1322,18 @@ export default function App() {
     }
   };
 
-  // Logic lấy danh sách lợi ích (Hỗ trợ đa ngôn ngữ)
+  // Logic hiển thị danh sách lợi ích
   const defaultBenefits = [
     "Học theo mô hình Hybrid – linh hoạt & hiệu quả",
-    "Lý thuyết cô đọng",
-    "Case Study thực tế",
-    "Project cuối khóa",
+    "Lý thuyết cô đọng – tập trung vào kiến thức áp dụng được ngay",
+    "Case Study thực tế – học qua tình huống thật",
+    "Project cuối khóa mang tính ứng dụng cao",
   ];
-
-  // Lấy list từ config (dựa vào lang)
+  // Lấy list từ config (theo ngôn ngữ) -> Nếu không có thì dùng mặc định
   const benefitsRaw = getData(config, "benefits_list", lang);
   const benefitsList = benefitsRaw ? benefitsRaw.split("\n") : defaultBenefits;
 
+  // Menu items (Sử dụng t() để dịch)
   const navItems = [
     { id: "chuong-trinh", label: t("nav_program") },
     { id: "loi-ich", label: t("nav_benefits") },
@@ -1315,7 +1343,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-800 overflow-x-hidden selection:bg-blue-600 selection:text-white">
-      {/* NAVIGATION */}
+      {/* NAVBAR */}
       <nav
         className={`fixed top-0 w-full z-50 transition-all duration-300 ${
           scrolled
@@ -1324,6 +1352,7 @@ export default function App() {
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
+          {/* Logo */}
           <div
             className="flex items-center gap-2 cursor-pointer"
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
@@ -1340,6 +1369,7 @@ export default function App() {
             </span>
           </div>
 
+          {/* Desktop Menu */}
           <div
             className={`hidden md:flex items-center gap-8 text-sm font-medium ${
               scrolled ? "text-slate-600" : "text-white/90"
@@ -1354,19 +1384,23 @@ export default function App() {
                 {item.label}
               </button>
             ))}
+            {/* Language Switcher */}
             <button
               onClick={toggleLang}
-              className="flex items-center gap-1 border border-current px-2 py-1 rounded hover:bg-white/10 transition"
+              className="flex items-center gap-1 border border-current px-3 py-1 rounded-full hover:bg-white/10 transition font-bold"
             >
               <Globe size={16} /> {lang === "vi" ? "EN" : "VN"}
             </button>
           </div>
+
           <button
             onClick={() => scrollToSection("dang-ky")}
-            className="hidden md:block bg-yellow-500 hover:bg-yellow-400 text-blue-900 font-bold px-6 py-2 rounded-full shadow-lg"
+            className="hidden md:block bg-yellow-500 hover:bg-yellow-400 text-blue-900 font-bold px-6 py-2 rounded-full transition-transform transform active:scale-95 shadow-lg shadow-yellow-500/30"
           >
             {t("nav_register")}
           </button>
+
+          {/* Mobile Toggle */}
           <div className="flex md:hidden gap-4 items-center">
             <button
               onClick={toggleLang}
@@ -1384,12 +1418,40 @@ export default function App() {
             </button>
           </div>
         </div>
-        {/* Mobile Menu ... (Giữ nguyên) */}
+
+        {/* Mobile Menu Dropdown */}
+        <AnimatePresence>
+          {isMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              className="md:hidden bg-white border-t"
+            >
+              <div className="flex flex-col p-6 gap-4 text-slate-700 font-medium">
+                {navItems.map((item) => (
+                  <button
+                    key={item.id}
+                    className="text-left uppercase"
+                    onClick={() => scrollToSection(item.id)}
+                  >
+                    {item.label}
+                  </button>
+                ))}
+                <button
+                  onClick={() => scrollToSection("dang-ky")}
+                  className="bg-blue-900 text-white py-3 rounded-lg font-bold"
+                >
+                  {t("nav_consult")}
+                </button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </nav>
 
       {/* HERO SECTION */}
       <header className="relative h-screen min-h-[600px] flex items-center justify-center overflow-hidden">
-        {/* Background Image... */}
         <div className="absolute inset-0 z-0">
           <img
             src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=1920&q=80"
@@ -1408,17 +1470,16 @@ export default function App() {
               {t("partner_badge")}
             </span>
             <h1 className="text-4xl md:text-6xl font-extrabold leading-tight mb-6">
-              {/* SỬ DỤNG getData ĐỂ LẤY TITLE EN/VI */}
-              {getData(config, "hero_title", lang) ||
-                t("hero_title_1")} <br />{" "}
+              {/* Tiêu đề động từ Admin */}
+              {getData(config, "hero_title", lang) || t("hero_default_1")}{" "}
+              <br />{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-200 to-yellow-500">
-                {getData(config, "hero_subtitle", lang) || t("hero_title_2")}
+                {getData(config, "hero_subtitle", lang) || t("hero_default_2")}
               </span>
             </h1>
             <p className="text-lg md:text-xl text-blue-100 mb-6 max-w-3xl mx-auto font-light leading-relaxed">
-              {t("hero_desc_1")}
+              {t("hero_desc")}
             </p>
-            {/* Buttons... */}
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <button
                 onClick={() => scrollToSection("dang-ky")}
@@ -1435,6 +1496,13 @@ export default function App() {
             </div>
           </motion.div>
         </div>
+        <motion.div
+          animate={{ y: [0, 10, 0] }}
+          transition={{ repeat: Infinity, duration: 2 }}
+          className="absolute bottom-10 left-1/2 -translate-x-1/2 text-white/50"
+        >
+          <ChevronDown className="w-8 h-8" />
+        </motion.div>
       </header>
 
       {/* STATS */}
@@ -1459,13 +1527,28 @@ export default function App() {
       {/* BENEFITS */}
       <section id="loi-ich" className="py-20 px-6 bg-white overflow-hidden">
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-8 lg:gap-16 items-center">
-          {/* Image Side... */}
           <div className="relative">
             <img
               src="https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcQ_sblWpCGTTTDCK-crNTqZ7W_TEuNMyazUH563CxzPlcUY6kDNULXIWVwXIFnE9Q5Qqh6EXzbtZrTdBN47w_kYULxv4RYEcV7DijI6PcOZaN0omoQ"
               className="relative rounded-3xl shadow-2xl z-10 w-full object-cover"
               alt="Medical Management"
             />
+            <motion.div
+              initial={{ x: -20, opacity: 0 }}
+              whileInView={{ x: 0, opacity: 1 }}
+              transition={{ delay: 0.5 }}
+              className="absolute -bottom-6 -left-4 md:-bottom-10 md:-left-10 bg-white p-6 rounded-2xl shadow-xl border border-slate-100 max-w-xs z-20 hidden md:block"
+            >
+              <div className="flex items-center gap-3 mb-2">
+                <div className="bg-green-100 p-2 rounded-full text-green-600">
+                  <CheckCircle size={20} />
+                </div>
+                <span className="font-bold text-slate-800">
+                  {t("cert_title")}
+                </span>
+              </div>
+              <p className="text-xs text-slate-500">{t("cert_desc")}</p>
+            </motion.div>
           </div>
 
           <div className="relative z-10">
@@ -1473,12 +1556,10 @@ export default function App() {
               {t("why_choose")}
             </span>
             <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-6 leading-tight">
-              {getData(config, "benefit_title", lang) ||
-                t("benefit_default_title")}
+              {getData(config, "benefit_title", lang) || t("benefit_def_title")}
             </h2>
             <p className="text-slate-600 text-lg leading-relaxed mb-8">
-              {getData(config, "benefit_desc", lang) ||
-                t("benefit_default_desc")}
+              {getData(config, "benefit_desc", lang) || t("benefit_def_desc")}
             </p>
             <ul className="space-y-5">
               {benefitsList.map((item, i) => (
@@ -1500,28 +1581,24 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <h2 className="text-3xl md:text-5xl font-extrabold text-slate-900 mb-4">
-              {t("section_overview")}
+              {t("sec_overview")}
             </h2>
-            <p className="text-slate-600 text-lg">
-              {t("section_overview_sub")}
-            </p>
+            <p className="text-slate-600 text-lg">{t("sec_overview_sub")}</p>
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {overviews.length > 0 ? (
-              overviews.map((item, index) => (
+          {loading ? (
+            <div className="text-center">{t("loading")}</div>
+          ) : (
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+              {overviews.map((item, index) => (
                 <OverviewCard
                   key={item.id || index}
                   item={item}
                   index={index}
                   lang={lang}
                 />
-              ))
-            ) : (
-              <p className="col-span-full text-center text-slate-400">
-                {t("no_data")}
-              </p>
-            )}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
@@ -1530,9 +1607,9 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <h2 className="text-3xl md:text-5xl font-extrabold text-slate-900 mb-4">
-              {t("section_program")}
+              {t("sec_program")}
             </h2>
-            <p className="text-slate-600">{t("section_program_sub")}</p>
+            <p className="text-slate-600">{t("sec_program_sub")}</p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {modules.map((mod, index) => (
@@ -1543,17 +1620,11 @@ export default function App() {
                 lang={lang}
               />
             ))}
-            {/* Project Card */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="bg-blue-600 text-white rounded-2xl p-6 shadow-lg flex flex-col justify-center items-center text-center h-full"
-            >
+            <div className="bg-blue-600 text-white rounded-2xl p-6 shadow-lg flex flex-col justify-center items-center text-center h-full">
               <Award className="w-12 h-12 mb-4 text-yellow-300" />
-              <h3 className="text-xl font-bold mb-2">{t("project_grad")}</h3>
-              <p className="text-blue-100 text-sm">{t("project_desc")}</p>
-            </motion.div>
+              <h3 className="text-xl font-bold mb-2">{t("proj_grad")}</h3>
+              <p className="text-blue-100 text-sm">{t("proj_desc")}</p>
+            </div>
           </div>
         </div>
       </section>
@@ -1562,11 +1633,11 @@ export default function App() {
       <section id="lo-trinh" className="py-20 bg-white">
         <div className="max-w-5xl mx-auto px-6">
           <div className="text-center mb-16">
-            <span className="text-blue-600 font-bold tracking-wider uppercase text-sm">
-              {t("section_roadmap_sub")}
+            <span className="text-blue-600 font-bold uppercase text-sm">
+              {t("sec_roadmap_sub")}
             </span>
             <h2 className="text-3xl md:text-5xl font-extrabold text-slate-900 mt-2 mb-4">
-              {t("section_roadmap")}
+              {t("sec_roadmap")}
             </h2>
           </div>
           <div className="bg-slate-50 rounded-3xl p-8 md:p-12 shadow-inner border border-slate-100">
@@ -1593,11 +1664,9 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-extrabold text-slate-900">
-              {t("section_instructors")}
+              {t("sec_instructors")}
             </h2>
-            <p className="text-slate-600 mt-2">
-              {t("section_instructors_sub")}
-            </p>
+            <p className="text-slate-600 mt-2">{t("sec_instructors_sub")}</p>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
             {instructors.map((inst, index) => (
@@ -1617,7 +1686,6 @@ export default function App() {
                   />
                 </div>
                 <h3 className="font-bold text-lg text-slate-900">
-                  {/* Dùng getData cho title và position */}
                   {getData(inst, "title", lang)} {inst.name}
                 </h3>
                 <p className="text-blue-600 text-sm font-medium mt-1">
@@ -1632,9 +1700,64 @@ export default function App() {
         </div>
       </section>
 
-      {/* FORM & FOOTER ... (Giữ nguyên hoặc dùng t() như cũ) */}
+      {/* REGISTER */}
+      <section
+        id="dang-ky"
+        className="py-24 bg-gradient-to-br from-blue-900 to-slate-900 text-white"
+      >
+        <div className="max-w-4xl mx-auto px-6">
+          <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-3xl p-8 md:p-12 shadow-2xl">
+            <h3 className="text-3xl font-bold mb-4 text-center">
+              {t("form_title")}
+            </h3>
+            <div className="text-center mb-6">
+              <div className="text-yellow-400 text-2xl font-bold mb-2">
+                {t("form_tuition")}
+              </div>
+              <p className="text-blue-200">{t("form_note")}</p>
+            </div>
+            <form
+              onSubmit={handleRegister}
+              className="grid md:grid-cols-2 gap-6 mt-8"
+            >
+              <input
+                type="text"
+                name="fullname"
+                required
+                className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/30"
+                placeholder={t("form_name")}
+              />
+              <input
+                type="tel"
+                name="phone"
+                required
+                className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/30"
+                placeholder={t("form_phone")}
+              />
+              <input
+                type="email"
+                name="email"
+                required
+                className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/30 md:col-span-2"
+                placeholder={t("form_email")}
+              />
+              <button
+                type="submit"
+                className="md:col-span-2 w-full bg-yellow-500 text-blue-900 font-bold py-4 rounded-xl hover:bg-yellow-400 transition mt-2"
+              >
+                {t("form_submit")}
+              </button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      {/* FOOTER */}
       <footer className="bg-slate-950 text-slate-400 py-12 border-t border-slate-900 text-center">
-        <p>{t("footer_rights")}</p>
+        <p>
+          {/* Lấy từ Admin, nếu Admin chưa nhập thì lấy từ từ điển mặc định */}
+          {getData(config, "footer_text", lang) || t("footer")}
+        </p>
       </footer>
     </div>
   );
