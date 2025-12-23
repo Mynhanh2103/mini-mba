@@ -1483,9 +1483,11 @@ export default function App() {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <button
                 onClick={() => scrollToSection("dang-ky")}
-                className="w-full sm:w-auto px-8 py-4 bg-yellow-500 hover:bg-yellow-400 text-blue-900 font-bold rounded-full shadow-xl"
+                className="w-full sm:w-auto px-8 py-4 bg-yellow-500 hover:bg-yellow-400 text-blue-900 font-bold rounded-full shadow-xl shadow-yellow-500/30 transition-all transform hover:-translate-y-1 text-lg flex flex-row items-center justify-center gap-2 cursor-pointer whitespace-nowrap"
               >
-                {t("btn_brochure")} <ArrowRight className="w-5 h-5" />
+                {t("btn_brochure")}
+                {/* Thêm shrink-0 để mũi tên không bị bóp méo */}
+                <ArrowRight className="w-5 h-5 shrink-0" />
               </button>
               <button
                 onClick={() => scrollToSection("chuong-trinh")}
