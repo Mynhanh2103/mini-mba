@@ -14,7 +14,7 @@ class InstructorViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Instructor.objects.all()
     serializer_class = InstructorSerializer
 
-class RegistrationViewSet(mixins.CreateModelMixin,viewsets.ModelViewSet):
+class RegistrationViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
     queryset = Registration.objects.all()
     serializer_class = RegistrationSerializer
 
