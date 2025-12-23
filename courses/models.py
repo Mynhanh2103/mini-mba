@@ -109,3 +109,21 @@ class CourseOverview(models.Model):
 
     def __str__(self):
         return self.title
+class HomepageConfig(models.Model):
+    # --- Phần Hero & Thống kê ---
+    hero_title = models.CharField(max_length=200, default="Quản Trị Chuyển Đổi Số Y Tế", verbose_name="Tiêu đề chính (Hero)")
+    stat_sessions = models.CharField(max_length=50, default="10", verbose_name="Số buổi học")
+    stat_format = models.CharField(max_length=50, default="Hybrid", verbose_name="Hình thức học")
+    
+    # --- Phần Lợi ích (Tại sao chọn...) ---
+    benefit_title = models.CharField(max_length=200, default="Giải quyết bài toán thực tế...", verbose_name="Tiêu đề Lợi ích")
+    benefit_desc = models.TextField(verbose_name="Mô tả Lợi ích")
+    
+    # Bạn có thể thêm bất kỳ trường nào bạn muốn sửa text ở đây...
+
+    def __str__(self):
+        return "Cấu hình nội dung Trang chủ"
+
+    class Meta:
+        verbose_name = "Cấu hình Trang chủ"
+        verbose_name_plural = "Cấu hình Trang chủ"

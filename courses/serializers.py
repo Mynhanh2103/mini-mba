@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import Module, ScheduleItem, Instructor, Registration, CourseOverview
-
+from .models import HomepageConfig
 class ModuleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Module
@@ -27,4 +27,9 @@ class RegistrationSerializer(serializers.ModelSerializer):
 class CourseOverviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = CourseOverview
+        fields = '__all__'
+
+class HomepageConfigSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = HomepageConfig
         fields = '__all__'

@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.utils.html import format_html
 from unfold.admin import ModelAdmin # Dùng class của Unfold để đẹp hơn
 from .models import Module, Instructor, ScheduleItem, Registration, CourseOverview
-
+from .models import HomepageConfig
 # --- Cấu hình chung ---
 admin.site.site_header = "TBI Institute Admin"
 admin.site.site_title = "TBI Admin Portal"
@@ -87,3 +87,10 @@ class CourseOverviewAdmin(admin.ModelAdmin):
             return format_html('<img src="{}" style="width: 60px; height: 40px; object-fit: cover; border-radius: 4px;" />', obj.cover_image.url)
         return "No Cover"
     display_cover.short_description = "Ảnh bìa"
+
+# --- 5.Quản lý Trang chủ ---
+@admin.register(HomepageConfig)
+class HomepageConfigAdmin(ModelAdmin):
+    # Chỉ cho phép 1 bản ghi duy nhất
+    def has_add_permission(self, request):
+        return not HomepageConfig.objects.exists()
