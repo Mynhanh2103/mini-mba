@@ -91,6 +91,9 @@ class CourseOverviewAdmin(admin.ModelAdmin):
 # --- 5.Quản lý Trang chủ ---
 @admin.register(HomepageConfig)
 class HomepageConfigAdmin(ModelAdmin):
-    # Chỉ cho phép 1 bản ghi duy nhất
+    list_display = ('hero_title', 'benefit_title')
+    
+    # Chỉ cho phép tạo tối đa 1 bản ghi để tránh lỗi
     def has_add_permission(self, request):
+        # Nếu đã có 1 bản ghi rồi thì không cho thêm nữa (chỉ cho sửa)
         return not HomepageConfig.objects.exists()

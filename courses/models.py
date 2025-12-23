@@ -111,18 +111,21 @@ class CourseOverview(models.Model):
         return self.title
 class HomepageConfig(models.Model):
     # --- Phần Hero & Thống kê ---
-    hero_title = models.CharField(max_length=200, default="Quản Trị Chuyển Đổi Số Y Tế", verbose_name="Tiêu đề chính (Hero)")
-    stat_sessions = models.CharField(max_length=50, default="10", verbose_name="Số buổi học")
-    stat_format = models.CharField(max_length=50, default="Hybrid", verbose_name="Hình thức học")
+    hero_title = models.CharField(max_length=200, default="Quản Trị", verbose_name="Tiêu đề Hero (Dòng 1)")
+    hero_subtitle = models.CharField(max_length=200, default="Chuyển Đổi Số Y Tế", verbose_name="Tiêu đề Hero (Dòng 2 - Màu vàng)")
     
-    # --- Phần Lợi ích (Tại sao chọn...) ---
+    stat_1 = models.CharField(max_length=50, default="10", verbose_name="Số liệu 1 (Số buổi)")
+    stat_2 = models.CharField(max_length=50, default="Hybrid", verbose_name="Số liệu 2 (Hình thức)")
+    stat_3 = models.CharField(max_length=50, default="100%", verbose_name="Số liệu 3 (Case Study)")
+    stat_4 = models.CharField(max_length=50, default="TRAF", verbose_name="Số liệu 4 (Giảng viên)")
+    
+    # --- Phần Lợi ích ---
     benefit_title = models.CharField(max_length=200, default="Giải quyết bài toán thực tế...", verbose_name="Tiêu đề Lợi ích")
-    benefit_desc = models.TextField(verbose_name="Mô tả Lợi ích")
-    
-    # Bạn có thể thêm bất kỳ trường nào bạn muốn sửa text ở đây...
+    benefit_desc = models.TextField(verbose_name="Mô tả Lợi ích", default="Chương trình Mini MBA Y tế được thiết kế...")
+    benefits_list = models.TextField(verbose_name="Danh sách lợi ích (Mỗi dòng 1 ý)", help_text="Xuống dòng để tách các ý", default="Học theo mô hình Hybrid\nLý thuyết cô đọng\nCase Study thực tế")
 
     def __str__(self):
-        return "Cấu hình nội dung Trang chủ"
+        return "Cấu hình Trang chủ (Chỉ tạo 1 bản ghi)"
 
     class Meta:
         verbose_name = "Cấu hình Trang chủ"
