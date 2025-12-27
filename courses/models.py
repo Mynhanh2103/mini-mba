@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils.html import format_html
-
+from django.core.validators import FileExtensionValidator
 # --- 1. GIẢNG VIÊN ---
 class Instructor(models.Model):
     name = models.CharField(max_length=100, verbose_name="Họ và Tên")
@@ -130,3 +130,62 @@ class Registration(models.Model):
     class Meta:
         verbose_name = "Đơn đăng ký"
         verbose_name_plural = "Danh sách Đăng ký"
+
+class Lesson(models.Model):
+    module = models.ForeignKey(Module, on_delete=models.CASCADE, related_name='lessons', verbose_name="Thuộc Môn học")
+    
+    title = models.CharField(max_length=200, verbose_name="Tên bài học (VN)")
+    title_en = models.CharField(max_length=200, verbose_name="Tên bài học (EN)", blank=True, null=True)
+    
+    # [MỚI] Slug để tạo URL đẹp (VD: bai-1-tong-quan)
+    slug = models.SlugField(max_length=250, unique=True, verbose_name="Slug (URL)", help_text="Tự động tạo từ tiêu đề")
+    
+    order = models.PositiveIntegerField(default=0, verbose_name="Thứ tự")
+    is_active = models.BooleanField(default=True, verbose_name="Hiển thị?")
+    
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Ngày tạo")
+    updated_at = models.DateTimeField(auto_now=True, verbose_name="Cập nhật cuối")
+
+    def __str__(self):
+        return f"{self.module.title} - {self.title}"
+
+    class Meta:
+        ordering = ['module', 'order'] # Sắp xếp theo môn trước, rồi đến thứ tự bài
+        verbose_name = "Bài học (Lesson)"
+        verbose_name_plural = "Quản lý Bài học"
+
+# --- 8. TÀI LIỆU HỌC TẬP (Material) ---
+class Material(models.Model):
+    TYPE_CHOICES = [
+        ('video', 'Video Bài giảng'), 
+        ('pdf', 'Slide / PDF'), 
+        ('doc', 'Tài liệu đọc')
+    ]
+    
+    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, related_name='materials', verbose_name="Thuộc Bài học")
+    
+    title = models.CharField(max_length=200, verbose_name="Tên tài liệu (VN)")
+    title_en = models.CharField(max_length=200, verbose_name="Tên tài liệu (EN)", blank=True, null=True)
+    
+    material_type = models.CharField(max_length=20, choices=TYPE_CHOICES, default='pdf', verbose_name="Loại tài liệu")
+    
+    # [MỚI] Thêm Validator để chỉ cho phép file tài liệu
+    file_upload = models.FileField(
+        upload_to='materials/', 
+        verbose_name="Upload File", 
+        blank=True, null=True,
+        validators=[FileExtensionValidator(allowed_extensions=['pdf', 'doc', 'docx', 'ppt', 'pptx'])]
+    )
+    
+    video_url = models.URLField(verbose_name="Link Video (Youtube/Vimeo)", blank=True, null=True)
+    
+    is_public = models.BooleanField(default=False, verbose_name="Học thử (Public)?")
+    order = models.PositiveIntegerField(default=0, verbose_name="Thứ tự hiển thị")
+
+    def __str__(self):
+        return f"[{self.get_material_type_display()}] {self.title}"
+
+    class Meta:
+        ordering = ['order']
+        verbose_name = "Tài liệu"
+        verbose_name_plural = "Kho Tài liệu"

@@ -156,3 +156,18 @@ UNFOLD = {
         "show_all_applications": True,
     },
 }
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    # Tạm thời để AllowAny để không ảnh hưởng các API trang chủ hiện tại
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny', 
+    ],
+}
+
+from datetime import timedelta
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60), # Token sống 60 phút
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),    # Refresh token sống 1 ngày
+}

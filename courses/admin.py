@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.utils.html import format_html
 from unfold.admin import ModelAdmin # Dùng class của Unfold để đẹp hơn
 from .models import Module, Instructor, ScheduleItem, Registration, CourseOverview
-from .models import HomepageConfig
+from .models import HomepageConfig, Lesson, Material
 # --- Cấu hình chung ---
 admin.site.site_header = "TBI Institute Admin"
 admin.site.site_title = "TBI Admin Portal"
@@ -97,3 +97,17 @@ class HomepageConfigAdmin(ModelAdmin):
     def has_add_permission(self, request):
         # Nếu đã có 1 bản ghi rồi thì không cho thêm nữa (chỉ cho sửa)
         return not HomepageConfig.objects.exists()
+    
+class MaterialInline(admin.TabularInline):
+    model = Material
+    extra = 1
+    fields = ('title', 'material_type', 'file_upload', 'video_url', 'is_public', 'order')
+
+@admin.register(Lesson)
+class LessonAdmin(ModelAdmin):
+    list_display = ('title', 'module', 'is_active', 'order', 'updated_at')
+    list_filter = ('module', 'is_active')
+    search_fields = ('title', 'module__title')
+    list_editable = ('order', 'is_active') # Cho phép sửa nhanh thứ tự và ẩn/hiện
+    prepopulated_fields = {'slug': ('title',)} # [QUAN TRỌNG] Tự động tạo slug khi gõ title
+    inlines = [MaterialInline]
