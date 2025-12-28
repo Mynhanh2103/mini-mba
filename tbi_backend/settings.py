@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'courses',
+    'django_filters'
 ]
 
 MIDDLEWARE = [
@@ -164,6 +165,7 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny', 
     ],
+    'DEFAULT_FILTER_BACKEND': ['django_filters.rest_framework.DjangoFilterBackend'],
 }
 
 from datetime import timedelta

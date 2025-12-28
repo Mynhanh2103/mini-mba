@@ -628,7 +628,7 @@ export default function HomePage() {
             <div className="relative shrink-0">
               <div className="w-24 h-24 bg-white rounded-full shadow-lg border-2 border-yellow-400 flex items-center justify-center overflow-hidden p-3">
                 <img
-                  src="https://www.eduproved.org/wp-content/uploads/2019/10/eduProved-Logo-retina-300x75.png"
+                  src="/public/logo/eduPROVED-1000.png"
                   alt="Eduproved Logo"
                   className="w-full h-full object-contain"
                   onError={(e) => (e.target.style.display = "none")} // Ẩn nếu lỗi ảnh

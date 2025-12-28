@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.html import format_html
 from django.core.validators import FileExtensionValidator
+from django.conf import settings
 # --- 1. GIẢNG VIÊN ---
 class Instructor(models.Model):
     name = models.CharField(max_length=100, verbose_name="Họ và Tên")
@@ -53,7 +54,7 @@ class ScheduleItem(models.Model):
     duration = models.CharField(max_length=100, default="09:00 - 16:30", verbose_name="Thời lượng")
     professor = models.ForeignKey(Instructor, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Giảng viên")
     item_type = models.CharField(max_length=20, choices=TYPE_CHOICES, default='class', verbose_name="Loại lịch")
-    
+   # meeting_link = models.URLField(verbose_name="Link Zoom/Google Meet", blank=True, null=True, help_text="Dán link phòng học online vào đây")
     def __str__(self):
         return f"{self.date_str} - {self.topic}"
     class Meta:
@@ -189,3 +190,33 @@ class Material(models.Model):
         ordering = ['order']
         verbose_name = "Tài liệu"
         verbose_name_plural = "Kho Tài liệu"
+
+class UserLessonProgress(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='progress')
+    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, related_name='user_progress')
+    
+    is_completed = models.BooleanField(default=False)
+    completed_at = models.DateTimeField(auto_now_add=True) # Thời điểm bấm hoàn thành
+
+    class Meta:
+        unique_together = ('user', 'lesson') # Mỗi người chỉ lưu tiến độ 1 bài 1 lần
+        verbose_name = "Tiến độ học viên"
+        verbose_name_plural = "Quản lý Tiến độ"
+
+    def __str__(self):
+        return f"{self.user.username} - {self.lesson.title}"
+    
+class UserNote(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='notes')
+    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, related_name='user_notes')
+    
+    content = models.TextField(verbose_name="Nội dung ghi chú", blank=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        unique_together = ('user', 'lesson') # Mỗi bài học 1 bản ghi chú (có thể sửa đổi)
+        verbose_name = "Ghi chú học viên"
+        verbose_name_plural = "Quản lý Ghi chú"
+
+    def __str__(self):
+        return f"Note của {self.user.username} - {self.lesson.title}"

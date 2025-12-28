@@ -4,6 +4,11 @@ from .serializers import ModuleSerializer, ScheduleItemSerializer, InstructorSer
 from rest_framework import mixins, viewsets
 from .models import Lesson, Material
 from .serializers import LessonSerializer, MaterialSerializer
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+from datetime import date
+from .models import ScheduleItem, UserLessonProgress, Lesson, UserNote
 class ModuleViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Module.objects.all()
     serializer_class = ModuleSerializer
@@ -40,3 +45,91 @@ class MaterialViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Material.objects.all().order_by('order')
     serializer_class = MaterialSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+class UserProfileView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        full_name = f"{user.first_name} {user.last_name}".strip() or user.username
+
+        # --- LOGIC TÍNH TIẾN ĐỘ MỚI (Dựa trên UserLessonProgress) ---
+        total_lessons = Lesson.objects.filter(is_active=True).count()
+
+        # Đếm số bài user này đã hoàn thành
+        completed_lessons = UserLessonProgress.objects.filter(user=user, is_completed=True).count()
+
+        progress_percent = 0
+        if total_lessons > 0:
+            progress_percent = int((completed_lessons / total_lessons) * 100)
+
+        # Lấy danh sách ID các bài đã học để Frontend tô xanh
+        completed_ids = UserLessonProgress.objects.filter(user=user, is_completed=True).values_list('lesson_id', flat=True)
+
+        return Response({
+            "name": full_name,
+            "email": user.email,
+            "role": "Học viên Chính thức",
+            "progress": {
+                "percent": progress_percent,
+                "completed": completed_lessons,
+                "total": total_lessons,
+                "completed_ids": list(completed_ids) # Trả về mảng [1, 5, 8...]
+            }
+        })
+    
+class MarkLessonView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        lesson_id = request.data.get('lesson_id')
+        if not lesson_id:
+            return Response({"error": "Thiếu lesson_id"}, status=400)
+
+        # Tìm bài học
+        try:
+            lesson = Lesson.objects.get(id=lesson_id)
+        except Lesson.DoesNotExist:
+            return Response({"error": "Bài học không tồn tại"}, status=404)
+
+        # Tạo hoặc cập nhật tiến độ (Toggle: Nếu đang xong thì thành chưa, và ngược lại)
+        progress, created = UserLessonProgress.objects.get_or_create(user=request.user, lesson=lesson)
+
+        # Logic Toggle: Bấm lần 1 là xong, bấm lần 2 là bỏ xong (hoặc bạn có thể chỉ cho phép xong thôi)
+        # Ở đây tôi làm logic: Luôn set là True khi gọi API này
+        progress.is_completed = True
+        progress.save()
+
+        return Response({"status": "success", "is_completed": True})
+    
+class NoteView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    # Lấy ghi chú của 1 bài học
+    def get(self, request):
+        lesson_id = request.query_params.get('lesson_id')
+        if not lesson_id:
+            return Response({"error": "Thiếu lesson_id"}, status=400)
+        
+        try:
+            note = UserNote.objects.get(user=request.user, lesson_id=lesson_id)
+            return Response({"content": note.content, "updated_at": note.updated_at})
+        except UserNote.DoesNotExist:
+            return Response({"content": ""}) # Chưa có note thì trả về rỗng
+
+    # Lưu ghi chú
+    def post(self, request):
+        lesson_id = request.data.get('lesson_id')
+        content = request.data.get('content', '')
+        
+        if not lesson_id:
+            return Response({"error": "Thiếu lesson_id"}, status=400)
+
+        # Tạo mới hoặc cập nhật (update_or_create)
+        note, created = UserNote.objects.update_or_create(
+            user=request.user, 
+            lesson_id=lesson_id,
+            defaults={'content': content}
+        )
+        
+        return Response({"status": "success", "updated_at": note.updated_at})
