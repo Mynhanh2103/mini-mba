@@ -17,11 +17,14 @@ export default function LoginPage() {
 
     try {
       // Gọi API Login của Django
-      const res = await fetch("http://127.0.0.1:8000/api/token/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password }),
-      });
+      const res = await fetch(
+        "https://mini-mba-admin.onrender.com/api/token/",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username, password }),
+        }
+      );
 
       if (res.ok) {
         const data = await res.json();
