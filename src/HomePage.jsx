@@ -670,7 +670,7 @@ export default function HomePage() {
             <div className="relative shrink-0">
               <div className="w-24 h-24 bg-white rounded-full shadow-lg border-2 border-yellow-400 flex items-center justify-center overflow-hidden p-3">
                 <img
-                  src="/public/logo/eduPROVED-1000.png"
+                  src="/logo/eduPROVED-1000.png"
                   alt="Eduproved Logo"
                   className="w-full h-full object-contain"
                   onError={(e) => (e.target.style.display = "none")} // Ẩn nếu lỗi ảnh
@@ -713,7 +713,7 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-8 lg:gap-16 items-center">
           <div className="relative">
             <img
-              src="/public/images/z.jpg"
+              src="/images/z.jpg"
               className="relative rounded-3xl shadow-2xl z-10 w-full object-cover"
               alt="Medical Management"
             />
