@@ -244,9 +244,12 @@ export default function ResearchPage() {
 
                     {/* Footer Card */}
                     <div className="pt-4 border-t border-slate-100 flex items-center justify-between mt-auto">
-                      <button className="text-blue-700 font-bold text-sm flex items-center gap-2 hover:gap-3 transition-all">
+                      <Link
+                        to={`/research/${post.slug}`}
+                        className="text-blue-700 font-bold text-sm flex items-center gap-2 hover:gap-3 transition-all"
+                      >
                         Đọc chi tiết <ArrowRight size={16} />
-                      </button>
+                      </Link>
 
                       {post.pdf_url && (
                         <div
