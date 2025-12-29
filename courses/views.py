@@ -1,6 +1,6 @@
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets, permissions, filters
 from .models import Module, ScheduleItem, Instructor, Registration, CourseOverview, HomepageConfig
-from .serializers import ModuleSerializer, ScheduleItemSerializer, InstructorSerializer, RegistrationSerializer, CourseOverviewSerializer, HomepageConfigSerializer
+from .serializers import ModuleSerializer, ScheduleItemSerializer, InstructorSerializer, RegistrationSerializer, CourseOverviewSerializer, HomepageConfigSerializer, ResearchPostSerializer
 from rest_framework import mixins, viewsets
 from .models import Lesson, Material
 from .serializers import LessonSerializer, MaterialSerializer
@@ -8,7 +8,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from datetime import date
-from .models import ScheduleItem, UserLessonProgress, Lesson, UserNote
+from .models import ScheduleItem, UserLessonProgress, Lesson, UserNote, ResearchPost
 class ModuleViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Module.objects.all()
     serializer_class = ModuleSerializer
@@ -133,3 +133,15 @@ class NoteView(APIView):
         )
         
         return Response({"status": "success", "updated_at": note.updated_at})
+    
+class ResearchPostViewSet(viewsets.ReadOnlyModelViewSet):
+    # Cho phép ai cũng xem được (AllowAny), không cần đăng nhập
+    permission_classes = [permissions.AllowAny] 
+    
+    queryset = ResearchPost.objects.filter(is_public=True).order_by('-created_at')
+    serializer_class = ResearchPostSerializer
+    lookup_field = 'slug' # Lấy bài theo slug (VD: /api/research/bai-viet-1)
+    
+    # Cho phép tìm kiếm và lọc
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    search_fields = ['title', 'summary']

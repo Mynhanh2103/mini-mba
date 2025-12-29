@@ -1,3 +1,4 @@
+import { useNavigate, Link } from "react-router-dom"; // <--- Thêm Link vào đây
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -32,6 +33,8 @@ const translations = {
     nav_roadmap: "Lộ trình",
     nav_instructors: "Giảng viên",
     nav_register: "Đăng ký ngay",
+    nav_login: "Đăng nhập", // <--- Thêm mới
+    cta_register: "Đăng ký ngay",
     nav_consult: "Đăng ký tư vấn",
     partner_badge: "Đối tác: TRAF Academy & EDUPROVED",
     hero_default_1: "Quản Trị",
@@ -83,6 +86,8 @@ const translations = {
     nav_roadmap: "Roadmap",
     nav_instructors: "Instructors",
     nav_register: "Register Now",
+    nav_login: "Login", // <--- Thêm mới
+    cta_register: "Register Now",
     nav_consult: "Get Consultation",
     partner_badge: "Partner: TRAF Academy & EDUPROVED",
     hero_default_1: "Healthcare",
@@ -342,7 +347,7 @@ const TimelineRow = ({ item, index, lang }) => {
 
 export default function HomePage() {
   const [lang, setLang] = useState("vi");
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  //const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
   const t = (key) => translations[lang][key] || key;
@@ -354,7 +359,7 @@ export default function HomePage() {
   const [overviews, setOverviews] = useState([]);
   const [config, setConfig] = useState(null);
   const [loading, setLoading] = useState(true);
-
+  const [isOpen, setIsOpen] = useState(false);
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll);
@@ -416,7 +421,7 @@ export default function HomePage() {
   const scrollToSection = (id) => {
     const element = document.getElementById(id);
     if (element) {
-      setIsMenuOpen(false);
+      setIsOpen(false);
       element.scrollIntoView({ behavior: "smooth" });
     }
   };
@@ -435,6 +440,7 @@ export default function HomePage() {
     { id: "loi-ich", label: t("nav_benefits") },
     { id: "lo-trinh", label: t("nav_roadmap") },
     { id: "giang-vien", label: t("nav_instructors") },
+    { id: "/research", label: "Thư viện", type: "link" },
   ];
 
   return (
@@ -471,15 +477,27 @@ export default function HomePage() {
               scrolled ? "text-slate-600" : "text-white/90"
             }`}
           >
-            {navItems.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => scrollToSection(item.id)}
-                className="hover:text-yellow-500 transition uppercase tracking-wide"
-              >
-                {item.label}
-              </button>
-            ))}
+            {navItems.map((item) =>
+              item.type === "link" ? (
+                // Nếu là Link (như Thư viện) -> Dùng thẻ Link chuyển trang
+                <Link
+                  key={item.id}
+                  to={item.id}
+                  className="hover:text-yellow-500 transition uppercase tracking-wide"
+                >
+                  {item.label}
+                </Link>
+              ) : (
+                // Nếu là Scroll (như Lợi ích, Lộ trình) -> Dùng onClick scroll
+                <button
+                  key={item.id}
+                  onClick={() => scrollToSection(item.id)}
+                  className="hover:text-yellow-500 transition uppercase tracking-wide"
+                >
+                  {item.label}
+                </button>
+              )
+            )}
             {/* Language Switcher */}
             <button
               onClick={toggleLang}
@@ -489,12 +507,23 @@ export default function HomePage() {
             </button>
           </div>
 
-          <button
-            onClick={() => scrollToSection("dang-ky")}
-            className="hidden md:block bg-yellow-500 hover:bg-yellow-400 text-blue-900 font-bold px-6 py-2 rounded-full transition-transform transform active:scale-95 shadow-lg shadow-yellow-500/30"
-          >
-            {t("nav_register")}
-          </button>
+          <div className="hidden md:flex items-center gap-4">
+            {/* [MỚI] NÚT ĐĂNG NHẬP */}
+            <Link
+              to="/login"
+              className="px-5 py-2 bg-white hover:bg-gray-100 text-blue-900 font-bold rounded-full transition-transform active:scale-95 text-sm shadow-lg"
+            >
+              {t("nav_login")}
+            </Link>
+
+            {/* Nút Đăng ký ngay (Giữ nguyên) */}
+            <button
+              onClick={() => scrollToSection("dang-ky")}
+              className="px-5 py-2 bg-yellow-500 hover:bg-yellow-400 text-blue-900 font-bold rounded-full transition-transform active:scale-95 text-sm shadow-lg shadow-yellow-500/20"
+            >
+              {t("cta_register")}
+            </button>
+          </div>
 
           {/* Mobile Toggle */}
           <div className="flex md:hidden gap-4 items-center">
@@ -507,17 +536,17 @@ export default function HomePage() {
               {lang === "vi" ? "EN" : "VN"}
             </button>
             <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              onClick={() => setIsOpen(!isOpen)}
               className={`${scrolled ? "text-slate-900" : "text-white"}`}
             >
-              {isMenuOpen ? <X /> : <Menu />}
+              {isOpen ? <X /> : <Menu />}
             </button>
           </div>
         </div>
 
         {/* Mobile Menu Dropdown */}
         <AnimatePresence>
-          {isMenuOpen && (
+          {isOpen && (
             <motion.div
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
@@ -534,12 +563,25 @@ export default function HomePage() {
                     {item.label}
                   </button>
                 ))}
-                <button
-                  onClick={() => scrollToSection("dang-ky")}
-                  className="bg-blue-900 text-white py-3 rounded-lg font-bold"
-                >
-                  {t("nav_consult")}
-                </button>
+                <div className="p-4 border-t border-slate-700 flex flex-col gap-3">
+                  {/* [MỚI] Link Đăng nhập Mobile */}
+                  <Link
+                    to="/login"
+                    className="w-full py-3 text-center text-slate-300 font-bold border border-slate-600 rounded-xl hover:bg-slate-700 hover:text-white transition-all"
+                  >
+                    Đăng nhập hệ thống
+                  </Link>
+
+                  <button
+                    onClick={() => {
+                      setIsOpen(false);
+                      scrollToSection("dang-ky");
+                    }}
+                    className="w-full py-3 bg-yellow-500 text-blue-900 font-bold rounded-xl"
+                  >
+                    {t("cta_register")}
+                  </button>
+                </div>
               </div>
             </motion.div>
           )}
@@ -671,7 +713,7 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-8 lg:gap-16 items-center">
           <div className="relative">
             <img
-              src="https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcQ_sblWpCGTTTDCK-crNTqZ7W_TEuNMyazUH563CxzPlcUY6kDNULXIWVwXIFnE9Q5Qqh6EXzbtZrTdBN47w_kYULxv4RYEcV7DijI6PcOZaN0omoQ"
+              src="/public/images/z.jpg"
               className="relative rounded-3xl shadow-2xl z-10 w-full object-cover"
               alt="Medical Management"
             />

@@ -220,3 +220,35 @@ class UserNote(models.Model):
 
     def __str__(self):
         return f"Note của {self.user.username} - {self.lesson.title}"
+    
+class ResearchPost(models.Model):
+    CATEGORY_CHOICES = [
+        ('news', 'Tin tức Y tế'),
+        ('research', 'Nghiên cứu Khoa học'),
+        ('perspective', 'Góc nhìn Chuyên gia'),
+    ]
+
+    title = models.CharField(max_length=255, verbose_name="Tiêu đề bài viết")
+    slug = models.SlugField(max_length=255, unique=True, verbose_name="Slug (URL)", help_text="Tự động tạo từ tiêu đề")
+    
+    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, default='perspective', verbose_name="Chuyên mục")
+    author = models.CharField(max_length=100, default="TBI Research Team", verbose_name="Tác giả")
+    
+    summary = models.TextField(verbose_name="Tóm tắt ngắn (Sapo)", help_text="Hiện ở trang danh sách")
+    content = models.TextField(verbose_name="Nội dung chi tiết", help_text="Chấp nhận mã HTML cơ bản")
+    
+    cover_image = models.ImageField(upload_to='research_covers/', verbose_name="Ảnh bìa", blank=True, null=True)
+    
+    # Đây là "Mồi câu" (Lead Magnet): File tài liệu Full
+    pdf_file = models.FileField(upload_to='research_pdfs/', verbose_name="File PDF Full (Download)", blank=True, null=True)
+    
+    is_public = models.BooleanField(default=True, verbose_name="Công khai?")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Ngày đăng")
+
+    class Meta:
+        ordering = ['-created_at'] # Bài mới nhất lên đầu
+        verbose_name = "Bài nghiên cứu"
+        verbose_name_plural = "Kho Research & Blog"
+
+    def __str__(self):
+        return self.title

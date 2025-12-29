@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.utils.html import format_html
 from unfold.admin import ModelAdmin # Dùng class của Unfold để đẹp hơn
 from .models import Module, Instructor, ScheduleItem, Registration, CourseOverview
-from .models import HomepageConfig, Lesson, Material
+from .models import HomepageConfig, Lesson, Material, ResearchPost
 # --- Cấu hình chung ---
 admin.site.site_header = "TBI Institute Admin"
 admin.site.site_title = "TBI Admin Portal"
@@ -111,3 +111,10 @@ class LessonAdmin(ModelAdmin):
     list_editable = ('order', 'is_active') # Cho phép sửa nhanh thứ tự và ẩn/hiện
     prepopulated_fields = {'slug': ('title',)} # [QUAN TRỌNG] Tự động tạo slug khi gõ title
     inlines = [MaterialInline]
+
+@admin.register(ResearchPost)
+class ResearchPostAdmin(ModelAdmin):
+    list_display = ('title', 'category', 'author', 'is_public', 'created_at')
+    list_filter = ('category', 'is_public')
+    search_fields = ('title', 'summary')
+    prepopulated_fields = {'slug': ('title',)} # Tự động tạo slug khi gõ tiêu đề

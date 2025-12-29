@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import Module, ScheduleItem, Instructor, Registration, CourseOverview
-from .models import HomepageConfig, Lesson, Material
+from .models import HomepageConfig, Lesson, Material, ResearchPost
 class ModuleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Module
@@ -53,3 +53,21 @@ class LessonSerializer(serializers.ModelSerializer):
     class Meta:
         model = Lesson
         fields = ['id', 'module', 'title', 'title_en', 'slug', 'order', 'created_at', 'materials']
+
+class ResearchPostSerializer(serializers.ModelSerializer):
+    cover_url = serializers.SerializerMethodField()
+    pdf_url = serializers.SerializerMethodField()
+
+    class Meta:
+        model = ResearchPost
+        fields = '__all__'
+
+    def get_cover_url(self, obj):
+        if obj.cover_image:
+            return obj.cover_image.url
+        return None
+
+    def get_pdf_url(self, obj):
+        if obj.pdf_file:
+            return obj.pdf_file.url
+        return None
