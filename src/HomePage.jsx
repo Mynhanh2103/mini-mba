@@ -780,14 +780,23 @@ export default function HomePage() {
             <p className="text-slate-600">{t("sec_program_sub")}</p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {modules.map((mod, index) => (
-              <FeatureCard
-                key={mod.id || index}
-                item={mod}
-                index={index}
-                lang={lang}
-              />
-            ))}
+            {modules
+              .sort((a, b) =>
+                // Sắp xếp dựa trên Tiêu đề tiếng Việt, chế độ số (numeric: true) để hiểu số 10 > số 2
+                getData(a, "title", "vi").localeCompare(
+                  getData(b, "title", "vi"),
+                  undefined,
+                  { numeric: true }
+                )
+              )
+              .map((mod, index) => (
+                <FeatureCard
+                  key={mod.id || index}
+                  item={mod}
+                  index={index}
+                  lang={lang}
+                />
+              ))}
             <div className="bg-blue-600 text-white rounded-2xl p-6 shadow-lg flex flex-col justify-center items-center text-center h-full">
               <Award className="w-12 h-12 mb-4 text-yellow-300" />
               <h3 className="text-xl font-bold mb-2">{t("proj_grad")}</h3>
@@ -828,46 +837,70 @@ export default function HomePage() {
       </section>
 
       {/* INSTRUCTORS */}
-      <section id="giang-vien" className="py-20 bg-slate-50 overflow-hidden">
+      <section id="giang-vien" className="py-24 bg-slate-50 overflow-hidden">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-extrabold text-slate-900">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-extrabold text-slate-900 mb-4">
               {t("sec_instructors")}
             </h2>
-            <p className="text-slate-600 mt-2">{t("sec_instructors_sub")}</p>
+            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+              {t("sec_instructors_sub")}
+            </p>
           </div>
-          <div className="grid md:grid-cols-3 gap-8">
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {instructors.map((inst, index) => (
-              <div
+              <motion.div
                 key={inst.id || index}
-                className="bg-white p-6 rounded-2xl shadow-sm text-center border border-slate-100"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                className="bg-white rounded-2xl overflow-hidden shadow-lg border border-slate-100 hover:shadow-2xl transition-all duration-300 flex flex-col h-full group"
               >
-                <div className="w-24 h-24 bg-blue-100 rounded-full mx-auto mb-4 overflow-hidden">
+                {/* Phần Ảnh Giảng Viên - Style mới */}
+                <div className="relative h-72 overflow-hidden bg-blue-50">
                   <img
                     src={
                       getImageUrl(inst.image) ||
                       inst.image_url ||
-                      "https://placehold.co/150x150"
+                      "https://placehold.co/400x500?text=Instructor"
                     }
                     alt={inst.name}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
                   />
+                  {/* Lớp phủ gradient để làm nổi bật tên */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-blue-900/90 via-transparent to-transparent opacity-80"></div>
+
+                  <div className="absolute bottom-0 left-0 p-5 text-white w-full">
+                    <h3 className="font-bold text-xl leading-tight mb-1">
+                      {inst.name}
+                    </h3>
+                    <p className="text-yellow-400 text-xs font-bold uppercase tracking-wider">
+                      {getData(inst, "title", lang)}
+                    </p>
+                  </div>
                 </div>
-                <h3 className="font-bold text-lg text-slate-900">
-                  {getData(inst, "title", lang)} {inst.name}
-                </h3>
-                <p className="text-blue-600 text-sm font-medium mt-1">
-                  {getData(inst, "position", lang)}
-                </p>
-                <p className="text-slate-500 text-xs mt-2 line-clamp-2">
-                  {getData(inst, "description", lang)}
-                </p>
-              </div>
+
+                {/* Phần Nội dung - Tự động giãn nở */}
+                <div className="p-6 flex flex-col flex-grow">
+                  <div className="mb-4">
+                    <p className="text-blue-700 font-semibold text-sm mb-3 flex items-center gap-2">
+                      <Award size={16} />
+                      {getData(inst, "position", lang)}
+                    </p>
+
+                    {/* [SỬA] Bỏ line-clamp, dùng text-justify để đẹp hơn */}
+                    <p className="text-slate-600 text-sm leading-relaxed text-justify">
+                      {getData(inst, "description", lang)}
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
-
       {/* REGISTER */}
       <section
         id="dang-ky"
