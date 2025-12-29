@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 
 // --- CẤU HÌNH ---
-const API_URL = "https://mini-mba-backend.onrender.com"; // Đổi thành link Render của bạn nếu cần
+const API_URL = "https://mini-mba-admin.onrender.com"; // Đổi thành link Render của bạn nếu cần
 
 // Helper format ngày
 const formatDate = (dateString) => {
