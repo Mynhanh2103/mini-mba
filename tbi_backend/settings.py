@@ -175,7 +175,4 @@ SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60), # Token sống 60 phút
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),    # Refresh token sống 1 ngày
 }
-CORS_ALLOWED_ORIGINS = [
-     "http://localhost:5173",
-     "https://mini-mba-frontend.onrender.com", # Thay bằng link frontend thật của bạn
- ]
+CORS_ALLOW_CREDENTIALS = True
