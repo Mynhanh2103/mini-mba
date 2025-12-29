@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 
 const API_URL =
-  import.meta.env.VITE_API_URL || "https://mini-mba-backend.onrender.com";
+  import.meta.env.VITE_API_URL || "https://mini-mba-admin.onrender.com";
 
 // Helper format ngày
 const formatDate = (dateString) => {
