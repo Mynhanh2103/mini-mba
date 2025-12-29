@@ -4,6 +4,7 @@ import HomePage from "./HomePage";
 import LoginPage from "./LoginPage";
 import Dashboard from "./Dashboard";
 import ResearchPage from "./ResearchPage";
+import ResearchDetail from "./ResearchDetail";
 export default function App() {
   return (
     <Router>
@@ -12,7 +13,7 @@ export default function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/research" element={<ResearchPage />} />
-
+        <Route path="/research/:slug" element={<ResearchDetail />} />
         {/* 404 */}
         <Route
           path="*"

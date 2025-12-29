@@ -14,6 +14,7 @@ ALLOWED_HOSTS = ['*']
 
 # Application definition
 INSTALLED_APPS = [
+    'corsheaders',
     "unfold",
     "unfold.contrib.filters",
     "unfold.contrib.forms",
@@ -26,16 +27,17 @@ INSTALLED_APPS = [
     'cloudinary_storage', # Thêm Cloudinary
     'cloudinary',
     'rest_framework',
-    'corsheaders',
+    
     'courses',
     'django_filters'
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware', 
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware', # <--- QUAN TRỌNG: Để hiện CSS Admin
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.CorsMiddleware', # <--- CORS phải ở trên Common
+    # <--- CORS phải ở trên Common
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -173,3 +175,7 @@ SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60), # Token sống 60 phút
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),    # Refresh token sống 1 ngày
 }
+CORS_ALLOWED_ORIGINS = [
+     "http://localhost:5173",
+     "https://mini-mba-frontend.onrender.com", # Thay bằng link frontend thật của bạn
+ ]
