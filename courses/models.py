@@ -234,7 +234,7 @@ class ResearchPost(models.Model):
     category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, default='perspective', verbose_name="Chuyên mục")
     author = models.CharField(max_length=100, default="TBI Research Team", verbose_name="Tác giả")
     
-    summary = models.TextField(verbose_name="Tóm tắt ngắn (Sapo)", help_text="Hiện ở trang danh sách")
+    summary = models.TextField(verbose_name="Tóm tắt ngắn", help_text="Hiện ở trang danh sách (Cập nhật)")
     content = models.TextField(verbose_name="Nội dung chi tiết", help_text="Chấp nhận mã HTML cơ bản")
     
     cover_image = models.ImageField(upload_to='research_covers/', verbose_name="Ảnh bìa", blank=True, null=True)
