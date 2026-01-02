@@ -75,9 +75,9 @@ export default function Dashboard() {
         };
 
         const [resSchedule, resModules, resProfile] = await Promise.all([
-          fetch("http://127.0.0.1:8000/api/schedule/", { headers }),
-          fetch("http://127.0.0.1:8000/api/modules/", { headers }),
-          fetch("http://127.0.0.1:8000/api/profile/", { headers }),
+          fetch("https://mini-mba-admin.onrender.com/api/schedule/", { headers }),
+          fetch("https://mini-mba-admin.onrender.com/api/modules/", { headers }),
+          fetch("https://mini-mba-admin.onrender.com/api/profile/", { headers }),
         ]);
 
         if (resSchedule.ok) setSchedule(await resSchedule.json());
@@ -109,7 +109,7 @@ export default function Dashboard() {
     setSelectedModule(moduleId);
     try {
       const res = await fetch(
-        `http://127.0.0.1:8000/api/lessons/?module=${moduleId}`
+        `https://mini-mba-admin.onrender.com/api/lessons/?module=${moduleId}`
       );
       if (res.ok) setLessons(await res.json());
     } catch (error) {
@@ -121,7 +121,7 @@ export default function Dashboard() {
   const handleMarkLesson = async (lessonId) => {
     try {
       const token = localStorage.getItem("accessToken");
-      const res = await fetch("http://127.0.0.1:8000/api/mark-lesson/", {
+      const res = await fetch("https://mini-mba-admin.onrender.com/api/mark-lesson/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -171,7 +171,7 @@ export default function Dashboard() {
     try {
       const token = localStorage.getItem("accessToken");
       const res = await fetch(
-        `http://127.0.0.1:8000/api/note/?lesson_id=${lessonId}`,
+        `https://mini-mba-admin.onrender.com/api/note/?lesson_id=${lessonId}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -191,7 +191,7 @@ export default function Dashboard() {
     setIsSavingNote(true);
     try {
       const token = localStorage.getItem("accessToken");
-      await fetch("http://127.0.0.1:8000/api/note/", {
+      await fetch("https://mini-mba-admin.onrender.com/api/note/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

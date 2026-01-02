@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import Module, ScheduleItem, Instructor, Registration, CourseOverview
-from .models import HomepageConfig, Lesson, Material, ResearchPost
+from .models import HomepageConfig, Lesson, Material, ResearchPost, Testimonial
 class ModuleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Module
@@ -71,3 +71,8 @@ class ResearchPostSerializer(serializers.ModelSerializer):
         if obj.pdf_file:
             return obj.pdf_file.url
         return None
+    
+class TestimonialSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Testimonial
+        fields = '__all__'

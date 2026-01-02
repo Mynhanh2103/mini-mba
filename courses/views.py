@@ -2,8 +2,8 @@ from rest_framework import viewsets, permissions, filters
 from .models import Module, ScheduleItem, Instructor, Registration, CourseOverview, HomepageConfig
 from .serializers import ModuleSerializer, ScheduleItemSerializer, InstructorSerializer, RegistrationSerializer, CourseOverviewSerializer, HomepageConfigSerializer, ResearchPostSerializer
 from rest_framework import mixins, viewsets
-from .models import Lesson, Material
-from .serializers import LessonSerializer, MaterialSerializer
+from .models import Lesson, Material, Testimonial
+from .serializers import LessonSerializer, MaterialSerializer, TestimonialSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
@@ -145,3 +145,8 @@ class ResearchPostViewSet(viewsets.ReadOnlyModelViewSet):
     # Cho phép tìm kiếm và lọc
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     search_fields = ['title', 'summary']
+
+class TestimonialViewSet(viewsets.ReadOnlyModelViewSet):
+    # Chỉ lấy những review được tích chọn "Hiển thị"
+    queryset = Testimonial.objects.filter(is_active=True).order_by('-created_at')
+    serializer_class = TestimonialSerializer

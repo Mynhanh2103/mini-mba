@@ -26,22 +26,25 @@ class Instructor(models.Model):
 
 # --- 2. MÔN HỌC ---
 class Module(models.Model):
-    title = models.CharField(max_length=200, verbose_name="Tên Môn học (VN)")
-    title_en = models.CharField(max_length=200, verbose_name="Tên Môn học (EN)", blank=True, null=True)
-
-    description = models.TextField(verbose_name="Mô tả (VN)")
-    description_en = models.TextField(verbose_name="Mô tả (EN)", blank=True, null=True)
-
-    image = models.ImageField(upload_to='modules/', verbose_name="Upload Ảnh bìa", blank=True, null=True)
-    image_url = models.URLField(verbose_name="Hoặc Link Ảnh Online", blank=True, null=True)
-    icon_name = models.CharField(max_length=50, default="book", verbose_name="Tên Icon") 
+    title = models.CharField(max_length=200, verbose_name="Tên Module")
+    description = models.TextField(verbose_name="Mô tả ngắn")
+    
+    # --- CÁC TRƯỜNG MỚI CẦN THÊM ---
+    order = models.IntegerField(default=0, verbose_name="Số thứ tự (1, 2, 3...)")
+    duration = models.CharField(max_length=50, default="4 giờ", verbose_name="Thời lượng", help_text="Ví dụ: 4 Buổi học")
+    has_certificate = models.BooleanField(default=True, verbose_name="Có cấp chứng chỉ không?")
+    is_active = models.BooleanField(default=True, verbose_name="Đang tuyển sinh")
+    
+    # (Giữ nguyên các trường cũ nếu có)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.title
-    class Meta:
-        verbose_name = "Môn học (Module)"
-        verbose_name_plural = "Danh sách Môn học"
+        return f"{self.order}. {self.title}"
 
+    class Meta:
+        ordering = ['order'] # Tự động sắp xếp theo số thứ tự
+        verbose_name = "Học phần (Module)"
+        verbose_name_plural = "Quản lý Modules"
 # --- 3. LỊCH HỌC ---
 class ScheduleItem(models.Model):
     TYPE_CHOICES = [('class', 'Buổi học'), ('break', 'Nghỉ Đông'), ('holiday', 'Nghỉ Lễ')]
@@ -109,28 +112,6 @@ class HomepageConfig(models.Model):
     footer_text_en = models.CharField(max_length=200, default="© 2025 TBI. All rights reserved.", verbose_name="Footer Text (EN)", blank=True)
     def __str__(self): return "Cấu hình Trang chủ"
     class Meta: verbose_name = "Cấu hình Trang chủ"
-class Registration(models.Model):
-    # --- CẬP NHẬT MỚI: QUẢN LÝ TRẠNG THÁI ---
-    STATUS_CHOICES = [
-        ('new', 'Mới đăng ký'),
-        ('contacted', 'Đã liên hệ'),
-        ('paid', 'Đã thanh toán'),
-        ('canceled', 'Hủy bỏ'),
-    ]
-    full_name = models.CharField(max_length=100, verbose_name="Họ tên học viên")
-    phone = models.CharField(max_length=20, verbose_name="Số điện thoại")
-    email = models.EmailField(verbose_name="Email")
-    position = models.CharField(max_length=100, blank=True, verbose_name="Nguồn/Chức vụ")
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='new', verbose_name="Trạng thái")
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Ngày đăng ký")
-    # Footer
-    
-    def __str__(self):
-        return f"{self.full_name} ({self.get_status_display()})"
-
-    class Meta:
-        verbose_name = "Đơn đăng ký"
-        verbose_name_plural = "Danh sách Đăng ký"
 
 class Lesson(models.Model):
     module = models.ForeignKey(Module, on_delete=models.CASCADE, related_name='lessons', verbose_name="Thuộc Môn học")
@@ -252,3 +233,52 @@ class ResearchPost(models.Model):
 
     def __str__(self):
         return self.title
+    
+class Testimonial(models.Model):
+    name = models.CharField(max_length=200, verbose_name="Tên học viên")
+    role = models.CharField(max_length=200, verbose_name="Chức vụ/Nơi công tác", help_text="Ví dụ: Giám đốc BV Đa khoa X")
+    content = models.TextField(verbose_name="Lời nhận xét")
+    avatar = models.ImageField(upload_to='testimonials/', null=True, blank=True, verbose_name="Ảnh đại diện")
+    is_active = models.BooleanField(default=True, verbose_name="Hiển thị")
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "Ý kiến học viên"
+        verbose_name_plural = "Quản lý Ý kiến học viên"
+
+class Registration(models.Model):
+    STATUS_CHOICES = [
+        ('new', 'Mới đăng ký'),
+        ('consulted', 'Đã tư vấn'),
+        ('paid', 'Đã đóng tiền'),
+        ('canceled', 'Hủy bỏ'),
+    ]
+
+    full_name = models.CharField(max_length=100, verbose_name="Họ tên")
+    phone = models.CharField(max_length=20, verbose_name="Số điện thoại")
+    email = models.EmailField(verbose_name="Email")
+    
+    # Liên kết trực tiếp với Module (để đếm số lượng)
+    selected_module = models.ForeignKey(
+        'Module', 
+        on_delete=models.SET_NULL, 
+        null=True, 
+        blank=True, 
+        verbose_name="Module đăng ký",
+        help_text="Để trống nếu đăng ký toàn khóa Mini MBA"
+    )
+    
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='new', verbose_name="Trạng thái")
+    note = models.TextField(blank=True, null=True, verbose_name="Ghi chú thêm")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Ngày đăng ký")
+
+    def __str__(self):
+        course_name = self.selected_module.title if self.selected_module else "Toàn khóa Mini MBA"
+        return f"{self.full_name} - {course_name}"
+
+    class Meta:
+        verbose_name = "Đơn đăng ký học"
+        verbose_name_plural = "Quản lý Đăng ký"
