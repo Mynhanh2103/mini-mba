@@ -26,23 +26,25 @@ class Instructor(models.Model):
 
 # --- 2. MÔN HỌC ---
 class Module(models.Model):
-    title = models.CharField(max_length=200, verbose_name="Tên Module")
-    description = models.TextField(verbose_name="Mô tả ngắn")
+    title = models.CharField(max_length=200, verbose_name="Tên Module (VN)")
+    # [MỚI] Thêm tên tiếng Anh
+    title_en = models.CharField(max_length=200, verbose_name="Tên Module (EN)", blank=True, null=True)
     
-    # --- CÁC TRƯỜNG MỚI CẦN THÊM ---
-    order = models.IntegerField(default=0, verbose_name="Số thứ tự (1, 2, 3...)")
-    duration = models.CharField(max_length=50, default="4 giờ", verbose_name="Thời lượng", help_text="Ví dụ: 4 Buổi học")
-    has_certificate = models.BooleanField(default=True, verbose_name="Có cấp chứng chỉ không?")
+    description = models.TextField(verbose_name="Mô tả ngắn (VN)")
+    # [MỚI] Thêm mô tả tiếng Anh
+    description_en = models.TextField(verbose_name="Mô tả ngắn (EN)", blank=True, null=True)
+    
+    order = models.IntegerField(default=0, verbose_name="Số thứ tự")
+    duration = models.CharField(max_length=50, default="4 giờ", verbose_name="Thời lượng")
+    has_certificate = models.BooleanField(default=True, verbose_name="Có cấp chứng chỉ?")
     is_active = models.BooleanField(default=True, verbose_name="Đang tuyển sinh")
-    
-    # (Giữ nguyên các trường cũ nếu có)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"{self.order}. {self.title}"
 
     class Meta:
-        ordering = ['order'] # Tự động sắp xếp theo số thứ tự
+        ordering = ['order']
         verbose_name = "Học phần (Module)"
         verbose_name_plural = "Quản lý Modules"
 # --- 3. LỊCH HỌC ---
@@ -236,8 +238,15 @@ class ResearchPost(models.Model):
     
 class Testimonial(models.Model):
     name = models.CharField(max_length=200, verbose_name="Tên học viên")
-    role = models.CharField(max_length=200, verbose_name="Chức vụ/Nơi công tác", help_text="Ví dụ: Giám đốc BV Đa khoa X")
-    content = models.TextField(verbose_name="Lời nhận xét")
+    
+    role = models.CharField(max_length=200, verbose_name="Chức vụ/Nơi công tác (VN)")
+    # [MỚI] Chức vụ tiếng Anh
+    role_en = models.CharField(max_length=200, verbose_name="Chức vụ (EN)", blank=True, null=True)
+    
+    content = models.TextField(verbose_name="Lời nhận xét (VN)")
+    # [MỚI] Nhận xét tiếng Anh
+    content_en = models.TextField(verbose_name="Lời nhận xét (EN)", blank=True, null=True)
+    
     avatar = models.ImageField(upload_to='testimonials/', null=True, blank=True, verbose_name="Ảnh đại diện")
     is_active = models.BooleanField(default=True, verbose_name="Hiển thị")
     created_at = models.DateTimeField(auto_now_add=True)

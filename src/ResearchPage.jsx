@@ -11,45 +11,99 @@ import {
   BookOpen,
   ChevronRight,
   Home,
+  Globe, // Thêm icon Globe
 } from "lucide-react";
 
 // --- CẤU HÌNH ---
-const API_URL = "https://mini-mba-admin.onrender.com"; // Đổi thành link Render của bạn nếu cần
+const API_URL =
+  import.meta.env.VITE_API_URL || "https://mini-mba-admin.onrender.com";
 
-// Helper format ngày
-const formatDate = (dateString) => {
-  if (!dateString) return "";
-  return new Date(dateString).toLocaleDateString("vi-VN", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+// --- TỪ ĐIỂN UI ---
+const translations = {
+  vi: {
+    breadcrumb_home: "Trang chủ",
+    breadcrumb_research: "Thư viện & Nghiên cứu",
+
+    hero_title: "Kho Tri Thức",
+    hero_highlight: "Quản Trị Y Tế",
+    hero_desc:
+      "Cập nhật các xu hướng mới nhất, bài nghiên cứu chuyên sâu và góc nhìn từ chuyên gia hàng đầu.",
+
+    tab_all: "Tất cả",
+    tab_news: "Tin tức",
+    tab_research: "Nghiên cứu",
+    tab_perspective: "Góc nhìn",
+
+    search_ph: "Tìm kiếm bài viết...",
+
+    loading: "Đang tải dữ liệu...",
+    no_result_title: "Không tìm thấy bài viết",
+    no_result_desc: "Thử tìm từ khóa khác hoặc chọn chuyên mục khác xem sao.",
+
+    card_read_more: "Đọc chi tiết",
+
+    cta_title: "Bạn muốn nghiên cứu sâu hơn?",
+    cta_desc:
+      "Đăng ký khóa học Mini MBA để truy cập kho tài liệu nội bộ và các Case Study độc quyền.",
+    cta_btn: "Đăng ký tư vấn ngay",
+
+    cat_news: "Tin tức Y tế",
+    cat_research: "Nghiên cứu",
+    cat_perspective: "Góc nhìn",
+    cat_other: "Khác",
+  },
+  en: {
+    breadcrumb_home: "Home",
+    breadcrumb_research: "Library & Research",
+
+    hero_title: "Knowledge Hub",
+    hero_highlight: "Healthcare Management",
+    hero_desc:
+      "Update the latest trends, in-depth research articles, and insights from leading experts.",
+
+    tab_all: "All",
+    tab_news: "News",
+    tab_research: "Research",
+    tab_perspective: "Perspective",
+
+    search_ph: "Search articles...",
+
+    loading: "Loading data...",
+    no_result_title: "No articles found",
+    no_result_desc:
+      "Try searching for a different keyword or selecting another category.",
+
+    card_read_more: "Read more",
+
+    cta_title: "Want deeper research?",
+    cta_desc:
+      "Register for the Mini MBA course to access internal documents and exclusive Case Studies.",
+    cta_btn: "Register for consultation",
+
+    cat_news: "Health News",
+    cat_research: "Research",
+    cat_perspective: "Perspective",
+    cat_other: "Other",
+  },
 };
 
-// Helper màu sắc cho từng chuyên mục
-const getCategoryStyle = (cat) => {
-  switch (cat) {
-    case "news":
-      return {
-        label: "Tin tức Y tế",
-        color: "bg-green-100 text-green-700 border-green-200",
-      };
-    case "research":
-      return {
-        label: "Nghiên cứu",
-        color: "bg-blue-100 text-blue-700 border-blue-200",
-      };
-    case "perspective":
-      return {
-        label: "Góc nhìn",
-        color: "bg-purple-100 text-purple-700 border-purple-200",
-      };
-    default:
-      return { label: "Khác", color: "bg-slate-100 text-slate-600" };
-  }
+// Helper format ngày (theo ngôn ngữ)
+const formatDate = (dateString, lang) => {
+  if (!dateString) return "";
+  return new Date(dateString).toLocaleDateString(
+    lang === "vi" ? "vi-VN" : "en-US",
+    {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    }
+  );
 };
 
 export default function ResearchPage() {
+  const [lang, setLang] = useState("vi"); // State ngôn ngữ
+  const t = translations[lang]; // Từ điển hiện tại
+
   const [posts, setPosts] = useState([]);
   const [filteredPosts, setFilteredPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -58,11 +112,33 @@ export default function ResearchPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
 
+  // Helper màu sắc cho từng chuyên mục (Dynamic Label)
+  const getCategoryStyle = (cat) => {
+    switch (cat) {
+      case "news":
+        return {
+          label: t.cat_news,
+          color: "bg-green-100 text-green-700 border-green-200",
+        };
+      case "research":
+        return {
+          label: t.cat_research,
+          color: "bg-blue-100 text-blue-700 border-blue-200",
+        };
+      case "perspective":
+        return {
+          label: t.cat_perspective,
+          color: "bg-purple-100 text-purple-700 border-purple-200",
+        };
+      default:
+        return { label: t.cat_other, color: "bg-slate-100 text-slate-600" };
+    }
+  };
+
   // 1. Fetch dữ liệu
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        // Gọi API Public (không cần Token)
         const res = await fetch(`${API_URL}/api/research/`);
         if (res.ok) {
           const data = await res.json();
@@ -82,12 +158,10 @@ export default function ResearchPage() {
   useEffect(() => {
     let result = posts;
 
-    // Lọc theo Category
     if (selectedCategory !== "all") {
       result = result.filter((post) => post.category === selectedCategory);
     }
 
-    // Lọc theo Search Term
     if (searchTerm) {
       const lowerTerm = searchTerm.toLowerCase();
       result = result.filter(
@@ -106,13 +180,23 @@ export default function ResearchPage() {
       <header className="bg-blue-900 text-white pt-24 pb-16 relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
         <div className="max-w-7xl mx-auto px-6 relative z-10">
-          {/* Breadcrumb */}
-          <div className="flex items-center gap-2 text-blue-200 text-sm mb-6 font-medium">
-            <Link to="/" className="hover:text-white flex items-center gap-1">
-              <Home size={14} /> Trang chủ
-            </Link>
-            <ChevronRight size={14} />
-            <span className="text-white">Thư viện & Nghiên cứu</span>
+          {/* Top Bar: Breadcrumb + Language Switcher */}
+          <div className="flex justify-between items-start mb-6">
+            <div className="flex items-center gap-2 text-blue-200 text-sm font-medium">
+              <Link to="/" className="hover:text-white flex items-center gap-1">
+                <Home size={14} /> {t.breadcrumb_home}
+              </Link>
+              <ChevronRight size={14} />
+              <span className="text-white">{t.breadcrumb_research}</span>
+            </div>
+
+            {/* Nút đổi ngôn ngữ */}
+            <button
+              onClick={() => setLang(lang === "vi" ? "en" : "vi")}
+              className="flex items-center gap-2 bg-white/10 hover:bg-white/20 px-3 py-1 rounded-full text-xs font-bold transition-colors border border-white/20"
+            >
+              <Globe size={14} /> {lang === "vi" ? "EN" : "VN"}
+            </button>
           </div>
 
           <motion.div
@@ -120,12 +204,11 @@ export default function ResearchPage() {
             animate={{ opacity: 1, y: 0 }}
           >
             <h1 className="text-4xl md:text-5xl font-extrabold mb-4 leading-tight">
-              Kho Tri Thức{" "}
-              <span className="text-yellow-400">Quản Trị Y Tế</span>
+              {t.hero_title}{" "}
+              <span className="text-yellow-400">{t.hero_highlight}</span>
             </h1>
             <p className="text-blue-100 text-lg max-w-2xl font-light">
-              Cập nhật các xu hướng mới nhất, bài nghiên cứu chuyên sâu và góc
-              nhìn từ chuyên gia hàng đầu.
+              {t.hero_desc}
             </p>
           </motion.div>
         </div>
@@ -137,10 +220,10 @@ export default function ResearchPage() {
           {/* Tabs Category */}
           <div className="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-2 md:pb-0 no-scrollbar">
             {[
-              { id: "all", label: "Tất cả" },
-              { id: "news", label: "Tin tức" },
-              { id: "research", label: "Nghiên cứu" },
-              { id: "perspective", label: "Góc nhìn" },
+              { id: "all", label: t.tab_all },
+              { id: "news", label: t.tab_news },
+              { id: "research", label: t.tab_research },
+              { id: "perspective", label: t.tab_perspective },
             ].map((cat) => (
               <button
                 key={cat.id}
@@ -164,7 +247,7 @@ export default function ResearchPage() {
             />
             <input
               type="text"
-              placeholder="Tìm kiếm bài viết..."
+              placeholder={t.search_ph}
               className="w-full pl-10 pr-4 py-2 bg-slate-100 border-transparent focus:bg-white border focus:border-blue-500 rounded-full outline-none transition-all text-sm"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
@@ -176,20 +259,16 @@ export default function ResearchPage() {
       {/* --- DANH SÁCH BÀI VIẾT (GRID) --- */}
       <main className="max-w-7xl mx-auto px-6 py-12">
         {isLoading ? (
-          <div className="text-center py-20 text-slate-500">
-            Đang tải dữ liệu...
-          </div>
+          <div className="text-center py-20 text-slate-500">{t.loading}</div>
         ) : filteredPosts.length === 0 ? (
           <div className="text-center py-20">
             <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4 text-slate-400">
               <Search size={32} />
             </div>
             <h3 className="text-lg font-bold text-slate-700">
-              Không tìm thấy bài viết
+              {t.no_result_title}
             </h3>
-            <p className="text-slate-500">
-              Thử tìm từ khóa khác hoặc chọn chuyên mục khác xem sao.
-            </p>
+            <p className="text-slate-500">{t.no_result_desc}</p>
           </div>
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -227,7 +306,8 @@ export default function ResearchPage() {
                   <div className="p-6 flex flex-col flex-grow">
                     <div className="flex items-center gap-3 text-xs text-slate-400 mb-3 font-medium">
                       <span className="flex items-center gap-1">
-                        <Calendar size={14} /> {formatDate(post.created_at)}
+                        <Calendar size={14} />{" "}
+                        {formatDate(post.created_at, lang)}
                       </span>
                       <span className="flex items-center gap-1">
                         <User size={14} /> {post.author}
@@ -248,7 +328,7 @@ export default function ResearchPage() {
                         to={`/research/${post.slug}`}
                         className="text-blue-700 font-bold text-sm flex items-center gap-2 hover:gap-3 transition-all"
                       >
-                        Đọc chi tiết <ArrowRight size={16} />
+                        {t.card_read_more} <ArrowRight size={16} />
                       </Link>
 
                       {post.pdf_url && (
@@ -272,18 +352,13 @@ export default function ResearchPage() {
       <section className="bg-slate-900 text-white py-16 mt-12">
         <div className="max-w-4xl mx-auto px-6 text-center">
           <BookOpen className="w-12 h-12 text-yellow-500 mx-auto mb-6" />
-          <h2 className="text-3xl font-bold mb-4">
-            Bạn muốn nghiên cứu sâu hơn?
-          </h2>
-          <p className="text-blue-200 mb-8 text-lg">
-            Đăng ký khóa học Mini MBA để truy cập kho tài liệu nội bộ và các
-            Case Study độc quyền.
-          </p>
+          <h2 className="text-3xl font-bold mb-4">{t.cta_title}</h2>
+          <p className="text-blue-200 mb-8 text-lg">{t.cta_desc}</p>
           <Link
-            to="/#dang-ky"
+            to="/training/mini-mba#dang-ky"
             className="inline-block px-8 py-3 bg-yellow-500 hover:bg-yellow-400 text-blue-900 font-bold rounded-full transition-colors"
           >
-            Đăng ký tư vấn ngay
+            {t.cta_btn}
           </Link>
         </div>
       </section>

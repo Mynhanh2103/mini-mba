@@ -21,22 +21,24 @@ import {
   Zap,
   Globe,
   ExternalLink,
-  Check, // Mới
-  Shield, // Mới
-  Gift, // Mới
+  Check,
+  Shield,
+  Gift,
 } from "lucide-react";
 import Testimonials from "./components/Testimonials";
 
 const BASE_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
 
-// --- 1. TỪ ĐIỂN UI ---
+// --- 1. TỪ ĐIỂN UI (ĐÃ BỔ SUNG ĐẦY ĐỦ) ---
 const translations = {
   vi: {
+    // --- GIỮ NGUYÊN CŨ ---
     nav_program: "Chương trình",
     nav_benefits: "Lợi ích",
     nav_roadmap: "Lộ trình",
     nav_instructors: "Giảng viên",
     nav_register: "Đăng ký ngay",
+    nav_library: "Thư viện",
     nav_login: "Đăng nhập",
     cta_register: "Đăng ký ngay",
     nav_consult: "Đăng ký tư vấn",
@@ -52,6 +54,7 @@ const translations = {
     stat_case: "Case Study Thực Tế",
     stat_advisor: "Giảng Viên & Cố Vấn",
     cert_badge: "QUYỀN LỢI TỐT NGHIỆP",
+    verify_btn: "Chứng thực",
     cert_title: "Nhận chứng nhận EDUPROVED quốc tế",
     cert_desc:
       "Cam kết cấp chứng chỉ kiểm định chất lượng từ Thụy Sĩ ngay sau khi học viên hoàn thành khóa học.",
@@ -61,31 +64,76 @@ const translations = {
       "Chương trình Mini MBA Y tế được thiết kế theo mô hình Hybrid linh hoạt.",
     sec_overview: "Tổng Quan Khóa Học",
     sec_overview_sub: "4 Trụ cột kiến thức dành cho nhà quản lý y tế hiện đại.",
-    sec_program: "Chương Trình Đào Tạo",
-    sec_program_sub:
-      "Cấu trúc bài giảng tối ưu hóa sự tương tác và tính thực tiễn.",
+
+    // --- PHẦN BỔ SUNG TIẾNG VIỆT (CHO CÁC CHỖ THIẾU) ---
+    // 1. Chương trình đào tạo
+    prog_curriculum: "Curriculum",
+    prog_title: "Chương Trình Đào Tạo Toàn Diện",
+    prog_desc:
+      "Được thiết kế gồm 10 Module chuyên sâu, bao phủ mọi khía cạnh quản trị bệnh viện hiện đại.",
+    prog_1: "Chiến lược & Vận hành",
+    prog_2: "Nhân sự & Lãnh đạo",
+    prog_3: "Chuyển đổi số & AI",
+    prog_4: "Quản lý Chất lượng",
+    prog_btn: "Xem chi tiết 10 Module & Đăng ký lẻ",
+    prog_note: "* Bạn có thể đăng ký học từng phần hoặc trọn gói Mini MBA.",
+
+    // 2. Lộ trình & Giảng viên
     sec_roadmap: "Lộ Trình Đào Tạo Hybrid",
     sec_roadmap_sub: "Lịch học chi tiết",
     sec_instructors: "Đội Ngũ Giảng Viên",
     sec_instructors_sub: "Đến từ đối tác TRAF Academy",
-    form_title: "Đăng ký giữ chỗ khóa học",
-    form_tuition: "Học phí: 17.000.000 VNĐ",
-    form_note: "Bao gồm 10 buổi học, tài liệu và chứng nhận EDUPROVED.",
-    form_name: "Họ và tên",
-    form_phone: "Số điện thoại",
-    form_email: "Email (Công việc)",
-    form_submit: "Gửi Đăng Ký",
-    proj_grad: "Project Tốt Nghiệp",
-    proj_desc: "Giải quyết vấn đề thực tế của học viên.",
+
+    // 3. Form Đăng Ký (Quan trọng)
+    form_offer_badge: "Cơ hội cuối cùng năm 2025",
+    form_offer_title: "Trở thành Nhà lãnh đạo Y tế",
+    form_offer_highlight: "Thời đại số",
+    form_ben_1: "Chứng nhận Quốc tế EDUPROVED",
+    form_ben_1_desc: "Được công nhận bởi TRAF Academy (Thụy Sĩ).",
+    form_ben_2: "Tiết kiệm 30% học phí",
+    form_ben_2_desc: "Khi đăng ký trọn gói so với Module lẻ.",
+    form_ben_3: "Cam kết chất lượng",
+    form_ben_3_desc: "Học lại miễn phí nếu chưa nắm vững kiến thức.",
+    form_price_label: "Học phí trọn gói ưu đãi:",
+    form_price_note: "* Đã bao gồm tài liệu, tea-break và lệ phí chứng chỉ.",
+
+    form_header: "Đăng ký giữ chỗ",
+    form_opt_full: "Trọn gói Mini MBA",
+    form_opt_retail: "Chọn Module lẻ",
+    form_retail_guide: "Tick chọn các chủ đề bạn quan tâm:",
+    form_selected: "Bạn đã chọn:",
+    form_loading: "Đang tải danh sách...",
+
+    form_lbl_name: "Họ và tên",
+    form_plh_name: "Nguyễn Văn A",
+    form_lbl_phone: "Số điện thoại",
+    form_plh_phone: "090...",
+    form_lbl_email: "Email (Công việc)",
+    form_plh_email: "abc@gmail.com",
+    form_lbl_work: "Đơn vị công tác",
+    form_plh_work: "Bệnh viện/Phòng khám...",
+
+    form_btn_full: "Gửi Đăng Ký Ngay",
+    form_btn_retail: "Đăng Ký Module Đã Chọn",
+    form_security: "Thông tin của bạn được bảo mật tuyệt đối.",
+
+    // Alerts
+    alert_select: "Vui lòng chọn ít nhất 1 Module bạn quan tâm!",
+    alert_success:
+      "Đăng ký thành công! Bộ phận tuyển sinh sẽ liên hệ xác nhận lộ trình học.",
+    alert_error: "Có lỗi xảy ra, vui lòng thử lại.",
+
     loading: "Đang tải dữ liệu...",
     no_data: "Chưa có dữ liệu.",
     footer: "© 2025 TBI. Bảo lưu mọi quyền.",
   },
   en: {
+    // --- GIỮ NGUYÊN CŨ ---
     nav_program: "Program",
     nav_benefits: "Benefits",
     nav_roadmap: "Roadmap",
     nav_instructors: "Instructors",
+    nav_library: "Library",
     nav_register: "Register Now",
     nav_login: "Login",
     cta_register: "Register Now",
@@ -102,6 +150,7 @@ const translations = {
     stat_case: "Real Case Studies",
     stat_advisor: "Lecturers & Advisors",
     cert_badge: "GRADUATION BENEFIT",
+    verify_btn: "Verify",
     cert_title: "Receive EDUPROVED Certification",
     cert_desc:
       "Guaranteed international quality certification from Switzerland upon course completion.",
@@ -111,22 +160,67 @@ const translations = {
       "The Mini MBA Healthcare program is designed with a flexible Hybrid model.",
     sec_overview: "Course Overview",
     sec_overview_sub: "4 Pillars of knowledge for modern healthcare managers.",
-    sec_program: "Training Program",
-    sec_program_sub:
-      "Lecture structure optimized for interaction and practicality.",
+
+    // --- PHẦN BỔ SUNG TIẾNG ANH (CHO CÁC CHỖ THIẾU) ---
+    // 1. Program
+    prog_curriculum: "Curriculum",
+    prog_title: "Comprehensive Training Program",
+    prog_desc:
+      "Designed with 10 intensive modules covering all aspects of modern hospital management.",
+    prog_1: "Strategy & Operations",
+    prog_2: "HR & Leadership",
+    prog_3: "Digital & AI",
+    prog_4: "Quality Management",
+    prog_btn: "View 10 Modules & Register",
+    prog_note:
+      "* You can register for individual modules or the full Mini MBA.",
+
+    // 2. Roadmap & Instructors
     sec_roadmap: "Hybrid Training Roadmap",
     sec_roadmap_sub: "Detailed Schedule",
     sec_instructors: "Our Instructors",
     sec_instructors_sub: "From our partner TRAF Academy",
-    form_title: "Register for the course",
-    form_tuition: "Tuition: 17,000,000 VND",
-    form_note: "Includes 10 sessions, materials, and EDUPROVED certification.",
-    form_name: "Full Name",
-    form_phone: "Phone Number",
-    form_email: "Email (Work)",
-    form_submit: "Submit Registration",
-    proj_grad: "Graduation Project",
-    proj_desc: "Solving real-world problems for students.",
+
+    // 3. Register Form
+    form_offer_badge: "Last Opportunity in 2025",
+    form_offer_title: "Become a Healthcare Leader in the",
+    form_offer_highlight: "Digital Era",
+    form_ben_1: "EDUPROVED Certification",
+    form_ben_1_desc: "Recognized by TRAF Academy (Switzerland).",
+    form_ben_2: "Save 30% Tuition",
+    form_ben_2_desc:
+      "When registering for the full course vs. individual modules.",
+    form_ben_3: "Quality Commitment",
+    form_ben_3_desc: "Lifetime support after the course.",
+    form_price_label: "Special Full-Course Tuition:",
+    form_price_note: "* Includes materials, tea-break, and certification fees.",
+
+    form_header: "Reserve Your Spot",
+    form_opt_full: "Full Mini MBA",
+    form_opt_retail: "Select Modules",
+    form_retail_guide: "Tick the topics you are interested in:",
+    form_selected: "You selected:",
+    form_loading: "Loading modules...",
+
+    form_lbl_name: "Full Name",
+    form_plh_name: "John Doe",
+    form_lbl_phone: "Phone Number",
+    form_plh_phone: "+84...",
+    form_lbl_email: "Email (Work)",
+    form_plh_email: "email@hospital.com",
+    form_lbl_work: "Workplace",
+    form_plh_work: "Hospital/Clinic...",
+
+    form_btn_full: "Register Full Course",
+    form_btn_retail: "Register Selected Modules",
+    form_security: "Your information is strictly confidential.",
+
+    // Alerts
+    alert_select: "Please select at least 1 module!",
+    alert_success:
+      "Registration successful! Our team will contact you shortly.",
+    alert_error: "An error occurred, please try again.",
+
     loading: "Loading data...",
     no_data: "No data available.",
     footer: "© 2025 TBI. All rights reserved.",
@@ -392,7 +486,7 @@ export default function MiniMBALanding() {
       noteContent += " | Loại: ĐĂNG KÝ TRỌN GÓI (17tr)";
     } else {
       if (selectedModules.length === 0) {
-        alert("Vui lòng chọn ít nhất 1 Module bạn quan tâm!");
+        alert(t("alert_select"));
         return;
       }
       noteContent += ` | Loại: ĐĂNG KÝ LẺ (${
@@ -416,17 +510,15 @@ export default function MiniMBALanding() {
       });
 
       if (res.ok) {
-        alert(
-          "Đăng ký thành công! Bộ phận tuyển sinh sẽ liên hệ xác nhận lộ trình học."
-        );
+        alert(t("alert_success"));
         e.target.reset();
         setSelectedModules([]);
         setRegType("full"); // Reset về mặc định
       } else {
-        alert("Có lỗi xảy ra, vui lòng thử lại.");
+        alert(t("alert_error"));
       }
     } catch (err) {
-      alert("Lỗi kết nối Server.");
+      alert(t("alert_conn_error"));
     }
   };
 
@@ -452,7 +544,7 @@ export default function MiniMBALanding() {
     { id: "loi-ich", label: t("nav_benefits") },
     { id: "lo-trinh", label: t("nav_roadmap") },
     { id: "giang-vien", label: t("nav_instructors") },
-    { id: "/research", label: "Thư viện", type: "link" },
+    { id: "/research", label: t("nav_library"), type: "link" },
   ];
 
   return (
@@ -705,7 +797,7 @@ export default function MiniMBALanding() {
               rel="noopener noreferrer"
               className="shrink-0 group flex items-center gap-2 bg-yellow-500 hover:bg-yellow-400 text-blue-900 px-6 py-3 rounded-full shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all font-bold text-sm"
             >
-              Verify Certification
+              {t("verify_btn")}
               <ExternalLink size={16} />
             </a>
           </div>
@@ -779,15 +871,12 @@ export default function MiniMBALanding() {
         <div className="max-w-7xl mx-auto px-6 text-center">
           <div className="max-w-3xl mx-auto mb-12">
             <span className="text-blue-600 font-bold uppercase tracking-widest text-sm">
-              Curriculum
+              {t("prog_curriculum")}
             </span>
             <h2 className="text-3xl md:text-5xl font-extrabold text-slate-900 mt-2 mb-4">
-              Chương Trình Đào Tạo Toàn Diện
+              {t("prog_title")}
             </h2>
-            <p className="text-slate-600 text-lg">
-              Được thiết kế gồm 10 Module chuyên sâu, bao phủ mọi khía cạnh quản
-              trị bệnh viện hiện đại.
-            </p>
+            <p className="text-slate-600 text-lg">{t("prog_desc")}</p>
           </div>
 
           <div className="grid md:grid-cols-4 gap-4 mb-12">
@@ -795,25 +884,25 @@ export default function MiniMBALanding() {
               <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-lg flex items-center justify-center mx-auto mb-4">
                 <TrendingUp />
               </div>
-              <h3 className="font-bold">Chiến lược & Vận hành</h3>
+              <h3 className="font-bold">{t("prog_1")}</h3>
             </div>
             <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
               <div className="w-12 h-12 bg-purple-100 text-purple-600 rounded-lg flex items-center justify-center mx-auto mb-4">
                 <Users />
               </div>
-              <h3 className="font-bold">Nhân sự & Lãnh đạo</h3>
+              <h3 className="font-bold">{t("prog_2")}</h3>
             </div>
             <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
               <div className="w-12 h-12 bg-green-100 text-green-600 rounded-lg flex items-center justify-center mx-auto mb-4">
                 <Zap />
               </div>
-              <h3 className="font-bold">Chuyển đổi số & AI</h3>
+              <h3 className="font-bold">{t("prog_3")}</h3>
             </div>
             <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
               <div className="w-12 h-12 bg-yellow-100 text-yellow-600 rounded-lg flex items-center justify-center mx-auto mb-4">
                 <Award />
               </div>
-              <h3 className="font-bold">Quản lý Chất lượng</h3>
+              <h3 className="font-bold">{t("prog_4")}</h3>
             </div>
           </div>
 
@@ -822,13 +911,11 @@ export default function MiniMBALanding() {
             className="inline-flex items-center gap-2 px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-full text-lg shadow-xl shadow-blue-600/20 transition-all hover:-translate-y-1"
           >
             <BookOpen size={20} />
-            Xem chi tiết 10 Module & Đăng ký lẻ
+            {t("prog_btn")}
             <ArrowRight size={20} />
           </Link>
 
-          <p className="mt-4 text-sm text-slate-500">
-            * Bạn có thể đăng ký học từng phần hoặc trọn gói Mini MBA.
-          </p>
+          <p className="mt-4 text-sm text-slate-500">{t("prog_note")}</p>
         </div>
       </section>
 
@@ -924,7 +1011,7 @@ export default function MiniMBALanding() {
       </section>
 
       {/* TESTIMONIALS */}
-      <Testimonials />
+      <Testimonials lang={lang} />
 
       {/* REGISTER SECTION - GIAO DIỆN MỚI */}
       <section
@@ -939,12 +1026,12 @@ export default function MiniMBALanding() {
             {/* CỘT TRÁI: GIÁ TRỊ */}
             <div className="text-white sticky top-24">
               <span className="text-yellow-400 font-bold tracking-widest uppercase text-sm mb-2 block">
-                Cơ hội cuối cùng năm 2025
+                {t("form_offer_badge")}
               </span>
               <h2 className="text-4xl md:text-5xl font-extrabold mb-6 leading-tight">
-                Trở thành Nhà lãnh đạo Y tế{" "}
+                {t("form_offer_title")}{" "}
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-yellow-600">
-                  Thời đại số
+                  {t("form_offer_highlight")}
                 </span>
               </h2>
 
@@ -954,11 +1041,9 @@ export default function MiniMBALanding() {
                     <Award size={24} />
                   </div>
                   <div>
-                    <h4 className="text-xl font-bold">
-                      Chứng nhận Quốc tế EDUPROVED
-                    </h4>
+                    <h4 className="text-xl font-bold">{t("form_ben_1")}</h4>
                     <p className="text-blue-200 text-sm">
-                      Được công nhận bởi TRAF Academy (Thụy Sĩ).
+                      {t("form_ben_1_desc")}
                     </p>
                   </div>
                 </div>
@@ -967,9 +1052,9 @@ export default function MiniMBALanding() {
                     <Gift size={24} />
                   </div>
                   <div>
-                    <h4 className="text-xl font-bold">Tiết kiệm 30% học phí</h4>
+                    <h4 className="text-xl font-bold">{t("form_ben_2")}</h4>
                     <p className="text-blue-200 text-sm">
-                      Khi đăng ký trọn gói so với Module lẻ.
+                      {t("form_ben_2_desc")}
                     </p>
                   </div>
                 </div>
@@ -978,9 +1063,9 @@ export default function MiniMBALanding() {
                     <Shield size={24} />
                   </div>
                   <div>
-                    <h4 className="text-xl font-bold">Cam kết chất lượng</h4>
+                    <h4 className="text-xl font-bold">{t("form_ben_3")}</h4>
                     <p className="text-blue-200 text-sm">
-                      Hỗ trợ trọn đời sau khóa học.
+                      {t("form_ben_3_desc")}
                     </p>
                   </div>
                 </div>
@@ -988,7 +1073,7 @@ export default function MiniMBALanding() {
 
               <div className="p-6 bg-gradient-to-r from-blue-800 to-blue-900 rounded-2xl border border-blue-700/50">
                 <p className="text-sm text-blue-200 mb-1">
-                  Học phí trọn gói ưu đãi:
+                  {t("form_price_label")}
                 </p>
                 <div className="flex items-end gap-2">
                   <span className="text-4xl font-bold text-white">
@@ -999,7 +1084,7 @@ export default function MiniMBALanding() {
                   </span>
                 </div>
                 <p className="text-xs text-blue-300 mt-2 italic">
-                  * Đã bao gồm tài liệu, tea-break và lệ phí chứng chỉ.
+                  {t("form_price_note")}
                 </p>
               </div>
             </div>
@@ -1007,7 +1092,7 @@ export default function MiniMBALanding() {
             {/* CỘT PHẢI: FORM ĐĂNG KÝ (NÂNG CẤP) */}
             <div className="bg-white rounded-3xl p-8 shadow-2xl">
               <h3 className="text-2xl font-bold text-slate-900 mb-6">
-                Đăng ký giữ chỗ
+                {t("form_header")}
               </h3>
 
               <form onSubmit={handleRegister} className="space-y-5">
@@ -1022,7 +1107,7 @@ export default function MiniMBALanding() {
                       className="peer sr-only"
                     />
                     <div className="py-3 text-center rounded-lg text-sm font-bold text-slate-500 peer-checked:bg-white peer-checked:text-blue-700 peer-checked:shadow-sm transition-all">
-                      Trọn gói Mini MBA
+                      {t("form_opt_full")}
                     </div>
                   </label>
                   <label className="cursor-pointer">
@@ -1034,7 +1119,7 @@ export default function MiniMBALanding() {
                       className="peer sr-only"
                     />
                     <div className="py-3 text-center rounded-lg text-sm font-bold text-slate-500 peer-checked:bg-white peer-checked:text-blue-700 peer-checked:shadow-sm transition-all">
-                      Chọn Module lẻ
+                      {t("form_opt_retail")}
                     </div>
                   </label>
                 </div>
@@ -1043,11 +1128,11 @@ export default function MiniMBALanding() {
                 {regType === "retail" && (
                   <div className="bg-blue-50/50 border border-blue-100 rounded-xl p-4 animate-in fade-in slide-in-from-top-2">
                     <p className="text-xs font-bold text-blue-800 uppercase mb-3">
-                      Tick chọn các chủ đề bạn quan tâm:
+                      {t("form_retail_guide")}
                     </p>
                     {loading ? (
                       <p className="text-xs text-slate-400">
-                        Đang tải danh sách...
+                        {t("form_loading")}
                       </p>
                     ) : (
                       <div className="max-h-60 overflow-y-auto pr-2 space-y-2 custom-scrollbar">
@@ -1066,18 +1151,18 @@ export default function MiniMBALanding() {
                               <Check className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-3.5 h-3.5 pointer-events-none hidden peer-checked:block text-white" />
                             </div>
                             <span className="text-sm text-slate-700 group-hover:text-blue-700 font-medium leading-tight">
-                              Module {mod.order}: {mod.title}
+                              {getData(mod, "title", lang)}
                             </span>
                           </label>
                         ))}
                       </div>
                     )}
                     <p className="text-xs text-slate-400 mt-2 italic text-right">
-                      * Bạn đã chọn:{" "}
+                      * {t("form_selected")}{" "}
                       <strong className="text-blue-600">
                         {selectedModules.length}
                       </strong>{" "}
-                      module
+                      {t("form_module_unit")}
                     </p>
                   </div>
                 )}
@@ -1085,53 +1170,53 @@ export default function MiniMBALanding() {
                 {/* CÁC TRƯỜNG NHẬP LIỆU CƠ BẢN */}
                 <div>
                   <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
-                    Họ và tên
+                    {t("form_lbl_name")}
                   </label>
                   <input
                     type="text"
                     name="fullname"
                     required
                     className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition-all bg-slate-50"
-                    placeholder="Nguyễn Văn A"
+                    placeholder={t("form_plh_name")}
                   />
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
-                      Số điện thoại
+                      {t("form_lbl_phone")}
                     </label>
                     <input
                       type="tel"
                       name="phone"
                       required
                       className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition-all bg-slate-50"
-                      placeholder="090..."
+                      placeholder={t("form_plh_phone")}
                     />
                   </div>
                   <div>
                     <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
-                      Email
+                      {t("form_lbl_email")}
                     </label>
                     <input
                       type="email"
                       name="email"
                       required
                       className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition-all bg-slate-50"
-                      placeholder="abc@gmail.com"
+                      placeholder={t("form_plh_email")}
                     />
                   </div>
                 </div>
 
                 <div>
                   <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
-                    Đơn vị công tác
+                    {t("form_lbl_work")}
                   </label>
                   <input
                     type="text"
                     name="workplace"
                     className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition-all bg-slate-50"
-                    placeholder="Bệnh viện/Phòng khám..."
+                    placeholder={t("form_plh_work")}
                   />
                 </div>
 
@@ -1140,14 +1225,12 @@ export default function MiniMBALanding() {
                   className="w-full py-4 bg-yellow-500 hover:bg-yellow-400 text-blue-900 font-bold rounded-xl shadow-lg shadow-yellow-500/20 transition-all active:scale-[0.98]"
                 >
                   {regType === "full"
-                    ? "Gửi Đăng Ký Trọn Gói"
-                    : `Đăng Ký ${
-                        selectedModules.length > 0 ? selectedModules.length : ""
-                      } Module Đã Chọn`}
+                    ? t("form_btn_full")
+                    : t("form_btn_retail")}
                 </button>
 
                 <p className="text-xs text-center text-slate-400">
-                  Thông tin của bạn được bảo mật tuyệt đối.
+                  {t("form_security")}
                 </p>
               </form>
             </div>

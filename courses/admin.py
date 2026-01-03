@@ -15,11 +15,16 @@ class InstructorAdmin(ModelAdmin):
     list_display = ('display_image', 'name', 'title', 'position')
     search_fields = ('name', 'title')
     
-    # Cho phép hiển thị cả 2 trường để nhập liệu
-    fields = ('name', 'title', 'position', 'image', 'image_url', 'description')
+    # [CẬP NHẬT] Thêm các trường _en vào đây để nhập liệu
+    fields = (
+        'name', 
+        'title', 'title_en',           # Học vị VN / EN
+        'position', 'position_en',     # Chức vụ VN / EN
+        'image', 'image_url', 
+        'description', 'description_en' # Mô tả VN / EN
+    )
 
     def display_image(self, obj):
-        # Logic ưu tiên: Nếu có ảnh upload -> hiện ảnh upload. Nếu không -> hiện link.
         if obj.image:
             return format_html('<img src="{}" style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%;" />', obj.image.url)
         elif obj.image_url:
@@ -27,41 +32,19 @@ class InstructorAdmin(ModelAdmin):
         return "No Image"
     display_image.short_description = "Ảnh đại diện"
 
-# --- 2. Quản lý Môn học (ĐÃ SỬA LỖI) ---
+# --- 2. Quản lý Môn học (Module) ---
 @admin.register(Module)
 class ModuleAdmin(ModelAdmin):
-    list_display = ('title', 'student_count_badge', 'duration', 'is_active')
-    list_editable = ('is_active',)
-    search_fields = ('title',)
+    list_display = ('title', 'title_en', 'order', 'duration', 'is_active') # Hiện thêm tên EN ở danh sách cho dễ nhìn
+    list_editable = ('order', 'is_active')
+    search_fields = ('title', 'title_en')
     
-    # Ẩn các trường thừa
-    fields = ('title', 'description', 'order', 'duration', 'has_certificate', 'is_active')
-
-    def student_count_badge(self, obj):
-        # Đếm số lượng người đã đăng ký module này (Trạng thái khác Hủy)
-        count = Registration.objects.filter(selected_module=obj).exclude(status='canceled').count()
-        target = 20 # Mục tiêu mở lớp
-        
-        # Logic thanh tiến trình (Progress Bar) giả lập
-        percent = min((count / target) * 100, 100)
-        color = "#22c55e" if count >= target else "#3b82f6" # Xanh lá nếu đủ, Xanh dương nếu chưa
-        
-        return format_html(
-            '''
-            <div style="width: 120px;">
-                <div style="display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 2px;">
-                    <span style="font-weight: bold;">{}/{} học viên</span>
-                    <span>{}%</span>
-                </div>
-                <div style="width: 100%; background: #e2e8f0; height: 6px; border-radius: 3px;">
-                    <div style="width: {}%; background: {}; height: 6px; border-radius: 3px;"></div>
-                </div>
-            </div>
-            ''',
-            count, target, int(percent), percent, color
-        )
-    student_count_badge.short_description = "Tiến độ tuyển sinh"
-
+    # [CẬP NHẬT] Form nhập liệu chi tiết
+    fields = (
+        'title', 'title_en', 
+        'description', 'description_en', 
+        'order', 'duration', 'has_certificate', 'is_active'
+    )
 # --- 3. Quản lý Lịch học ---
 @admin.register(ScheduleItem)
 class ScheduleAdmin(ModelAdmin):
@@ -171,7 +154,15 @@ class ResearchPostAdmin(ModelAdmin):
     prepopulated_fields = {'slug': ('title',)}
 
 @admin.register(Testimonial)
-class TestimonialAdmin(admin.ModelAdmin):
+class TestimonialAdmin(ModelAdmin):
     list_display = ('name', 'role', 'is_active')
     list_filter = ('is_active',)
     search_fields = ('name', 'content')
+    
+    # [CẬP NHẬT] Thêm trường tiếng Anh vào form
+    fields = (
+        'name', 
+        'role', 'role_en', 
+        'content', 'content_en', 
+        'avatar', 'is_active'
+    )
