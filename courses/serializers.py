@@ -1,6 +1,11 @@
 from rest_framework import serializers
 from .models import Module, ScheduleItem, Instructor, Registration, CourseOverview
-from .models import MiniMBAConfig, Lesson, Material, ResearchPost, Testimonial
+from .models import MiniMBAConfig, Lesson, Material, ResearchPost, Testimonial, GeneralHomepageConfig, Partner, ConsultingService, TrainingProgram
+class GeneralHomepageConfigSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GeneralHomepageConfig
+        fields = '__all__'
+
 class ModuleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Module
@@ -75,4 +80,19 @@ class ResearchPostSerializer(serializers.ModelSerializer):
 class TestimonialSerializer(serializers.ModelSerializer):
     class Meta:
         model = Testimonial
+        fields = '__all__'
+
+class PartnerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Partner
+        fields = '__all__'
+
+class ConsultingServiceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ConsultingService
+        fields = '__all__'
+
+class TrainingProgramSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TrainingProgram
         fields = '__all__'

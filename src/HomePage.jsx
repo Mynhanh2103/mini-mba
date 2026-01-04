@@ -114,7 +114,26 @@ export default function HomePage() {
   const t = translations[lang];
   const [latestNews, setLatestNews] = useState([]);
   const [partners, setPartners] = useState([]);
+  const [config, setConfig] = useState(null);
   // Lấy 3 bài viết mới nhất từ API để hiển thị ở mục Tin tức
+  useEffect(() => {
+    // Gọi API mới của trang chủ tổng
+    fetch(`${API_URL}/api/general-config/`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.length > 0) setConfig(data[0]); // Lấy bản ghi đầu tiên
+      });
+  }, []);
+
+  useEffect(() => {
+    // Gọi API riêng của Mini MBA
+    fetch(`${API_URL}/api/minimba-config/`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.length > 0) setConfig(data[0]);
+      });
+  }, []);
+
   useEffect(() => {
     fetch(`${API_URL}/api/research/`)
       .then((res) => res.json())
@@ -383,14 +402,18 @@ export default function HomePage() {
                   <img
                     src={partner.logo}
                     alt={partner.name}
+                    // [THÊM DÒNG NÀY] Giúp trình duyệt hiểu đây là ảnh public, không gửi cookie
+                    crossOrigin="anonymous"
+                    // ------------------------------------------------------------------
                     className="h-10 md:h-12 object-contain opacity-60 grayscale group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500 transform group-hover:scale-110"
                   />
                 </a>
               ))
             ) : (
-              // Fallback nếu chưa có dữ liệu (để không bị trống trơn)
               <p className="text-slate-400 italic text-sm">
-                Đang cập nhật đối tác...
+                {lang === "vi"
+                  ? "Đang cập nhật đối tác..."
+                  : "Updating partners..."}
               </p>
             )}
           </div>

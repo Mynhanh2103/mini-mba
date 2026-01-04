@@ -3,12 +3,20 @@ from .models import Module, ScheduleItem, Instructor, Registration, CourseOvervi
 from .serializers import ModuleSerializer, ScheduleItemSerializer, InstructorSerializer, RegistrationSerializer, CourseOverviewSerializer, MiniMBAConfigSerializer, ResearchPostSerializer
 from rest_framework import mixins, viewsets
 from .models import Lesson, Material, Testimonial
-from .serializers import LessonSerializer, MaterialSerializer, TestimonialSerializer
+from .serializers import LessonSerializer, MaterialSerializer, TestimonialSerializer, GeneralHomepageConfigSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from datetime import date
-from .models import ScheduleItem, UserLessonProgress, Lesson, UserNote, ResearchPost
+from .models import ScheduleItem, UserLessonProgress, Lesson, UserNote, ResearchPost, GeneralHomepageConfig
+from .models import Partner, ConsultingService, TrainingProgram
+from .serializers import PartnerSerializer, ConsultingServiceSerializer, TrainingProgramSerializer
+class GeneralHomepageConfigViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = GeneralHomepageConfig.objects.all()
+    serializer_class = GeneralHomepageConfigSerializer
+    permission_classes = [permissions.AllowAny]
+
+
 class ModuleViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Module.objects.all()
     serializer_class = ModuleSerializer
@@ -150,3 +158,18 @@ class TestimonialViewSet(viewsets.ReadOnlyModelViewSet):
     # Chỉ lấy những review được tích chọn "Hiển thị"
     queryset = Testimonial.objects.filter(is_active=True).order_by('-created_at')
     serializer_class = TestimonialSerializer
+
+class PartnerViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Partner.objects.filter(is_active=True).order_by('order')
+    serializer_class = PartnerSerializer
+    permission_classes = [permissions.AllowAny] # Cho phép public xem
+
+class ConsultingServiceViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = ConsultingService.objects.filter(is_active=True).order_by('order')
+    serializer_class = ConsultingServiceSerializer
+    permission_classes = [permissions.AllowAny]
+
+class TrainingProgramViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = TrainingProgram.objects.filter(is_active=True).order_by('order')
+    serializer_class = TrainingProgramSerializer
+    permission_classes = [permissions.AllowAny]
