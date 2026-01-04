@@ -2,13 +2,19 @@ from django.contrib import admin
 from django.utils.html import format_html
 from unfold.admin import ModelAdmin # Dùng class của Unfold để đẹp hơn
 from .models import Module, Instructor, ScheduleItem, Registration, CourseOverview
-from .models import HomepageConfig, Lesson, Material, ResearchPost, Testimonial
-
+from .models import MiniMBAConfig, Lesson, Material, ResearchPost, Testimonial, Partner, ConsultingService
+from .models import TrainingProgram, GeneralHomepageConfig
 # --- Cấu hình chung ---
 admin.site.site_header = "TBI Institute Admin"
 admin.site.site_title = "TBI Admin Portal"
 admin.site.index_title = "Trung tâm Quản trị Dữ liệu"
-
+# 1. Quản lý Trang chủ Tổng
+@admin.register(GeneralHomepageConfig)
+class GeneralHomepageConfigAdmin(ModelAdmin):
+    list_display = ('hero_title', 'hero_slogan')
+    def has_add_permission(self, request):
+        return not GeneralHomepageConfig.objects.exists()
+    
 # --- 1. Quản lý Giảng viên ---
 @admin.register(Instructor)
 class InstructorAdmin(ModelAdmin):
@@ -125,12 +131,12 @@ class CourseOverviewAdmin(admin.ModelAdmin):
     display_cover.short_description = "Ảnh bìa"
 
 # --- 5. Quản lý Trang chủ ---
-@admin.register(HomepageConfig)
-class HomepageConfigAdmin(ModelAdmin):
+@admin.register(MiniMBAConfig)
+class MiniMBAConfigAdmin(ModelAdmin):
     list_display = ('hero_title', 'benefit_title')
     
     def has_add_permission(self, request):
-        return not HomepageConfig.objects.exists()
+        return not MiniMBAConfig.objects.exists()
     
 class MaterialInline(admin.TabularInline):
     model = Material
@@ -165,4 +171,46 @@ class TestimonialAdmin(ModelAdmin):
         'role', 'role_en', 
         'content', 'content_en', 
         'avatar', 'is_active'
+    )
+
+@admin.register(Material)
+class MaterialAdmin(ModelAdmin):
+    list_display = ('title', 'lesson', 'material_type', 'is_public', 'order')
+    list_filter = ('material_type', 'is_public', 'lesson__module')
+    search_fields = ('title', 'lesson__title')
+    list_editable = ('order', 'is_public')
+    
+    # Giúp hiển thị đẹp hơn
+    def get_queryset(self, request):
+        return super().get_queryset(request).select_related('lesson', 'lesson__module')
+    
+@admin.register(Partner)
+class PartnerAdmin(ModelAdmin):
+    list_display = ('display_logo', 'name', 'website', 'order', 'is_active')
+    list_editable = ('order', 'is_active')
+    
+    def display_logo(self, obj):
+        if obj.logo:
+            return format_html('<img src="{}" style="height: 30px; object-fit: contain;" />', obj.logo.url)
+        return "-"
+    display_logo.short_description = "Logo"
+
+# [THÊM MỚI] Đăng ký ConsultingService
+@admin.register(ConsultingService)
+class ConsultingServiceAdmin(ModelAdmin):
+    list_display = ('title', 'icon_name', 'order', 'is_active')
+    list_editable = ('order', 'is_active')
+
+@admin.register(TrainingProgram)
+class TrainingProgramAdmin(ModelAdmin):
+    list_display = ('title', 'link', 'order', 'is_active')
+    list_editable = ('order', 'is_active')
+    search_fields = ('title',)
+    
+    # Form nhập liệu chi tiết
+    fields = (
+        'title', 'title_en',
+        'description', 'description_en',
+        'image', 'link',
+        'order', 'is_active'
     )

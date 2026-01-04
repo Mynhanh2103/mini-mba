@@ -3,6 +3,23 @@ from django.utils.html import format_html
 from django.core.validators import FileExtensionValidator
 from django.conf import settings
 # --- 1. GIẢNG VIÊN ---
+class GeneralHomepageConfig(models.Model):
+    # Banner Trang chủ
+    hero_title = models.CharField(max_length=200, default="Kiến Tạo Tương Lai Y Tế", verbose_name="Tiêu đề Banner (VN)")
+    hero_title_en = models.CharField(max_length=200, default="Shaping Future Healthcare", verbose_name="Tiêu đề Banner (EN)", blank=True)
+    
+    hero_slogan = models.CharField(max_length=200, default="Giải pháp Y tế Thông minh Toàn diện", verbose_name="Slogan (VN)")
+    hero_slogan_en = models.CharField(max_length=200, default="Comprehensive Smart Health Solutions", verbose_name="Slogan (EN)", blank=True)
+    
+    hero_image = models.ImageField(upload_to='homepage/', verbose_name="Ảnh nền Banner", null=True, blank=True)
+
+    # Footer chung cho cả web
+    footer_text = models.CharField(max_length=300, default="© 2025 Smart Health Solutions.", verbose_name="Footer Text (VN)")
+    footer_text_en = models.CharField(max_length=300, default="© 2025 Smart Health Solutions.", verbose_name="Footer Text (EN)", blank=True)
+
+    def __str__(self): return "Cấu hình Trang chủ Tổng"
+    class Meta: verbose_name = "Cấu hình Trang chủ Tổng"
+    
 class Instructor(models.Model):
     name = models.CharField(max_length=100, verbose_name="Họ và Tên")
     # Thêm trường tiếng Anh
@@ -88,7 +105,7 @@ class CourseOverview(models.Model):
     def __str__(self): return self.title
 
 # --- 5. CẤU HÌNH TRANG CHỦ ---
-class HomepageConfig(models.Model):
+class MiniMBAConfig(models.Model):
     # Hero
     hero_title = models.CharField(max_length=200, default="Quản Trị", verbose_name="Tiêu đề 1 (VN)")
     hero_title_en = models.CharField(max_length=200, default="Management", verbose_name="Tiêu đề 1 (EN)", blank=True)
@@ -291,3 +308,74 @@ class Registration(models.Model):
     class Meta:
         verbose_name = "Đơn đăng ký học"
         verbose_name_plural = "Quản lý Đăng ký"
+        
+class Partner(models.Model):
+    name = models.CharField(max_length=200, verbose_name="Tên đối tác")
+    logo = models.ImageField(upload_to='partners/', verbose_name="Logo đối tác")
+    website = models.URLField(blank=True, null=True, verbose_name="Website (nếu có)")
+    order = models.IntegerField(default=0, verbose_name="Thứ tự hiển thị")
+    is_active = models.BooleanField(default=True, verbose_name="Hiển thị")
+
+    class Meta:
+        ordering = ['order']
+        verbose_name = "Đối tác / Khách hàng"
+        verbose_name_plural = "Quản lý Đối tác"
+
+    def __str__(self):
+        return self.name
+
+# [THÊM MỚI] 2. Model Dịch vụ Tư vấn (Hiển thị ở trang Tư vấn)
+class ConsultingService(models.Model):
+    ICON_CHOICES = [
+        ('Cpu', 'Công nghệ (Chip)'),
+        ('Activity', 'Y tế (Nhịp tim)'),
+        ('Layers', 'Chiến lược (Lớp)'),
+        ('Users', 'Nhân sự'),
+        ('Zap', 'Tốc độ'),
+        ('ShieldCheck', 'Bảo mật')
+    ]
+    
+    title = models.CharField(max_length=200, verbose_name="Tên dịch vụ (VN)")
+    title_en = models.CharField(max_length=200, verbose_name="Tên dịch vụ (EN)", blank=True, null=True)
+    
+    description = models.TextField(verbose_name="Mô tả ngắn (VN)")
+    description_en = models.TextField(verbose_name="Mô tả ngắn (EN)", blank=True, null=True)
+    
+    icon_name = models.CharField(max_length=50, choices=ICON_CHOICES, default='Cpu', verbose_name="Icon")
+    content = models.TextField(verbose_name="Nội dung chi tiết (HTML)", blank=True)
+    
+    order = models.IntegerField(default=0, verbose_name="Thứ tự")
+    is_active = models.BooleanField(default=True, verbose_name="Hiển thị")
+
+    class Meta:
+        ordering = ['order']
+        verbose_name = "Dịch vụ Tư vấn"
+        verbose_name_plural = "Quản lý Dịch vụ Tư vấn"
+
+    def __str__(self):
+        return self.title
+    
+class TrainingProgram(models.Model):
+    title = models.CharField(max_length=200, verbose_name="Tên chương trình (VN)")
+    title_en = models.CharField(max_length=200, verbose_name="Tên chương trình (EN)", blank=True, null=True)
+    
+    description = models.TextField(verbose_name="Mô tả ngắn (VN)")
+    description_en = models.TextField(verbose_name="Mô tả ngắn (EN)", blank=True, null=True)
+    
+    # Icon hoặc Ảnh đại diện cho chương trình
+    image = models.ImageField(upload_to='programs/', verbose_name="Ảnh/Icon", blank=True, null=True)
+    
+    # Link dẫn tới trang chi tiết (ví dụ: /training/mini-mba)
+    link = models.CharField(max_length=200, default="#", verbose_name="Đường dẫn (Link)")
+    
+    order = models.IntegerField(default=0, verbose_name="Thứ tự hiển thị")
+    is_active = models.BooleanField(default=True, verbose_name="Hiển thị")
+
+    class Meta:
+        ordering = ['order']
+        verbose_name = "Chương trình Đào tạo"
+        verbose_name_plural = "Danh mục Chương trình"
+
+    def __str__(self):
+        return self.title
+    

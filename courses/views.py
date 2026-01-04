@@ -1,6 +1,6 @@
 from rest_framework import viewsets, permissions, filters
-from .models import Module, ScheduleItem, Instructor, Registration, CourseOverview, HomepageConfig
-from .serializers import ModuleSerializer, ScheduleItemSerializer, InstructorSerializer, RegistrationSerializer, CourseOverviewSerializer, HomepageConfigSerializer, ResearchPostSerializer
+from .models import Module, ScheduleItem, Instructor, Registration, CourseOverview, MiniMBAConfig
+from .serializers import ModuleSerializer, ScheduleItemSerializer, InstructorSerializer, RegistrationSerializer, CourseOverviewSerializer, MiniMBAConfigSerializer, ResearchPostSerializer
 from rest_framework import mixins, viewsets
 from .models import Lesson, Material, Testimonial
 from .serializers import LessonSerializer, MaterialSerializer, TestimonialSerializer
@@ -31,9 +31,9 @@ class CourseOverviewViewSet(viewsets.ModelViewSet):
     queryset = CourseOverview.objects.all()
     serializer_class = CourseOverviewSerializer
 
-class HomepageConfigViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = HomepageConfig.objects.all()
-    serializer_class = HomepageConfigSerializer
+class MiniMBAConfigViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = MiniMBAConfig.objects.all()
+    serializer_class = MiniMBAConfigSerializer
 
 class LessonViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Lesson.objects.filter(is_active=True).prefetch_related('materials').order_by('order')

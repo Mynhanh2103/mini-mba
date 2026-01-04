@@ -113,7 +113,7 @@ export default function HomePage() {
   const [lang, setLang] = useState("vi");
   const t = translations[lang];
   const [latestNews, setLatestNews] = useState([]);
-
+  const [partners, setPartners] = useState([]);
   // Lấy 3 bài viết mới nhất từ API để hiển thị ở mục Tin tức
   useEffect(() => {
     fetch(`${API_URL}/api/research/`)
@@ -126,6 +126,17 @@ export default function HomePage() {
         setLatestNews(sorted.slice(0, 3));
       })
       .catch((err) => console.error("Lỗi tải tin tức:", err));
+  }, []);
+
+  useEffect(() => {
+    fetch(`${API_URL}/api/partners/`)
+      .then((res) => res.json())
+      .then((data) => {
+        // Sắp xếp theo thứ tự (order) nếu có
+        const sorted = data.sort((a, b) => (a.order || 0) - (b.order || 0));
+        setPartners(sorted);
+      })
+      .catch((err) => console.error("Lỗi tải đối tác:", err));
   }, []);
 
   return (
@@ -352,38 +363,42 @@ export default function HomePage() {
       <section className="py-16 bg-slate-50 border-y border-slate-200">
         <div className="max-w-7xl mx-auto px-6 text-center">
           <h3 className="text-xl font-bold text-slate-400 uppercase tracking-widest mb-8">
-            {t.partner_title}
+            {lang === "vi"
+              ? "Mạng Lưới Hợp Tác & Chuyên Gia"
+              : "Partnership & Expert Network"}
           </h3>
-          {/* Grid Logo Placeholder - Bạn có thể thay link ảnh logo đối tác thật vào đây */}
-          <div className="flex flex-wrap justify-center items-center gap-12 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
-            <img
-              src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Google_2015_logo.svg/2560px-Google_2015_logo.svg.png"
-              className="h-8 object-contain"
-              alt="Partner"
-            />
-            <img
-              src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/IBM_logo.svg/2560px-IBM_logo.svg.png"
-              className="h-8 object-contain"
-              alt="Partner"
-            />
-            <img
-              src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Microsoft_logo_%282012%29.svg/2560px-Microsoft_logo_%282012%29.svg.png"
-              className="h-8 object-contain"
-              alt="Partner"
-            />
-            <img
-              src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Amazon_logo.svg/2560px-Amazon_logo.svg.png"
-              className="h-8 object-contain"
-              alt="Partner"
-            />
-            <img
-              src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Cisco_logo_blue_2016.svg/2560px-Cisco_logo_blue_2016.svg.png"
-              className="h-8 object-contain"
-              alt="Partner"
-            />
+
+          {/* Grid Logo Động */}
+          <div className="flex flex-wrap justify-center items-center gap-12">
+            {partners.length > 0 ? (
+              partners.map((partner) => (
+                <a
+                  key={partner.id}
+                  href={partner.website || "#"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title={partner.name}
+                  className="group"
+                >
+                  <img
+                    src={partner.logo}
+                    alt={partner.name}
+                    className="h-10 md:h-12 object-contain opacity-60 grayscale group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500 transform group-hover:scale-110"
+                  />
+                </a>
+              ))
+            ) : (
+              // Fallback nếu chưa có dữ liệu (để không bị trống trơn)
+              <p className="text-slate-400 italic text-sm">
+                Đang cập nhật đối tác...
+              </p>
+            )}
           </div>
+
           <p className="mt-8 text-sm text-slate-500 italic max-w-2xl mx-auto">
-            {t.partner_desc}
+            {lang === "vi"
+              ? "Tự hào là Hub tri thức kết nối các đơn vị cung ứng công nghệ 4.0, các bệnh viện và chuyên gia hàng đầu trong và ngoài nước."
+              : "Proud to be a knowledge hub connecting 4.0 technology providers, hospitals, and leading experts globally."}
           </p>
         </div>
       </section>

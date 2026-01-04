@@ -1,7 +1,7 @@
 from pathlib import Path
 import os
 import dj_database_url # Import thư viện kết nối DB Render
-
+from django.urls import reverse_lazy
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -137,26 +137,156 @@ CSRF_TRUSTED_ORIGINS = [
 
 # Config giao diện Admin Unfold (Giữ nguyên của bạn)
 UNFOLD = {
-    "SITE_TITLE": "TBI Admin Portal",
-    "SITE_HEADER": "Hệ thống Quản trị Đào tạo",
-    "SITE_URL": "/",
-    "COLORS": {
-        "primary": {
-            "50": "239 246 255",
-            "100": "219 234 254",
-            "200": "191 219 254",
-            "300": "147 197 253",
-            "400": "96 165 250",
-            "500": "59 130 246",
-            "600": "37 99 235",
-            "700": "29 78 216",
-            "800": "30 64 175",
-            "900": "30 58 138",
-        },
-    },
-    "SIDEBAR": {
-        "show_search": True,
-        "show_all_applications": True,
+    'SITE_TITLE': 'TBI Admin Portal',
+    'SITE_HEADER': 'Hệ thống Quản trị TBI',
+    'SITE_URL': '/',
+    
+    'SIDEBAR': {
+        'show_search': True,
+        'show_all_applications': False,
+        'navigation': [
+            # ... (Tổng quan giữ nguyên) ...
+
+            # --- NHÓM 1: TRANG CHỦ CÔNG TY (GENERAL) ---
+            {
+                "title": "1. Quản lý Trang Chủ (Tổng)",
+                "separator": True,
+                "items": [
+                    {
+                        "title": "Banner & Slogan Công ty", # Trỏ về model GeneralHomepageConfig
+                        "icon": "web", 
+                        "link": reverse_lazy("admin:courses_generalhomepageconfig_changelist"),
+                    },
+                    {
+                        "title": "Đối tác & Khách hàng",
+                        "icon": "handshake",
+                        "link": reverse_lazy("admin:courses_partner_changelist"),
+                    },
+                ],
+            },
+            
+            # --- TRANG 1: HOMEPAGE (TRANG CHỦ) ---
+            {
+                "title": "1. Quản lý Trang Chủ",
+                "separator": True,
+                "items": [
+                    {
+                        "title": "Banner & Slogan (Hero)",
+                        "icon": "image", 
+                        "link": reverse_lazy("admin:courses_generalhomepageconfig_changelist"),
+                    },
+                    {
+                        "title": "Đối tác & Khách hàng", # Cần Model Partner
+                        "icon": "handshake",
+                        "link": reverse_lazy("admin:courses_partner_changelist"),
+                    },
+                    {
+                        "title": "Ý kiến Học viên (Feedback)",
+                        "icon": "format_quote",
+                        "link": reverse_lazy("admin:courses_testimonial_changelist"),
+                    },
+                ],
+            },
+
+            # --- TRANG 2: TRANG TƯ VẤN ---
+            {
+                "title": "2. Trang Tư Vấn",
+                "separator": True,
+                "items": [
+                    {
+                        "title": "Các Gói Dịch vụ", # Cần Model ConsultingService
+                        "icon": "support_agent",
+                        "link": reverse_lazy("admin:courses_consultingservice_changelist"),
+                    },
+                ],
+            },
+
+            # --- TRANG 3: TRANG NGHIÊN CỨU ---
+            {
+                "title": "3. Trang Nghiên Cứu",
+                "separator": True,
+                "items": [
+                    {
+                        "title": "Bài viết & Tin tức",
+                        "icon": "article",
+                        "link": reverse_lazy("admin:courses_researchpost_changelist"),
+                    },
+                ],
+            },
+
+            # --- TRANG 4: TRANG ĐÀO TẠO (MINI MBA) ---
+            {
+               "title": "4. Trang Đào Tạo (Mini MBA)",
+                "separator": True,
+                "items": [
+                    {
+                        "title": "Cấu hình Landing Page", # [MỚI] Trỏ về MiniMBAConfig
+                        "icon": "campaign", # Icon cái loa quảng cáo
+                        "link": reverse_lazy("admin:courses_minimbaconfig_changelist"),
+                        "badge": "Ads",
+                    },
+                    {
+                        "title": "Danh sách Đăng ký",
+                        "icon": "how_to_reg",
+                        "link": reverse_lazy("admin:courses_registration_changelist"),
+                    },
+                    {
+                        "title": "Danh mục Khóa học", # Cần Model TrainingProgram
+                        "icon": "category",
+                        "link": reverse_lazy("admin:courses_trainingprogram_changelist"),
+                    },
+                    {
+                        "title": "Giới thiệu 4 Trụ cột",
+                        "icon": "view_quilt",
+                        "link": reverse_lazy("admin:courses_courseoverview_changelist"),
+                    },
+                    {
+                        "title": "Đội ngũ Giảng viên",
+                        "icon": "groups",
+                        "link": reverse_lazy("admin:courses_instructor_changelist"),
+                    },
+                    {
+                        "title": "Lịch Khai giảng",
+                        "icon": "event",
+                        "link": reverse_lazy("admin:courses_scheduleitem_changelist"),
+                    },
+                    # --- NỘI DUNG HỌC TẬP (LMS) ---
+                    {
+                        "title": "Quản lý Modules Học",
+                        "icon": "view_module",
+                        "link": reverse_lazy("admin:courses_module_changelist"),
+                    },
+                    {
+                        "title": "Bài học (Lessons)",
+                        "icon": "menu_book",
+                        "link": reverse_lazy("admin:courses_lesson_changelist"),
+                    },
+                    {
+                        "title": "Kho Tài liệu (Materials)",
+                        "icon": "folder_shared",
+                        "link": reverse_lazy("admin:courses_material_changelist"),
+                    },
+                ],
+            },
+
+            # --- CẤU HÌNH HỆ THỐNG ---
+            {
+                "title": "Hệ thống",
+                "separator": True,
+                "items": [
+                    {
+                        "title": "Tài khoản Admin",
+                        "icon": "admin_panel_settings",
+                        "link": reverse_lazy("admin:auth_user_changelist"),
+                    },
+                    {
+                        "title": "Nhóm quyền",
+                        "icon": "lock",
+                        "link": reverse_lazy("admin:auth_group_changelist"),
+                    },
+                ],
+            },
+        ],
     },
 }
 REST_FRAMEWORK = {
