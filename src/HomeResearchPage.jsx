@@ -50,7 +50,7 @@ const translations = {
 export default function ResearchPage() {
   const [posts, setPosts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [lang, setLang] = useState("vi");
+  const [lang, setLang] = useState("en");
   const t = translations[lang];
 
   useEffect(() => {

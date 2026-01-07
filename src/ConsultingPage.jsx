@@ -89,7 +89,7 @@ const translations = {
 };
 
 export default function ConsultingPage() {
-  const [lang, setLang] = useState("vi");
+  const [lang, setLang] = useState("en");
   const t = translations[lang];
 
   // --- STATE QUẢN LÝ DỮ LIỆU TỪ API ---

@@ -406,7 +406,7 @@ const TimelineRow = ({ item, index, lang }) => {
 // --- 4. MAIN APP ---
 
 export default function MiniMBALanding() {
-  const [lang, setLang] = useState("vi");
+  const [lang, setLang] = useState("en");
   const [scrolled, setScrolled] = useState(false);
 
   const t = (key) => translations[lang][key] || key;

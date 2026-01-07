@@ -64,7 +64,7 @@ const getData = (item, field, lang) => {
 };
 
 export default function ModulesPage() {
-  const [lang, setLang] = useState("vi"); // State ngôn ngữ
+  const [lang, setLang] = useState("en"); // State ngôn ngữ
   const t = translations[lang]; // Từ điển hiện tại
 
   const [modules, setModules] = useState([]);

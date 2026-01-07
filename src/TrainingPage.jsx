@@ -40,7 +40,7 @@ const translations = {
 };
 
 export default function TrainingPage() {
-  const [lang, setLang] = useState("vi");
+  const [lang, setLang] = useState("en");
   const t = translations[lang];
 
   const programs = [

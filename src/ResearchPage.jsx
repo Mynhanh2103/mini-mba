@@ -101,7 +101,7 @@ const formatDate = (dateString, lang) => {
 };
 
 export default function ResearchPage() {
-  const [lang, setLang] = useState("vi"); // State ngôn ngữ
+  const [lang, setLang] = useState("en"); // State ngôn ngữ
   const t = translations[lang]; // Từ điển hiện tại
 
   const [posts, setPosts] = useState([]);

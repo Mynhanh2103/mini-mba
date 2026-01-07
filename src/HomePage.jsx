@@ -110,7 +110,7 @@ const translations = {
 };
 
 export default function HomePage() {
-  const [lang, setLang] = useState("vi");
+  const [lang, setLang] = useState("en");
   const t = translations[lang];
   const [latestNews, setLatestNews] = useState([]);
   const [partners, setPartners] = useState([]);
