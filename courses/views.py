@@ -9,8 +9,8 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from datetime import date
 from .models import ScheduleItem, UserLessonProgress, Lesson, UserNote, ResearchPost, GeneralHomepageConfig
-from .models import Partner, ConsultingService, TrainingProgram
-from .serializers import PartnerSerializer, ConsultingServiceSerializer, TrainingProgramSerializer
+from .models import Partner, ConsultingService, TrainingProgram,ConsultingSolution
+from .serializers import PartnerSerializer, ConsultingServiceSerializer, TrainingProgramSerializer,ConsultingSolutionSerializer
 class GeneralHomepageConfigViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = GeneralHomepageConfig.objects.all()
     serializer_class = GeneralHomepageConfigSerializer
@@ -168,6 +168,10 @@ class ConsultingServiceViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = ConsultingService.objects.filter(is_active=True).order_by('order')
     serializer_class = ConsultingServiceSerializer
     permission_classes = [permissions.AllowAny]
+
+class ConsultingSolutionViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = ConsultingSolution.objects.filter(is_active=True).order_by('-created_at')
+    serializer_class = ConsultingSolutionSerializer
 
 class TrainingProgramViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = TrainingProgram.objects.filter(is_active=True).order_by('order')

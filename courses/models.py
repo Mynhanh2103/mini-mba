@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.html import format_html
 from django.core.validators import FileExtensionValidator
 from django.conf import settings
+from ckeditor.fields import RichTextField
 # --- 1. GIẢNG VIÊN ---
 class GeneralHomepageConfig(models.Model):
     # Banner Trang chủ
@@ -16,7 +17,15 @@ class GeneralHomepageConfig(models.Model):
     # Footer chung cho cả web
     footer_text = models.CharField(max_length=300, default="© 2025 Smart Health Solutions.", verbose_name="Footer Text (VN)")
     footer_text_en = models.CharField(max_length=300, default="© 2025 Smart Health Solutions.", verbose_name="Footer Text (EN)", blank=True)
-
+    # [THÊM MỚI] --- THÔNG TIN FOUNDER ---
+    founder_name = models.CharField(max_length=100, default="Mr. Trương Minh Chương", verbose_name="Tên Founder")
+    founder_role = models.CharField(max_length=100, default="Founder & CEO", verbose_name="Chức danh (VN)")
+    founder_role_en = models.CharField(max_length=100, default="Founder & CEO", verbose_name="Chức danh (EN)", blank=True)
+    
+    founder_bio = models.TextField(verbose_name="Tiểu sử Founder (VN)", default="...")
+    founder_bio_en = models.TextField(verbose_name="Tiểu sử Founder (EN)", blank=True, default="...")
+    
+    founder_image = models.ImageField(upload_to='homepage/founder/', verbose_name="Ảnh chân dung Founder", null=True, blank=True)
     def __str__(self): return "Cấu hình Trang chủ Tổng"
     class Meta: verbose_name = "Cấu hình Trang chủ Tổng"
     
@@ -355,6 +364,34 @@ class ConsultingService(models.Model):
     def __str__(self):
         return self.title
     
+class ConsultingSolution(models.Model):
+    # --- 1. Thông tin hiển thị bên ngoài (Card) ---
+    title_vi = models.CharField(max_length=255, verbose_name="Tên Giải pháp (VI)")
+    title_en = models.CharField(max_length=255, verbose_name="Solution Name (EN)")
+    thumbnail = models.ImageField(upload_to='solutions_thumbs/', verbose_name="Ảnh đại diện", blank=True, null=True)
+    
+    # --- 2. TAB 1: BỐI CẢNH & VẤN ĐỀ (Context) ---
+    # Dùng để chứa phần "Tóm tắt nội dung" từ tài liệu
+    context_vi = RichTextField(verbose_name="[Tab 1] Bối cảnh/Vấn đề (VI)")
+    context_en = RichTextField(verbose_name="[Tab 1] Context/Problem (EN)")
+
+    # --- 3. TAB 2: GIẢI PHÁP SHS (Marketing) ---
+    # Dùng để chứa phần "Phiên bản Marketing" từ tài liệu
+    solution_vi = RichTextField(verbose_name="[Tab 2] Giải pháp SHS (VI)")
+    solution_en = RichTextField(verbose_name="[Tab 2] SHS Solution (EN)")
+
+    # Metadata
+    created_at = models.DateTimeField(auto_now_add=True)
+    is_active = models.BooleanField(default=True, verbose_name="Hiển thị")
+
+    def __str__(self):
+        return self.title_vi
+
+    class Meta:
+        verbose_name = "Bài viết Thư viện Giải pháp"
+        verbose_name_plural = "Thư viện Giải pháp"
+        ordering = ['-created_at']
+    
 class TrainingProgram(models.Model):
     title = models.CharField(max_length=200, verbose_name="Tên chương trình (VN)")
     title_en = models.CharField(max_length=200, verbose_name="Tên chương trình (EN)", blank=True, null=True)
@@ -379,3 +416,4 @@ class TrainingProgram(models.Model):
     def __str__(self):
         return self.title
     
+ 

@@ -29,7 +29,8 @@ INSTALLED_APPS = [
     'rest_framework',
     
     'courses',
-    'django_filters'
+    'django_filters',
+    'ckeditor'
 ]
 
 MIDDLEWARE = [
@@ -197,6 +198,11 @@ UNFOLD = {
                         "title": "Các Gói Dịch vụ", # Cần Model ConsultingService
                         "icon": "support_agent",
                         "link": reverse_lazy("admin:courses_consultingservice_changelist"),
+                    },
+                    {
+                        "title": "Thư viện Giải pháp", # Tên model ConsultingSolution
+                        "icon": "library_books",       # Icon hình quyển sách/thư viện
+                        "link": reverse_lazy("admin:courses_consultingsolution_changelist"),
                     },
                 ],
             },

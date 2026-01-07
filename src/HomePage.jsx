@@ -115,6 +115,16 @@ export default function HomePage() {
   const [latestNews, setLatestNews] = useState([]);
   const [partners, setPartners] = useState([]);
   const [config, setConfig] = useState(null);
+  const getData = (configObj, field, lang, fallbackValue) => {
+    if (!configObj) return fallbackValue;
+    if (lang === "en") {
+      // Nếu là tiếng Anh, tìm trường có đuôi _en (ví dụ hero_title_en)
+      // Nếu _en rỗng, quay về lấy tiếng Việt (field gốc)
+      return configObj[`${field}_en`] || configObj[field] || fallbackValue;
+    }
+    // Mặc định trả về tiếng Việt
+    return configObj[field] || fallbackValue;
+  };
   // Lấy 3 bài viết mới nhất từ API để hiển thị ở mục Tin tức
   useEffect(() => {
     // Gọi API mới của trang chủ tổng
@@ -157,6 +167,40 @@ export default function HomePage() {
       })
       .catch((err) => console.error("Lỗi tải đối tác:", err));
   }, []);
+  const [consultingServices, setConsultingServices] = useState([]); // [MỚI]
+
+  // 2. Thêm useEffect để gọi API dịch vụ
+  useEffect(() => {
+    fetch(`${API_URL}/api/consulting-services/`)
+      .then((res) => res.json())
+      .then((data) => {
+        // Sắp xếp theo thứ tự order
+        const sorted = data.sort((a, b) => (a.order || 0) - (b.order || 0));
+        setConsultingServices(sorted);
+      })
+      .catch((err) => console.error("Lỗi tải dịch vụ:", err));
+  }, []);
+
+  // 3. Hàm helper chọn icon (đặt bên trong hoặc ngoài component đều được)
+  const getServiceIcon = (iconName) => {
+    const size = 32;
+    switch (iconName) {
+      case "Cpu":
+        return <Cpu size={size} />;
+      case "Activity":
+        return <Activity size={size} />;
+      case "Layers":
+        return <BookOpen size={size} />; // Dùng tạm BookOpen cho Layers
+      case "Users":
+        return <Users size={size} />;
+      case "Zap":
+        return <ArrowRight size={size} />; // Dùng tạm
+      case "ShieldCheck":
+        return <CheckCircle size={size} />;
+      default:
+        return <Activity size={size} />;
+    }
+  };
 
   return (
     <div className="min-h-screen bg-white font-sans text-slate-800 overflow-x-hidden">
@@ -301,7 +345,61 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* --- 5. SERVICES (Cards đẹp hơn) --- */}
+      {/* [THÊM MỚI] --- FOUNDER SECTION --- */}
+      <section className="py-20 bg-white border-t border-slate-100">
+        <div className="max-w-6xl mx-auto px-6">
+          {/* Container chính: Flex row để chia 2 cột */}
+          <div className="flex flex-col md:flex-row items-start gap-12">
+            {/* === CỘT TRÁI: Tiêu đề "Founder" & Hình ảnh (Chiếm 5/12 chiều rộng) === */}
+            <div className="w-full md:w-5/12 flex flex-col items-center md:items-start space-y-6">
+              {/* Phần Tiêu đề nằm trên ảnh */}
+              <div className="w-full text-center md:text-left">
+                <h2 className="text-3xl font-black text-[#002147] uppercase leading-none">
+                  Founder & CEO
+                </h2>
+                <div className="w-20 h-1.5 bg-yellow-400 mt-3 rounded-full mx-auto md:mx-0"></div>
+              </div>
+
+              {/* Khung chứa ảnh */}
+              <div className="relative w-64 h-64 md:w-80 md:h-80 group">
+                {/* Hiệu ứng nền mờ */}
+                <div className="absolute inset-0 bg-blue-100 rounded-full blur-2xl opacity-50 transform translate-x-4 translate-y-4"></div>
+
+                <img
+                  src={config?.founder_image || "https://placehold.co/400x400"}
+                  alt={config?.founder_name}
+                  className="relative w-full h-full object-cover rounded-full border-4 border-white shadow-2xl z-10"
+                />
+
+                {/* Nhãn dán nhỏ góc dưới ảnh */}
+                <div className="absolute bottom-4 -right-4 z-20 bg-yellow-400 text-blue-900 font-bold px-4 py-1 rounded-full shadow-lg text-sm">
+                  {getData(config, "founder_role", lang, "Founder & CEO")}
+                </div>
+              </div>
+            </div>
+
+            {/* === CỘT PHẢI: Tên & Nội dung Bio (Chiếm 7/12 chiều rộng) === */}
+            <div className="w-full md:w-7/12 text-center md:text-left md:pt-20">
+              <h2 className="text-3xl font-extrabold text-slate-900 mb-2">
+                {config?.founder_name || "Mr. Trương Minh Chương"}
+              </h2>
+              <div className="h-1 w-20 bg-blue-600 mx-auto md:mx-0 rounded-full mb-6"></div>
+
+              <div className="prose prose-lg text-slate-600 leading-relaxed text-justify">
+                {(getData(config, "founder_bio", lang, "") || "")
+                  .split("\n")
+                  .map((para, idx) => (
+                    <p key={idx} className="mb-4 text-sm md:text-base">
+                      {para}
+                    </p>
+                  ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* --- 5. SERVICES --- */}
       <section className="py-24 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">

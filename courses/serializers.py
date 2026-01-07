@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Module, ScheduleItem, Instructor, Registration, CourseOverview
+from .models import Module, ScheduleItem, Instructor, Registration, CourseOverview, ConsultingSolution
 from .models import MiniMBAConfig, Lesson, Material, ResearchPost, Testimonial, GeneralHomepageConfig, Partner, ConsultingService, TrainingProgram
 class GeneralHomepageConfigSerializer(serializers.ModelSerializer):
     class Meta:
@@ -91,6 +91,11 @@ class ConsultingServiceSerializer(serializers.ModelSerializer):
     class Meta:
         model = ConsultingService
         fields = '__all__'
+
+class ConsultingSolutionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ConsultingSolution
+        fields = '__all__' # Lấy tất cả các trường
 
 class TrainingProgramSerializer(serializers.ModelSerializer):
     class Meta:

@@ -3,7 +3,7 @@ from django.utils.html import format_html
 from unfold.admin import ModelAdmin # Dùng class của Unfold để đẹp hơn
 from .models import Module, Instructor, ScheduleItem, Registration, CourseOverview
 from .models import MiniMBAConfig, Lesson, Material, ResearchPost, Testimonial, Partner, ConsultingService
-from .models import TrainingProgram, GeneralHomepageConfig
+from .models import TrainingProgram, GeneralHomepageConfig, ConsultingSolution
 # --- Cấu hình chung ---
 admin.site.site_header = "TBI Institute Admin"
 admin.site.site_title = "TBI Admin Portal"
@@ -11,7 +11,32 @@ admin.site.index_title = "Trung tâm Quản trị Dữ liệu"
 # 1. Quản lý Trang chủ Tổng
 @admin.register(GeneralHomepageConfig)
 class GeneralHomepageConfigAdmin(ModelAdmin):
-    list_display = ('hero_title', 'hero_slogan')
+    list_display = ('hero_title', 'founder_name') # Thêm founder_name ra list
+    
+    # Cập nhật fieldsets
+    fieldsets = (
+        ("1. Hero Banner", {
+            "fields": (
+                ("hero_title", "hero_title_en"),
+                ("hero_slogan", "hero_slogan_en"),
+                "hero_image",
+            ),
+        }),
+        # [THÊM MỚI] Nhóm Founder
+        ("2. Giới thiệu Founder", {
+            "fields": (
+                "founder_image",
+                "founder_name",
+                ("founder_role", "founder_role_en"),
+                "founder_bio", 
+                "founder_bio_en"
+            ),
+        }),
+        ("3. Footer", {
+            "fields": ("footer_text", "footer_text_en"),
+        }),
+    )
+    
     def has_add_permission(self, request):
         return not GeneralHomepageConfig.objects.exists()
     
@@ -213,4 +238,23 @@ class TrainingProgramAdmin(ModelAdmin):
         'description', 'description_en',
         'image', 'link',
         'order', 'is_active'
+    )
+
+@admin.register(ConsultingSolution)
+class ConsultingSolutionAdmin(admin.ModelAdmin):
+    list_display = ('title_vi', 'title_en', 'is_active', 'created_at')
+    search_fields = ('title_vi', 'title_en')
+    list_filter = ('is_active',)
+    
+    fieldsets = (
+        ('Ảnh & Trạng thái', {
+            'fields': ('thumbnail', 'is_active')
+        }),
+        ('Tiêu đề / Title', {
+            'fields': ('title_vi', 'title_en')
+        }),
+        ('Nội dung Chi tiết (Tab 1 & Tab 2)', {
+            'description': 'Nhập nội dung tương ứng cho 2 Tab: Bối cảnh (Vấn đề) và Giải pháp (Marketing)',
+            'fields': ('context_vi', 'context_en', 'solution_vi', 'solution_en')
+        }),
     )

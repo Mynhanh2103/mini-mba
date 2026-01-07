@@ -4,6 +4,7 @@ from django.conf.urls.static import static
 from rest_framework.routers import DefaultRouter
 from .views import ModuleViewSet, ScheduleViewSet, InstructorViewSet, RegistrationViewSet, CourseOverviewViewSet, MiniMBAConfigViewSet, UserProfileView
 from .views import UserProfileView, MarkLessonView, NoteView, LessonViewSet, MaterialViewSet, ResearchPostViewSet, TestimonialViewSet, GeneralHomepageConfigViewSet, PartnerViewSet, ConsultingServiceViewSet, TrainingProgramViewSet
+from .views import ConsultingSolutionViewSet
 router = DefaultRouter()
 router.register(r'modules', ModuleViewSet)
 router.register(r'schedule', ScheduleViewSet)
@@ -18,6 +19,7 @@ router.register(r'research', ResearchPostViewSet)
 router.register(r'reviews', TestimonialViewSet)
 router.register(r'partners', PartnerViewSet)
 router.register(r'consulting-services', ConsultingServiceViewSet)
+router.register(r'consulting-solutions', ConsultingSolutionViewSet)
 router.register(r'training-programs', TrainingProgramViewSet)
 urlpatterns = [
     path('', include(router.urls)),
