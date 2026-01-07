@@ -210,7 +210,7 @@ export default function HomePage() {
           className="text-white font-bold text-2xl tracking-tighter cursor-pointer"
           onClick={() => window.scrollTo(0, 0)}
         >
-          SmartHealth<span className="text-blue-400">.vn</span>
+          SmartHealthSolutions<span className="text-blue-400">.vn</span>
         </div>
         <button
           onClick={() => setLang(lang === "vi" ? "en" : "vi")}
