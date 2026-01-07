@@ -247,7 +247,7 @@ export default function HomePage() {
             <p className="text-lg md:text-xl text-slate-300 mb-10 max-w-3xl mx-auto font-light leading-relaxed">
               {t.hero_desc}
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            {/*<div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 to="/consulting"
                 className="px-8 py-4 bg-blue-600 hover:bg-blue-500 rounded-full font-bold transition-all shadow-lg shadow-blue-600/30 flex items-center justify-center gap-2 hover:-translate-y-1"
@@ -260,7 +260,7 @@ export default function HomePage() {
               >
                 {t.btn_training}
               </Link>
-            </div>
+            </div>*/}
           </motion.div>
         </div>
       </header>
