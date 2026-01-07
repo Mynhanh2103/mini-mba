@@ -11,8 +11,9 @@ import {
   Lightbulb,
   ArrowRight,
   X,
+  Home,
 } from "lucide-react";
-
+import { Link } from "react-router-dom";
 // --- CẤU HÌNH NGÔN NGỮ TĨNH (Giữ nguyên phần này) ---
 const translations = {
   vi: {
@@ -128,7 +129,15 @@ export default function ConsultingPage() {
   return (
     <div className="min-h-screen bg-white font-sans text-slate-800">
       {/* LANGUAGE SWITCHER */}
-      <nav className="absolute top-0 w-full z-50 py-6 px-6 flex justify-end">
+      <nav className="absolute top-0 w-full z-50 py-6 px-6 flex justify-between items-center">
+        <Link 
+          to="/" 
+          className="flex items-center gap-2 bg-white/10 backdrop-blur px-4 py-2 rounded-full text-white font-bold border border-white/20 hover:bg-white/20 transition"
+        >
+          <Home size={18} /> {lang === "vi" ? "Trang chủ" : "Home"}
+        </Link>
+
+        {/* Nút đổi ngôn ngữ cũ */}
         <button
           onClick={() => setLang(lang === "vi" ? "en" : "vi")}
           className="flex items-center gap-2 bg-white/10 backdrop-blur px-4 py-2 rounded-full text-white font-bold border border-white/20 hover:bg-white/20 transition"

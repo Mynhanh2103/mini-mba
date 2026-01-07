@@ -125,7 +125,7 @@ const translations = {
 
     loading: "Đang tải dữ liệu...",
     no_data: "Chưa có dữ liệu.",
-    footer: "© 2025 TBI. Bảo lưu mọi quyền.",
+    footer: "© 2025 SHS. Bảo lưu mọi quyền.",
   },
   en: {
     // --- GIỮ NGUYÊN CŨ ---
@@ -223,7 +223,7 @@ const translations = {
 
     loading: "Loading data...",
     no_data: "No data available.",
-    footer: "© 2025 TBI. All rights reserved.",
+    footer: "© 2025 SHS. All rights reserved.",
   },
 };
 
@@ -563,16 +563,17 @@ export default function MiniMBALanding() {
             className="flex items-center gap-2 cursor-pointer"
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           >
-            <div className="w-10 h-10 bg-blue-900 text-white flex items-center justify-center font-bold text-xl rounded-lg shadow-lg">
-              T
+            <div className="w-8 h-8 bg-blue-900 text-white flex items-center justify-center font-bold text-xl rounded-lg shadow-lg">
+              S
             </div>
-            <span
+            <Link
+              to="/"
               className={`font-extrabold text-2xl tracking-tight ${
                 scrolled ? "text-blue-900" : "text-white"
               }`}
             >
-              TBI<span className="font-light">.Institute</span>
-            </span>
+              SHS<span className="font-light">.Institute</span>
+            </Link>
           </div>
 
           {/* Desktop Menu */}

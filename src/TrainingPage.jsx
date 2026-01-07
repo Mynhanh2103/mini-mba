@@ -7,6 +7,7 @@ import {
   ShieldCheck,
   Zap,
   Globe,
+  Home,
 } from "lucide-react";
 
 const translations = {
@@ -79,7 +80,16 @@ export default function TrainingPage() {
 
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-800">
-      <nav className="absolute top-0 w-full z-50 py-6 px-6 flex justify-end">
+      <nav className="absolute top-0 w-full z-50 py-6 px-6 flex justify-between items-center">
+        {/* --- NÚT HOME MỚI --- */}
+        <Link
+          to="/"
+          className="flex items-center gap-2 bg-white px-4 py-2 rounded-full text-slate-700 font-bold border border-slate-200 shadow-sm hover:bg-slate-50 transition"
+        >
+          <Home size={18} /> {lang === "vi" ? "Trang chủ" : "Home"}
+        </Link>
+
+        {/* Nút đổi ngôn ngữ cũ (Giữ nguyên) */}
         <button
           onClick={() => setLang(lang === "vi" ? "en" : "vi")}
           className="flex items-center gap-2 bg-white px-4 py-2 rounded-full text-slate-700 font-bold border border-slate-200 shadow-sm hover:bg-slate-50"
