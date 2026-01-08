@@ -24,7 +24,7 @@ const translations = {
     hero_title: "Kiến Tạo Tương Lai",
     hero_subtitle: "Y Tế Thông Minh Việt Nam",
     hero_desc:
-      "Tiên phong trong giải pháp Chuyển đổi số - Đào tạo Quản trị - Nghiên cứu Y khoa. Kết nối tri thức toàn cầu để nâng tầm hệ thống y tế Việt Nam.",
+      "Tiên phong trong giải pháp Chuyển đổi số - Đào tạo Quản trị - Nghiên cứu Y khoa. Kết nối tri thức toàn cầu để nâng tầm hệ thống y tế Việt Nam",
     btn_consulting: "Giải pháp Tư vấn",
     btn_training: "Chương trình Đào tạo",
 
@@ -68,7 +68,7 @@ const translations = {
     hero_title: "Shaping the Future of",
     hero_subtitle: "Smart Healthcare in Vietnam",
     hero_desc:
-      "Pioneering in Digital Transformation - Management Training - Medical Research. Connecting global knowledge to elevate Vietnam's healthcare system.",
+      "Pioneering in Digital Transformation - Management Training - Medical Research Connecting global knowledge to elevate Vietnam's healthcare system",
     btn_consulting: "Consulting Solutions",
     btn_training: "Training Programs",
 
