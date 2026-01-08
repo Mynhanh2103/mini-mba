@@ -536,7 +536,7 @@ export default function MiniMBALanding() {
     "Case Study thực tế – học qua tình huống thật",
     "Project cuối khóa mang tính ứng dụng cao",
   ];
-  const benefitsRaw = getData(config, "benefits_list", lang);
+  const benefitsRaw = getData(config, "benefits_list_en", lang);
   const benefitsList = benefitsRaw ? benefitsRaw.split("\n") : defaultBenefits;
 
   const navItems = [

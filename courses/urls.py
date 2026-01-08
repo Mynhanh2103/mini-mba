@@ -12,7 +12,7 @@ router.register(r'instructors', InstructorViewSet)
 router.register(r'register', RegistrationViewSet)
 router.register(r'overviews', CourseOverviewViewSet)
 router.register(r'general-config', GeneralHomepageConfigViewSet) # Dữ liệu cho HomePage.jsx
-router.register(r'minimba-config', MiniMBAConfigViewSet)
+router.register(r'config', MiniMBAConfigViewSet)
 router.register(r'lessons', LessonViewSet)
 router.register(r'materials', MaterialViewSet)
 router.register(r'research', ResearchPostViewSet)
