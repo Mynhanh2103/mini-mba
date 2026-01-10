@@ -94,7 +94,7 @@ class ScheduleItem(models.Model):
 
 # --- 4. TỔNG QUAN ---
 class CourseOverview(models.Model):
-    ICON_CHOICES = [('strategy', 'Chiến lược'), ('finance', 'Tài chính'), ('leadership', 'Lãnh đạo'), ('marketing', 'Marketing')]
+    ICON_CHOICES = [('strategy', 'Chiến lược'), ('finance', 'Tài chính'), ('leadership', 'Lãnh đạo'), ('marketing', 'Marketing'), ('map', 'Map'), ('database', 'Database'), ('rocket', 'Rocket'), ('cpu', 'CPU'), ('setting', 'Settings')]
 
     cover_image = models.ImageField(upload_to='overviews/covers/', verbose_name="Ảnh bìa", null=True, blank=True)
     

@@ -17,7 +17,7 @@ import { Link } from "react-router-dom";
 // --- CẤU HÌNH NGÔN NGỮ TĨNH (Giữ nguyên phần này) ---
 const translations = {
   vi: {
-    page_title: "Dịch Vụ Tư Vấn Chuyển Đổi Số Y Tế",
+    page_title: "Tư Vấn Số Hóa Y Tế",
     page_sub:
       "Giải pháp chiến lược – Đồng hành cùng hệ thống Y tế Việt Nam chuyển mình số hóa.",
     cap_title: "Năng Lực Tư Vấn Cốt Lõi",
@@ -52,7 +52,7 @@ const translations = {
     cta_btn: "Liên hệ chuyên gia",
   },
   en: {
-    page_title: "Digital Transformation Consulting",
+    page_title: "Digital Consulting",
     page_sub:
       "Strategic Solutions for a Smarter, More Efficient Healthcare System.",
     cap_title: "Core Consulting Capabilities",
@@ -61,18 +61,22 @@ const translations = {
     cap_1: "Healthcare Management Experts",
     cap_1_desc: "Deep insights into hospital operations.",
     cap_2: "Health IT Professionals",
-    cap_2_desc: "Experience in deploying complex HIS, LIS, PACS.",
+    cap_2_desc: "Experience in deploying complex HIS, LIS, PACS, EMR, HL7 standards",
     cap_3: "Clinical Specialists",
     cap_3_desc: "Ensuring solutions align with clinical workflows.",
     area_title: "Key Consulting Areas",
+
     area_1: "Digital Strategy",
-    area_1_desc: "Assessing digital maturity and roadmaps.",
+    area_1_desc: "Assessing digital strategy, digital roadmaps, patient centricity and smart hospital development.",
+
     area_2: "Hospital Operations",
-    area_2_desc: "Optimizing patient flow and resources.",
-    area_3: "Healthcare Technology",
-    area_3_desc: "Consulting on Telehealth, AI & IoT.",
+    area_2_desc: "Optimizing patient flow and resource, hospital performance improvement, cost structure and pricing.",
+
+    area_3: "Healthcare IT",
+    area_3_desc: "Consulting on Telehealth, telemedicine, hybrid model, patient journey, AI chatbot.",
+
     area_4: "Capacity Building",
-    area_4_desc: "Training IT teams and medical staff.",
+    area_4_desc: "Training IT teams, medical equipment engineers, hospital administration staff.",
 
     lib_title: "Solutions & Knowledge Library",
     lib_sub:
@@ -83,7 +87,7 @@ const translations = {
     cta_modal: "Consult on this solution",
 
     cta_title: "Need Strategic Consulting?",
-    cta_desc: "Contact us to build the most suitable roadmap.",
+    cta_desc: "Contact us at mr.truongchuong@gmail.com to build the most suitable roadmap.",
     cta_btn: "Contact Experts",
   },
 };

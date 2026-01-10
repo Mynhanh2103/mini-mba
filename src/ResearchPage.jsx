@@ -56,8 +56,8 @@ const translations = {
     breadcrumb_home: "Home",
     breadcrumb_research: "Library & Research",
 
-    hero_title: "Knowledge Hub",
-    hero_highlight: "Healthcare Management",
+    hero_title: "Healthcare Management",
+    hero_highlight: "Knowledge Hub ",
     hero_desc:
       "Update the latest trends, in-depth research articles, and insights from leading experts.",
 

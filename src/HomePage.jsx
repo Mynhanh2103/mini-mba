@@ -23,8 +23,9 @@ const translations = {
     // Hero Section [cite: 376-378]
     hero_title: "Kiến Tạo Tương Lai",
     hero_subtitle: "Y Tế Thông Minh Việt Nam",
-    hero_desc:
-      "Tiên phong trong giải pháp Chuyển đổi số - Đào tạo Quản trị - Nghiên cứu Y khoa. Kết nối tri thức toàn cầu để nâng tầm hệ thống y tế Việt Nam",
+    hero_desc1:
+      "Tiên phong trong giải pháp Chuyển đổi số - Đào tạo Quản trị - Nghiên cứu Y khoa",
+    hero_desc2: "Kết nối tri thức toàn cầu để nâng tầm hệ thống y tế Việt Nam",
     btn_consulting: "Giải pháp Tư vấn",
     btn_training: "Chương trình Đào tạo",
 
@@ -67,8 +68,10 @@ const translations = {
     // Hero Section [cite: 424-426]
     hero_title: "Shaping the Future of",
     hero_subtitle: "Smart Healthcare in Vietnam",
-    hero_desc:
-      "Pioneering in Digital Transformation - Management Training - Medical Research Connecting global knowledge to elevate Vietnam's healthcare system",
+    hero_desc1:
+      "Pioneering in Digital Transformation - Management Training - Medical Research",
+    hero_desc2:
+      "Connecting global knowledge to elevate Vietnam's healthcare system",
     btn_consulting: "Consulting Solutions",
     btn_training: "Training Programs",
 
@@ -223,7 +226,7 @@ export default function HomePage() {
       {/* --- 2. HERO SECTION (Ấn tượng hơn) --- */}
       <header className="relative min-h-[90vh] flex items-center justify-center bg-slate-900 text-white overflow-hidden pt-20">
         {/* Background Image có lớp phủ */}
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-20 scale-105 animate-pulse-slow" />
+        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-40 scale-105 animate-pulse-slow" />
 
         {/* Background trang trí */}
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-600 rounded-full blur-[150px] opacity-20 -translate-y-1/2 translate-x-1/3"></div>
@@ -244,9 +247,13 @@ export default function HomePage() {
                 {t.hero_subtitle}
               </span>
             </h1>
-            <p className="text-lg md:text-xl text-slate-300 mb-10 max-w-3xl mx-auto font-light leading-relaxed">
-              {t.hero_desc}
+            <p className="text-lg md:text-xl text-slate-300 mb-2 max-w-3xl mx-auto font-light leading-relaxed">
+              {t.hero_desc1}
             </p>
+            <p className="text-lg md:text-xl text-slate-300 mb-10 max-w-3xl mx-auto font-light leading-relaxed">
+              {t.hero_desc2}
+            </p>
+
             {/*<div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 to="/consulting"

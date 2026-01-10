@@ -24,6 +24,11 @@ import {
   Check,
   Shield,
   Gift,
+  Database, // Icon cho Dữ liệu (Thay cho Finance)
+  Cpu,      // Icon cho AI (Thay cho Marketing)
+  Rocket,   // Icon cho Capstone (Thay cho Leadership)
+  Map,
+  Settings,   // Icon cho Vận hành
 } from "lucide-react";
 import Testimonials from "./components/Testimonials";
 
@@ -42,7 +47,7 @@ const translations = {
     nav_login: "Đăng nhập",
     cta_register: "Đăng ký ngay",
     nav_consult: "Đăng ký tư vấn",
-    partner_badge: "Đối tác: TRAF Academy & EDUPROVED",
+    partner_badge: "Partner – Traf Academy Switzerland Accredited by EduPROVED",
     hero_default_1: "Quản Trị",
     hero_default_2: "Chuyển Đổi Số Y Tế",
     hero_desc:
@@ -53,15 +58,17 @@ const translations = {
     stat_format: "Online & Offline",
     stat_case: "Case Study Thực Tế",
     stat_advisor: "Giảng Viên & Cố Vấn",
-    cert_badge: "QUYỀN LỢI TỐT NGHIỆP",
-    verify_btn: "Chứng thực",
-    cert_title: "Nhận chứng nhận EDUPROVED quốc tế",
+    cert_badge: "ĐỐI TÁC QUỐC TẾ",
+    verify_btn: "Xác thực EduPROVED",
+    visit_traf: "Website Traf Academy",
+    cert_title: "Chương trình hợp tác cùng TRAF Academy (Thụy Sĩ)",
     cert_desc:
-      "Cam kết cấp chứng chỉ kiểm định chất lượng từ Thụy Sĩ ngay sau khi học viên hoàn thành khóa học.",
+      "Đội ngũ giảng viên đến từ Viện Traf Academy (Thụy Sĩ). Học viên tốt nghiệp được cấp chứng nhận Mini MBA từ Viện Traf Academy và tham gia cộng đồng cựu học viên để chia sẻ tri thức quản trị chuyển đổi số bệnh viện tại Việt Nam dưới sự cố vấn của các chuyên gia Thụy Sĩ.",
     why_choose: "TẠI SAO CHỌN MINI MBA Y TẾ?",
-    benefit_def_title: "Giải quyết bài toán thực tế của bản thân & tổ chức",
+    benefit_def_title:
+      "Giải quyết bài toán thực tế trong chuyển đổi số bệnh viện/chăm sóc sức khỏe",
     benefit_def_desc:
-      "Chương trình Mini MBA Y tế được thiết kế theo mô hình Hybrid linh hoạt.",
+      "Chương trình Mini MBA Y tế được thiết kế tối ưu cho hình thức Online.",
     sec_overview: "Tổng Quan Khóa Học",
     sec_overview_sub: "4 Trụ cột kiến thức dành cho nhà quản lý y tế hiện đại.",
 
@@ -79,8 +86,8 @@ const translations = {
     prog_note: "* Bạn có thể đăng ký học từng phần hoặc trọn gói Mini MBA.",
 
     // 2. Lộ trình & Giảng viên
-    sec_roadmap: "Lộ Trình Đào Tạo Hybrid",
-    sec_roadmap_sub: "Lịch học chi tiết",
+    sec_roadmap: "Lộ Trình Đào Tạo",
+    sec_roadmap_sub: "Lịch trình dự kiến",
     sec_instructors: "Đội Ngũ Giảng Viên",
     sec_instructors_sub: "Đến từ đối tác TRAF Academy",
 
@@ -90,12 +97,13 @@ const translations = {
     form_offer_highlight: "Thời đại số",
     form_ben_1: "Chứng nhận Quốc tế EDUPROVED",
     form_ben_1_desc: "Được công nhận bởi TRAF Academy (Thụy Sĩ).",
-    form_ben_2: "Tiết kiệm 30% học phí",
-    form_ben_2_desc: "Khi đăng ký trọn gói so với Module lẻ.",
+    form_ben_2: "Thanh toán linh hoạt",
+    form_ben_2_desc:
+      "Đóng trọn gói hoặc đóng theo từng Module để tích lũy chứng chỉ.",
     form_ben_3: "Cam kết chất lượng",
     form_ben_3_desc: "Học lại miễn phí nếu chưa nắm vững kiến thức.",
-    form_price_label: "Học phí trọn gói ưu đãi:",
-    form_price_note: "* Đã bao gồm tài liệu, tea-break và lệ phí chứng chỉ.",
+    form_price_label: "Học phí trọn gói:",
+    form_price_note: "* Đã bao gồm tài liệu và lệ phí chứng chỉ.",
 
     form_header: "Đăng ký giữ chỗ",
     form_opt_full: "Trọn gói Mini MBA",
@@ -138,7 +146,7 @@ const translations = {
     nav_login: "Login",
     cta_register: "Register Now",
     nav_consult: "Get Consultation",
-    partner_badge: "Partner: TRAF Academy & EDUPROVED",
+    partner_badge: "Partner – Traf Academy Switzerland Accredited by EduPROVED",
     hero_default_1: "Healthcare",
     hero_default_2: "Digital Transformation",
     hero_desc:
@@ -149,15 +157,17 @@ const translations = {
     stat_format: "Online & Offline",
     stat_case: "Real Case Studies",
     stat_advisor: "Lecturers & Advisors",
-    cert_badge: "GRADUATION BENEFIT",
-    verify_btn: "Verify",
-    cert_title: "Receive EDUPROVED Certification",
+    cert_badge: "INTERNATIONAL STRATEGIC PARTNER",
+    verify_btn: "Verify EduPROVED",
+    visit_traf: "Visit Traf Academy",
+    cert_title: "Partnership with TRAF Academy (Switzerland)",
     cert_desc:
-      "Guaranteed international quality certification from Switzerland upon course completion.",
+      "Lecturers from Traf Academy. Graduates receive Mini MBA certification from Traf Academy and join the alumni community to share hospital digital transformation knowledge in Vietnam under the mentorship of Swiss experts.",
     why_choose: "WHY CHOOSE MINI MBA HEALTHCARE?",
-    benefit_def_title: "Solving real problems for yourself & your organization",
+    benefit_def_title:
+      "Solve real problems of healthcare/hospital digitalization",
     benefit_def_desc:
-      "The Mini MBA Healthcare program is designed with a flexible Hybrid model.",
+      "The Mini MBA Healthcare program is optimized for Online mode.",
     sec_overview: "Course Overview",
     sec_overview_sub: "4 Pillars of knowledge for modern healthcare managers.",
 
@@ -176,8 +186,8 @@ const translations = {
       "* You can register for individual modules or the full Mini MBA.",
 
     // 2. Roadmap & Instructors
-    sec_roadmap: "Hybrid Training Roadmap",
-    sec_roadmap_sub: "Detailed Schedule",
+    sec_roadmap: "Training Roadmap",
+    sec_roadmap_sub: "Tentative Schedule",
     sec_instructors: "Our Instructors",
     sec_instructors_sub: "From our partner TRAF Academy",
 
@@ -187,13 +197,13 @@ const translations = {
     form_offer_highlight: "Digital Era",
     form_ben_1: "EDUPROVED Certification",
     form_ben_1_desc: "Recognized by TRAF Academy (Switzerland).",
-    form_ben_2: "Save 30% Tuition",
+    form_ben_2: "Flexible Payment",
     form_ben_2_desc:
-      "When registering for the full course vs. individual modules.",
+      "Module based payment and module collection to get the Mini MBA Certificate.",
     form_ben_3: "Quality Commitment",
     form_ben_3_desc: "Lifetime support after the course.",
-    form_price_label: "Special Full-Course Tuition:",
-    form_price_note: "* Includes materials, tea-break, and certification fees.",
+    form_price_label: "Full course tuition:",
+    form_price_note: "* Includes materials and certification fees.",
 
     form_header: "Reserve Your Spot",
     form_opt_full: "Full Mini MBA",
@@ -254,6 +264,19 @@ const getOverviewIcon = (type) => {
       return <Users className={iconClass} />;
     case "marketing":
       return <Award className={iconClass} />;
+    case "Map": // Dùng cho "Chiến lược & Quản trị Y tế Số"
+      return <Map className={iconClass} />;
+      
+    case "database": // CŨ LÀ TÀI CHÍNH -> GIỜ DÙNG CHO "Tin học Y tế & Dữ liệu"
+      return <Database className={iconClass} />;
+      
+    case "rocket": // CŨ LÀ LÃNH ĐẠO -> GIỜ DÙNG CHO "Capstone Project"
+      return <Rocket className={iconClass} />;
+      
+    case "cpu": // CŨ LÀ MARKETING -> GIỜ DÙNG CHO "AI & Machine Learning"
+      return <Cpu className={iconClass} />;
+    case "setting":  // TRỤ CỘT 2: Tối ưu Vận hành
+      return <Settings className={iconClass} />; // Hoặc dùng TrendingUp
     default:
       return <Zap className={iconClass} />;
   }
@@ -531,7 +554,7 @@ export default function MiniMBALanding() {
   };
 
   const defaultBenefits = [
-    "Học theo mô hình Hybrid – linh hoạt & hiệu quả",
+    "Học theo mô hình Online – linh hoạt & hiệu quả",
     "Lý thuyết cô đọng – tập trung vào kiến thức áp dụng được ngay",
     "Case Study thực tế – học qua tình huống thật",
     "Project cuối khóa mang tính ứng dụng cao",
@@ -546,6 +569,19 @@ export default function MiniMBALanding() {
     { id: "giang-vien", label: t("nav_instructors") },
     { id: "/research", label: t("nav_library"), type: "link" },
   ];
+
+  const sortOrder = ["Volker", "Dieter", "Kathrin", "Trương Minh Chương"];
+
+  const sortedInstructors = [...instructors].sort((a, b) => {
+    const indexA = sortOrder.findIndex((key) => a.name && a.name.includes(key));
+    const indexB = sortOrder.findIndex((key) => b.name && b.name.includes(key));
+    if (indexA !== -1 && indexB !== -1) {
+      return indexA - indexB;
+    }
+    if (indexA !== -1) return -1;
+    if (indexB !== -1) return 1;
+    return 0;
+  });
 
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-800 overflow-x-hidden selection:bg-blue-600 selection:text-white">
@@ -578,7 +614,7 @@ export default function MiniMBALanding() {
 
           {/* Desktop Menu */}
           <div
-            className={`hidden md:flex items-center gap-8 text-sm font-medium ${
+            className={`hidden lg:flex items-center gap-8 text-sm font-medium ${
               scrolled ? "text-slate-600" : "text-white/90"
             }`}
           >
@@ -610,7 +646,7 @@ export default function MiniMBALanding() {
             </button>
           </div>
 
-          <div className="hidden md:flex items-center gap-4">
+          <div className="hidden lg:flex items-center gap-4">
             <Link
               to="/login"
               className="px-5 py-2 bg-white hover:bg-gray-100 text-blue-900 font-bold rounded-full transition-transform active:scale-95 text-sm shadow-lg"
@@ -627,7 +663,7 @@ export default function MiniMBALanding() {
           </div>
 
           {/* Mobile Toggle */}
-          <div className="flex md:hidden gap-4 items-center">
+          <div className="flex lg:hidden gap-4 items-center">
             <button
               onClick={toggleLang}
               className={`flex items-center gap-1 font-bold ${
@@ -652,32 +688,66 @@ export default function MiniMBALanding() {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
-              className="md:hidden bg-white border-t"
+              className="lg:hidden bg-white border-t shadow-xl overflow-hidden"
             >
-              <div className="flex flex-col p-6 gap-4 text-slate-700 font-medium">
-                {navItems.map((item) => (
-                  <button
-                    key={item.id}
-                    className="text-left uppercase"
-                    onClick={() => scrollToSection(item.id)}
-                  >
-                    {item.label}
-                  </button>
-                ))}
-                <div className="p-4 border-t border-slate-700 flex flex-col gap-3">
+              <div className="flex flex-col p-6 text-slate-700 font-medium">
+                {navItems.map((item) => {
+                  // TRƯỜNG HỢP 1: NẾU LÀ LINK (Ví dụ: Thư viện /research)
+                  if (item.type === "link") {
+                    return (
+                      <Link
+                        key={item.id}
+                        to={item.id}
+                        onClick={() => setIsOpen(false)} // Luôn đóng menu khi bấm
+                        className="text-left uppercase py-3 border-b border-slate-50 w-full hover:text-blue-600 transition-all block"
+                      >
+                        {item.label}
+                      </Link>
+                    );
+                  }
+
+                  // TRƯỜNG HỢP 2: NẾU LÀ NÚT SCROLL (Ví dụ: Chương trình, Lợi ích...)
+                  return (
+                    <button
+                      key={item.id}
+                      className="text-left uppercase py-3 border-b border-slate-50 w-full hover:text-blue-600 transition-all block"
+                      onClick={() => {
+                        setIsOpen(false); // 1. Đóng menu NGAY LẬP TỨC
+
+                        // 2. Tự xử lý scroll tại đây để đảm bảo chạy được
+                        setTimeout(() => {
+                          const element = document.getElementById(item.id);
+                          if (element) {
+                            element.scrollIntoView({ behavior: "smooth" });
+                          }
+                        }, 100); // Delay nhẹ để menu đóng xong rồi mới cuộn cho mượt
+                      }}
+                    >
+                      {item.label}
+                    </button>
+                  );
+                })}
+
+                <div className="pt-6 flex flex-col gap-3">
+                  {/* NÚT LOGIN */}
                   <Link
                     to="/login"
-                    className="w-full py-3 text-center text-slate-300 font-bold border border-slate-600 rounded-xl hover:bg-slate-700 hover:text-white transition-all"
+                    onClick={() => setIsOpen(false)}
+                    className="w-full py-3 text-center text-slate-600 font-bold border border-slate-300 rounded-xl hover:bg-slate-100 transition-all block"
                   >
-                    Đăng nhập hệ thống
+                    {t("nav_login")}
                   </Link>
 
+                  {/* NÚT ĐĂNG KÝ */}
                   <button
                     onClick={() => {
                       setIsOpen(false);
-                      scrollToSection("dang-ky");
+                      setTimeout(() => {
+                        const el = document.getElementById("dang-ky");
+                        if (el) el.scrollIntoView({ behavior: "smooth" });
+                      }, 100);
                     }}
-                    className="w-full py-3 bg-yellow-500 text-blue-900 font-bold rounded-xl"
+                    className="w-full py-3 bg-yellow-500 text-blue-900 font-bold rounded-xl shadow-md hover:bg-yellow-400 transition-all"
                   >
                     {t("cta_register")}
                   </button>
@@ -763,44 +833,75 @@ export default function MiniMBALanding() {
       </section>
 
       {/* --- TRUST SECTION --- */}
-      <section className="bg-gradient-to-r from-yellow-50 via-white to-yellow-50 border-b border-yellow-100 py-8">
+      <section className="bg-gradient-to-r from-yellow-50 via-white to-yellow-50 border-b border-yellow-100 py-12">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-10 text-center md:text-left">
-            <div className="relative shrink-0">
-              <div className="w-24 h-24 bg-white rounded-full shadow-lg border-2 border-yellow-400 flex items-center justify-center overflow-hidden p-3">
+          <div className="flex flex-col lg:flex-row items-center gap-10">
+            {/* CỘT TRÁI: LOGO PARTNERS */}
+            <div className="flex flex-col sm:flex-row items-center gap-6 shrink-0">
+              {/* Logo 1: TRAF ACADEMY (Mới) */}
+              <div className="w-40 h-40 bg-white rounded-2xl shadow-lg border border-slate-100 flex items-center justify-center p-4 hover:scale-105 transition-transform">
+                {/* Bạn nhớ thay đường dẫn ảnh logo Traf vào đây */}
+                <img
+                  src="/logo/logo-traf.jpg"
+                  alt="Traf Academy Logo"
+                  className="w-full h-full object-contain"
+                  onError={(e) =>
+                    (e.target.src =
+                      "https://placehold.co/200x200?text=TRAF+Logo")
+                  }
+                />
+              </div>
+
+              {/* Logo 2: EDUPROVED (Cũ) */}
+              <div className="w-32 h-32 bg-white rounded-2xl shadow-md border border-slate-100 flex items-center justify-center p-4 grayscale hover:grayscale-0 transition-all opacity-80 hover:opacity-100">
                 <img
                   src="/logo/eduPROVED-1000.png"
                   alt="Eduproved Logo"
                   className="w-full h-full object-contain"
-                  onError={(e) => (e.target.style.display = "none")}
                 />
               </div>
             </div>
 
-            <div className="flex-grow max-w-2xl">
-              <div className="text-xs font-bold text-blue-600 uppercase tracking-widest mb-1 flex items-center justify-center md:justify-start gap-2">
+            {/* CỘT PHẢI: NỘI DUNG YÊU CẦU */}
+            <div className="flex-grow text-center lg:text-left">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-100 text-blue-800 text-xs font-bold uppercase tracking-widest mb-3">
                 <CheckCircle size={14} />
-                {t("cert_badge")}
+                International Partner
               </div>
 
-              <h3 className="text-xl md:text-2xl font-extrabold text-slate-900 mb-2">
+              <h3 className="text-2xl md:text-3xl font-extrabold text-slate-900 mb-4">
                 {t("cert_title")}
               </h3>
 
-              <p className="text-slate-600 font-medium leading-relaxed">
+              <p className="text-slate-600 font-medium leading-relaxed text-lg mb-6 text-justify">
                 {t("cert_desc")}
               </p>
-            </div>
 
-            <a
-              href="https://www.eduproved.org/zertifizierung/#"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="shrink-0 group flex items-center gap-2 bg-yellow-500 hover:bg-yellow-400 text-blue-900 px-6 py-3 rounded-full shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all font-bold text-sm"
-            >
-              {t("verify_btn")}
-              <ExternalLink size={16} />
-            </a>
+              {/* NHÓM NÚT LIÊN KẾT */}
+              <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4">
+                {/* Nút về Website TRAF */}
+                <a
+                  href="https://www.traf-academy.ch/" // Điền link web thật của Traf vào đây
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 bg-blue-900 hover:bg-blue-800 text-white px-6 py-3 rounded-full shadow-lg hover:-translate-y-1 transition-all font-bold text-sm"
+                >
+                  <Globe size={16} />
+                  {t("visit_traf")}
+                </a>
+
+                {/* Nút xác thực EduPROVED */}
+                <a
+                  href="https://www.eduproved.org/zertifizierung/#"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 bg-white border border-slate-200 text-slate-600 hover:text-blue-600 px-6 py-3 rounded-full shadow-sm hover:bg-slate-50 transition-all font-bold text-sm"
+                >
+                  <Shield size={16} />
+                  {t("verify_btn")}
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -880,7 +981,7 @@ export default function MiniMBALanding() {
             <p className="text-slate-600 text-lg">{t("prog_desc")}</p>
           </div>
 
-          <div className="grid md:grid-cols-4 gap-4 mb-12">
+          {/*<div className="grid md:grid-cols-4 gap-4 mb-12">
             <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
               <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-lg flex items-center justify-center mx-auto mb-4">
                 <TrendingUp />
@@ -905,7 +1006,7 @@ export default function MiniMBALanding() {
               </div>
               <h3 className="font-bold">{t("prog_4")}</h3>
             </div>
-          </div>
+          </div>*/}
 
           <Link
             to="/training/modules"
@@ -922,14 +1023,27 @@ export default function MiniMBALanding() {
 
       {/* ROADMAP */}
       <section id="lo-trinh" className="py-20 bg-white">
-        <div className="max-w-5xl mx-auto px-6">
-          <div className="text-center mb-16">
+        <div className="max-w-4xl mx-auto px-6 text-center">
+          <div className="mb-12">
             <span className="text-blue-600 font-bold uppercase text-sm">
               {t("sec_roadmap_sub")}
             </span>
             <h2 className="text-3xl md:text-5xl font-extrabold text-slate-900 mt-2 mb-4">
               {t("sec_roadmap")}
             </h2>
+          </div>
+          <div className="bg-blue-50 border border-blue-100 rounded-3xl p-10 shadow-sm">
+            <Calendar className="w-16 h-16 text-blue-600 mx-auto mb-4" />
+            <h3 className="text-xl md:text-2xl font-bold text-blue-900 leading-relaxed">
+              {lang === "vi"
+                ? "Cả 10 module dự kiến sẽ được triển khai trong tháng 3 đến tháng 5/2026"
+                : "All 10 modules are expected to be deployed from March to May 2026"}
+            </h3>
+            <p className="mt-4 text-slate-600">
+              {lang === "vi"
+                ? "(Lớp học sẽ mở ngay khi đủ số lượng học viên đăng ký)"
+                : "(Classes will open immediately upon sufficient registration)"}
+            </p>
           </div>
           <div className="bg-slate-50 rounded-3xl p-8 md:p-12 shadow-inner border border-slate-100">
             <div className="pl-2 md:pl-4">
@@ -963,7 +1077,7 @@ export default function MiniMBALanding() {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {instructors.map((inst, index) => (
+            {sortedInstructors.map((inst, index) => (
               <motion.div
                 key={inst.id || index}
                 initial={{ opacity: 0, y: 20 }}
@@ -1025,7 +1139,7 @@ export default function MiniMBALanding() {
         <div className="max-w-6xl mx-auto px-6 relative z-10">
           <div className="grid lg:grid-cols-2 gap-12 items-start">
             {/* CỘT TRÁI: GIÁ TRỊ */}
-            <div className="text-white sticky top-24">
+            <div className="text-white lg:sticky top-24">
               <span className="text-yellow-400 font-bold tracking-widest uppercase text-sm mb-2 block">
                 {t("form_offer_badge")}
               </span>
@@ -1080,12 +1194,20 @@ export default function MiniMBALanding() {
                   <span className="text-4xl font-bold text-white">
                     17.000.000đ
                   </span>
-                  <span className="text-slate-400 line-through mb-1">
-                    24.000.000đ
-                  </span>
                 </div>
-                <p className="text-xs text-blue-300 mt-2 italic">
-                  {t("form_price_note")}
+                <div className="w-full h-px bg-blue-700/50 my-3"></div>
+                <p className="text-sm text-blue-200 mb-1 font-bold uppercase tracking-wider">
+                  Module based tuition:
+                </p>
+                <div className="flex items-end gap-2">
+                  <span className="text-2xl md:text-3xl font-bold text-white">
+                    1.800.000 VND
+                  </span>
+                  <span className="text-blue-300 text-sm mb-1">/ module</span>
+                </div>
+
+                <p className="text-xs text-blue-300 mt-4 italic">
+                  * {t("form_price_note")}
                 </p>
               </div>
             </div>
