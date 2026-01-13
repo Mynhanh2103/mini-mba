@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 
 // URL API
-const API_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
+const API_URL = import.meta.env.VITE_API_URL; //|| "http://127.0.0.1:8000";
 
 // --- TỪ ĐIỂN ĐA NGÔN NGỮ (Dữ liệu chuẩn hóa từ file Company Profile) ---
 const translations = {
@@ -24,7 +24,7 @@ const translations = {
     hero_title: "Kiến Tạo Tương Lai",
     hero_subtitle: "Y Tế Thông Minh Việt Nam",
     hero_desc1:
-      "Tiên phong trong giải pháp Chuyển đổi số - Đào tạo Quản trị - Nghiên cứu Y khoa",
+      "Tiên phong trong giải pháp Chuyển đổi số - Đào tạo Quản trị - Nghiên cứu Kỹ Thuật Số Hóa",
     hero_desc2: "Kết nối tri thức toàn cầu để nâng tầm hệ thống y tế Việt Nam",
     btn_consulting: "Giải pháp Tư vấn",
     btn_training: "Chương trình Đào tạo",
@@ -69,7 +69,7 @@ const translations = {
     hero_title: "Shaping the Future of",
     hero_subtitle: "Smart Healthcare in Vietnam",
     hero_desc1:
-      "Pioneering in Digital Transformation - Management Training - Medical Research",
+      "Pioneering in Digital Transformation - Management Training - Digitalization Research",
     hero_desc2:
       "Connecting global knowledge to elevate Vietnam's healthcare system",
     btn_consulting: "Consulting Solutions",

@@ -61,22 +61,27 @@ const translations = {
     cap_1: "Healthcare Management Experts",
     cap_1_desc: "Deep insights into hospital operations.",
     cap_2: "Health IT Professionals",
-    cap_2_desc: "Experience in deploying complex HIS, LIS, PACS, EMR, HL7 standards",
+    cap_2_desc:
+      "Experience in deploying complex HIS, LIS, PACS, EMR, HL7 standards",
     cap_3: "Clinical Specialists",
     cap_3_desc: "Ensuring solutions align with clinical workflows.",
     area_title: "Key Consulting Areas",
 
     area_1: "Digital Strategy",
-    area_1_desc: "Assessing digital strategy, digital roadmaps, patient centricity and smart hospital development.",
+    area_1_desc:
+      "Assessing digital strategy, digital roadmaps, patient centricity and smart hospital development.",
 
     area_2: "Hospital Operations",
-    area_2_desc: "Optimizing patient flow and resource, hospital performance improvement, cost structure and pricing.",
+    area_2_desc:
+      "Optimizing patient flow and resource, hospital performance improvement, cost structure and pricing.",
 
     area_3: "Healthcare IT",
-    area_3_desc: "Consulting on Telehealth, telemedicine, hybrid model, patient journey, AI chatbot.",
+    area_3_desc:
+      "Consulting on Telehealth, telemedicine, hybrid model, patient journey, AI chatbot.",
 
     area_4: "Capacity Building",
-    area_4_desc: "Training IT teams, medical equipment engineers, hospital administration staff.",
+    area_4_desc:
+      "Training IT teams, biomedical engineers, hospital administration staff.",
 
     lib_title: "Solutions & Knowledge Library",
     lib_sub:
@@ -87,11 +92,12 @@ const translations = {
     cta_modal: "Consult on this solution",
 
     cta_title: "Need Strategic Consulting?",
-    cta_desc: "Contact us at mr.truongchuong@gmail.com to build the most suitable roadmap.",
+    cta_desc:
+      "Contact us at mr.truongchuong@gmail.com to build the most suitable roadmap.",
     cta_btn: "Contact Experts",
   },
 };
-
+const API_URL = import.meta.env.VITE_API_URL; //|| "http://127.0.0.1:8000";
 export default function ConsultingPage() {
   const [lang, setLang] = useState("en");
   const t = translations[lang];
@@ -111,7 +117,7 @@ export default function ConsultingPage() {
         // Thay đổi URL này thành URL thật của dự án Django của bạn
         // Ví dụ: http://localhost:8000/api/consulting-solutions/
         const response = await axios.get(
-          "http://127.0.0.1:8000/api/consulting-solutions/"
+          `${API_URL}/api/consulting-solutions/`
         );
         setSolutions(response.data);
       } catch (error) {
@@ -134,8 +140,8 @@ export default function ConsultingPage() {
     <div className="min-h-screen bg-white font-sans text-slate-800">
       {/* LANGUAGE SWITCHER */}
       <nav className="absolute top-0 w-full z-50 py-6 px-6 flex justify-between items-center">
-        <Link 
-          to="/" 
+        <Link
+          to="/"
           className="flex items-center gap-2 bg-white/10 backdrop-blur px-4 py-2 rounded-full text-white font-bold border border-white/20 hover:bg-white/20 transition"
         >
           <Home size={18} /> {lang === "vi" ? "Trang chủ" : "Home"}
@@ -344,6 +350,34 @@ export default function ConsultingPage() {
           </div>
         </div>
       )}
+      {/* FOOTER INFO */}
+      <footer className="bg-slate-900 text-slate-400 py-12 border-t border-slate-800">
+        <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-8">
+          <div>
+            <h3 className="text-white text-xl font-bold mb-4 flex items-center gap-2">
+              <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold">
+                S
+              </div>
+              Smart Health Solutions
+            </h3>
+            <p className="mb-2">{t.footer_addr}</p>
+            <p className="mb-2">Email: mr.truongchuong@gmail.com</p>
+            <p>Mobile: 077 410 9425</p>
+          </div>
+          <div className="text-right flex flex-col justify-end">
+            <div className="flex gap-4 justify-end mb-4">
+              {/* Social Icons Placeholder */}
+              <div className="w-8 h-8 bg-slate-800 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors cursor-pointer">
+                <Globe size={16} />
+              </div>
+              <div className="w-8 h-8 bg-slate-800 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors cursor-pointer">
+                <Newspaper size={16} />
+              </div>
+            </div>
+            <p>© 2025 Smart Health Solutions. All Rights Reserved.</p>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }

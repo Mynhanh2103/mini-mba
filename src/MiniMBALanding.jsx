@@ -25,10 +25,10 @@ import {
   Shield,
   Gift,
   Database, // Icon cho Dữ liệu (Thay cho Finance)
-  Cpu,      // Icon cho AI (Thay cho Marketing)
-  Rocket,   // Icon cho Capstone (Thay cho Leadership)
+  Cpu, // Icon cho AI (Thay cho Marketing)
+  Rocket, // Icon cho Capstone (Thay cho Leadership)
   Map,
-  Settings,   // Icon cho Vận hành
+  Settings, // Icon cho Vận hành
 } from "lucide-react";
 import Testimonials from "./components/Testimonials";
 
@@ -266,16 +266,16 @@ const getOverviewIcon = (type) => {
       return <Award className={iconClass} />;
     case "Map": // Dùng cho "Chiến lược & Quản trị Y tế Số"
       return <Map className={iconClass} />;
-      
+
     case "database": // CŨ LÀ TÀI CHÍNH -> GIỜ DÙNG CHO "Tin học Y tế & Dữ liệu"
       return <Database className={iconClass} />;
-      
+
     case "rocket": // CŨ LÀ LÃNH ĐẠO -> GIỜ DÙNG CHO "Capstone Project"
       return <Rocket className={iconClass} />;
-      
+
     case "cpu": // CŨ LÀ MARKETING -> GIỜ DÙNG CHO "AI & Machine Learning"
       return <Cpu className={iconClass} />;
-    case "setting":  // TRỤ CỘT 2: Tối ưu Vận hành
+    case "setting": // TRỤ CỘT 2: Tối ưu Vận hành
       return <Settings className={iconClass} />; // Hoặc dùng TrendingUp
     default:
       return <Zap className={iconClass} />;
@@ -563,7 +563,7 @@ export default function MiniMBALanding() {
   const benefitsList = benefitsRaw ? benefitsRaw.split("\n") : defaultBenefits;
 
   const navItems = [
-    { id: "chuong-trinh", label: t("nav_program") },
+    //{ id: "chuong-trinh", label: t("nav_program") },
     { id: "loi-ich", label: t("nav_benefits") },
     { id: "lo-trinh", label: t("nav_roadmap") },
     { id: "giang-vien", label: t("nav_instructors") },
@@ -599,12 +599,12 @@ export default function MiniMBALanding() {
             className="flex items-center gap-2 cursor-pointer"
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           >
-            <div className="w-8 h-8 bg-blue-900 text-white flex items-center justify-center font-bold text-xl rounded-lg shadow-lg">
+            <div className="w-7 h-8 bg-blue-900 text-white flex items-center justify-center font-bold text-xl rounded-lg shadow-lg">
               S
             </div>
             <Link
               to="/"
-              className={`font-extrabold text-2xl tracking-tight ${
+              className={`font-extrabold text-xl tracking-tight ${
                 scrolled ? "text-blue-900" : "text-white"
               }`}
             >
@@ -826,7 +826,7 @@ export default function MiniMBALanding() {
           />
           <StatItem number={config?.stat_3 || "100%"} label={t("stat_case")} />
           <StatItem
-            number={config?.stat_4 || "TRAF"}
+            number={config?.stat_4 || "TRAF ACADEMY"}
             label={t("stat_advisor")}
           />
         </div>
@@ -942,7 +942,7 @@ export default function MiniMBALanding() {
         </div>
       </section>
 
-      {/* OVERVIEW */}
+      {/* OVERVIEW 
       <section className="py-24 bg-white border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center max-w-3xl mx-auto mb-16">
@@ -966,7 +966,7 @@ export default function MiniMBALanding() {
             </div>
           )}
         </div>
-      </section>
+      </section>*/}
 
       {/* PROGRAM */}
       <section id="chuong-trinh" className="py-24 bg-slate-50">
