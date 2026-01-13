@@ -798,13 +798,15 @@ export default function MiniMBALanding() {
               {t("hero_desc")}
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <button
-                onClick={() => scrollToSection("dang-ky")}
+              <a
+                href="/brochure.pdf" // File cần tải
+                download="MiniMBA_Healthcare_Brochure.pdf" // Tên file khi tải về
                 className="w-full sm:w-auto px-8 py-4 bg-yellow-500 hover:bg-yellow-400 text-blue-900 font-bold rounded-full shadow-xl shadow-yellow-500/30 transition-all transform hover:-translate-y-1 text-lg flex flex-row items-center justify-center gap-2 cursor-pointer whitespace-nowrap"
               >
+                {/* Nội dung nằm BÊN TRONG thẻ a mới bấm được */}
                 {t("btn_brochure")}
                 <ArrowRight className="w-5 h-5 shrink-0" />
-              </button>
+              </a>
               <button
                 onClick={() => scrollToSection("chuong-trinh")}
                 className="w-full sm:w-auto px-8 py-4 bg-white/10 hover:bg-white/20 backdrop-blur border border-white/30 text-white font-bold rounded-full"
