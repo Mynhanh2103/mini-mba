@@ -12,6 +12,7 @@ import {
   ArrowRight,
   X,
   Home,
+  Newspaper,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 // --- CẤU HÌNH NGÔN NGỮ TĨNH (Giữ nguyên phần này) ---
