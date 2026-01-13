@@ -93,7 +93,7 @@ const translations = {
     sec_instructors_sub: "Đến từ đối tác TRAF Academy",
 
     // 3. Form Đăng Ký (Quan trọng)
-    form_offer_badge: "Cơ hội cuối cùng năm 2025",
+
     form_offer_title: "Trở thành Nhà lãnh đạo Y tế",
     form_offer_highlight: "Thời đại số",
     form_ben_1: "Chứng nhận Quốc tế EDUPROVED",
@@ -193,7 +193,7 @@ const translations = {
     sec_instructors_sub: "From our partner TRAF Academy",
 
     // 3. Register Form
-    form_offer_badge: "Last Opportunity in 2025",
+
     form_offer_title: "Become a Healthcare Leader in the",
     form_offer_highlight: "Digital Era",
     form_ben_1: "EDUPROVED Certification",
@@ -1171,9 +1171,6 @@ export default function MiniMBALanding() {
           <div className="grid lg:grid-cols-2 gap-12 items-start">
             {/* CỘT TRÁI: GIÁ TRỊ */}
             <div className="text-white lg:sticky top-24">
-              <span className="text-yellow-400 font-bold tracking-widest uppercase text-sm mb-2 block">
-                {t("form_offer_badge")}
-              </span>
               <h2 className="text-4xl md:text-5xl font-extrabold mb-6 leading-tight">
                 {t("form_offer_title")}{" "}
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-yellow-600">
