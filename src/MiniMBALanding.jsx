@@ -21,6 +21,7 @@ import {
   Zap,
   Globe,
   ExternalLink,
+  Newspaper,
   Check,
   Shield,
   Gift,
