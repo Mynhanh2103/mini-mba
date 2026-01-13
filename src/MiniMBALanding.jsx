@@ -827,7 +827,7 @@ export default function MiniMBALanding() {
 
       {/* STATS */}
       <section className="py-10 bg-blue-900 relative -mt-2">
-        <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 divide-x divide-blue-800/50">
+        <div className="max-w-5xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 divide-x divide-blue-800/50">
           <StatItem
             number={config?.stat_1 || "10"}
             label={t("stat_sessions")}
@@ -838,7 +838,11 @@ export default function MiniMBALanding() {
           />
           <StatItem number={config?.stat_3 || "100%"} label={t("stat_case")} />
           <StatItem
-            number={config?.stat_4 || "TRAF ACADEMY"}
+            number={
+              <span className="text-5xl md:text-3xl whitespace-nowrap">
+                {config?.stat_4 || "TRAF ACADEMY"}
+              </span>
+            }
             label={t("stat_advisor")}
           />
         </div>
