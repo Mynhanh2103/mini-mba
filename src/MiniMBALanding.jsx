@@ -443,7 +443,7 @@ export default function MiniMBALanding() {
   const [config, setConfig] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
-
+  const [solutions, setSolutions] = useState([]);
   // --- NEW STATES FOR REGISTRATION ---
   const [regType, setRegType] = useState("full"); // 'full' hoặc 'retail'
   const [selectedModules, setSelectedModules] = useState([]); // Mảng các module được tick
@@ -476,7 +476,7 @@ export default function MiniMBALanding() {
           fetchAPI("schedule", setSchedule),
           fetchAPI("instructors", setInstructors),
           fetchAPI("overviews", setOverviews),
-          fetchAPI("config", (data) => {
+          fetchAPI("minimba-config", (data) => {
             if (data && data.length > 0) setConfig(data[0]);
           }),
         ]);
@@ -554,12 +554,21 @@ export default function MiniMBALanding() {
     }
   };
 
-  const defaultBenefits = [
-    "Học theo mô hình Online – linh hoạt & hiệu quả",
-    "Lý thuyết cô đọng – tập trung vào kiến thức áp dụng được ngay",
-    "Case Study thực tế – học qua tình huống thật",
-    "Project cuối khóa mang tính ứng dụng cao",
-  ];
+  const defaultBenefits =
+    lang === "en"
+      ? [
+          "Study in an online model – flexible & effective",
+          "Condensed theory – focused on immediately applicable knowledge",
+          "Real case studies – learning through actual situations",
+          "Final project with high practical application",
+        ]
+      : [
+          "Học theo mô hình Online – linh hoạt & hiệu quả",
+          "Lý thuyết cô đọng – tập trung vào kiến thức áp dụng được ngay",
+          "Case Study thực tế – học qua tình huống thật",
+          "Project cuối khóa mang tính ứng dụng cao",
+        ];
+  const currentBenefits = solutions.length > 0 ? solutions : defaultBenefits;
   const benefitsRaw = getData(config, "benefits_list_en", lang);
   const benefitsList = benefitsRaw ? benefitsRaw.split("\n") : defaultBenefits;
 
@@ -908,34 +917,53 @@ export default function MiniMBALanding() {
       </section>
 
       {/* BENEFITS */}
+      {/* --- BƯỚC 3: CẬP NHẬT GIAO DIỆN --- */}
       <section id="loi-ich" className="py-20 px-6 bg-white overflow-hidden">
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-8 lg:gap-16 items-center">
+          {/* Cột Trái: Hình ảnh */}
           <div className="relative">
+            {/* Trang trí nền mờ sau ảnh */}
+            <div className="absolute -inset-4 bg-yellow-400/20 rounded-full blur-2xl opacity-50"></div>
             <img
               src="/images/z.jpg"
-              className="relative rounded-3xl shadow-2xl z-10 w-full object-cover"
+              className="relative rounded-3xl shadow-2xl z-10 w-full object-cover hover:scale-[1.02] transition-transform duration-500"
               alt="Medical Management"
             />
           </div>
 
+          {/* Cột Phải: Nội dung */}
           <div className="relative z-10">
             <span className="text-blue-600 font-bold tracking-wider uppercase text-sm block mb-2">
               {t("why_choose")}
             </span>
+
             <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-6 leading-tight whitespace-pre-line">
               {getData(config, "benefit_title", lang) || t("benefit_def_title")}
             </h2>
-            <p className="text-slate-600 text-lg leading-relaxed mb-8">
+
+            <p className="text-slate-600 text-lg leading-relaxed mb-8 text-justify">
               {getData(config, "benefit_desc", lang) || t("benefit_def_desc")}
             </p>
+
+            {/* DANH SÁCH LỢI ÍCH (Đã nâng cấp logic hiển thị) */}
             <ul className="space-y-5">
-              {benefitsList.map((item, i) => (
+              {currentBenefits.map((item, i) => (
                 <li
                   key={i}
-                  className="flex items-center gap-3 text-slate-700 font-medium"
+                  className="flex items-start gap-3 text-slate-700 font-medium text-lg"
                 >
-                  <CheckCircle className="text-yellow-500 w-5 h-5 flex-shrink-0" />
-                  {item}
+                  <div className="mt-1 flex-shrink-0">
+                    <CheckCircle className="text-yellow-500 w-6 h-6" />
+                  </div>
+
+                  {/* LOGIC QUAN TRỌNG: Xử lý cả String và Object */}
+                  <span>
+                    {typeof item === "string"
+                      ? item
+                      : lang === "en"
+                      ? item.title_en || item.title
+                      : item.title}
+                  </span>
                 </li>
               ))}
             </ul>
