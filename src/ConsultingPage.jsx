@@ -51,6 +51,7 @@ const translations = {
     cta_title: "Bạn cần tư vấn chiến lược?",
     cta_desc: "Liên hệ ngay để xây dựng lộ trình chuyển đổi số phù hợp nhất.",
     cta_btn: "Liên hệ chuyên gia",
+    footer_addr: "268 Lý Thường Kiệt, Phường Dien Hong, Tp. Hồ Chí Minh"
   },
   en: {
     page_title: "Digital Consulting",
@@ -96,6 +97,7 @@ const translations = {
     cta_desc:
       "Contact us at mr.truongchuong@gmail.com to build the most suitable roadmap.",
     cta_btn: "Contact Experts",
+    footer_addr: "268 Ly Thuong Kiet, Dien Hong Ward, Ho Chi Minh City"
   },
 };
 const API_URL = import.meta.env.VITE_API_URL; //|| "http://127.0.0.1:8000";

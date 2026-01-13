@@ -24,7 +24,7 @@ const translations = {
     hero_title: "Kiến Tạo Tương Lai",
     hero_subtitle: "Y Tế Thông Minh Việt Nam",
     hero_desc1:
-      "Tiên phong trong giải pháp Chuyển đổi số - Đào tạo Quản trị - Nghiên cứu Kỹ Thuật Số Hóa",
+      "Tiên phong trong giải pháp Chuyển đổi số - Đào tạo Quản trị - Nghiên cứu Kỹ Thuật Số",
     hero_desc2: "Kết nối tri thức toàn cầu để nâng tầm hệ thống y tế Việt Nam",
     btn_consulting: "Giải pháp Tư vấn",
     btn_training: "Chương trình Đào tạo",
@@ -62,7 +62,7 @@ const translations = {
 
     footer_cta_title: "Sẵn sàng đổi mới cùng chúng tôi?",
     footer_cta_btn: "Liên hệ ngay",
-    footer_addr: "268 Lý Thường Kiệt, Phường 14, Tp. Hồ Chí Minh",
+    footer_addr: "268 Lý Thường Kiệt, Phường Diên Hồng, Tp. Hồ Chí Minh",
   },
   en: {
     // Hero Section [cite: 424-426]
@@ -108,7 +108,7 @@ const translations = {
 
     footer_cta_title: "Ready to innovate with us?",
     footer_cta_btn: "Contact Now",
-    footer_addr: "268 Ly Thuong Kiet, Ward 14, Ho Chi Minh City",
+    footer_addr: "268 Ly Thuong Kiet, Dien Hong Ward, Ho Chi Minh City",
   },
 };
 
