@@ -238,6 +238,7 @@ class ResearchPost(models.Model):
     ]
 
     title = models.CharField(max_length=255, verbose_name="Tiêu đề bài viết")
+    title_en = models.CharField(max_length=255, null=True, blank=True, verbose_name="Tiêu đề (Tiếng Anh)")
     slug = models.SlugField(max_length=255, unique=True, verbose_name="Slug (URL)", help_text="Tự động tạo từ tiêu đề")
     
     category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, default='perspective', verbose_name="Chuyên mục")
@@ -246,6 +247,12 @@ class ResearchPost(models.Model):
     summary = models.TextField(verbose_name="Tóm tắt ngắn", help_text="Hiện ở trang danh sách (Cập nhật)")
     content = models.TextField(verbose_name="Nội dung chi tiết", help_text="Chấp nhận mã HTML cơ bản")
     
+    summary = models.TextField()
+    summary_en = models.TextField(null=True, blank=True, verbose_name="Tóm tắt (Tiếng Anh)")
+    
+    content = RichTextField() # Hoặc models.TextField
+    content_en = RichTextField(null=True, blank=True, verbose_name="Nội dung (Tiếng Anh)")
+
     cover_image = models.ImageField(upload_to='research_covers/', verbose_name="Ảnh bìa", blank=True, null=True)
     
     # Đây là "Mồi câu" (Lead Magnet): File tài liệu Full
