@@ -65,7 +65,7 @@ const translations = {
     cert_title: "Chương trình hợp tác cùng TRAF Academy (Thụy Sĩ)",
     cert_desc:
       "Đội ngũ giảng viên đến từ Viện Traf Academy (Thụy Sĩ). Học viên tốt nghiệp được cấp chứng nhận Mini MBA từ Viện Traf Academy và tham gia cộng đồng cựu học viên để chia sẻ tri thức quản trị chuyển đổi số bệnh viện tại Việt Nam dưới sự cố vấn của các chuyên gia Thụy Sĩ.",
-    why_choose: "TẠI SAO CHỌN MINI MBA Y TẾ?",
+    why_choose: "TẠI SAO CHỌN MINI MBA QUẢN TRỊ CHUYỂN ĐỔI SỐ Y TẾ?",
     benefit_def_title:
       "Giải quyết bài toán thực tế trong chuyển đổi số bệnh viện/chăm sóc sức khỏe",
     benefit_def_desc:
@@ -164,11 +164,11 @@ const translations = {
     cert_title: "Partnership with TRAF Academy (Switzerland)",
     cert_desc:
       "Lecturers from Traf Academy. Graduates receive Mini MBA certification from Traf Academy and join the alumni community to share hospital digital transformation knowledge in Vietnam under the mentorship of Swiss experts.",
-    why_choose: "WHY CHOOSE MINI MBA HEALTHCARE?",
+    why_choose: "WHY CHOOSE MINI MBA HEALTHCARE DIGITALIZATION?",
     benefit_def_title:
       "Solve real problems of healthcare/hospital digitalization",
     benefit_def_desc:
-      "The Mini MBA Healthcare program is optimized for Online mode.",
+      "The Mini MBA Healthcare Digitalization Management program is optimized for Online mode.",
     sec_overview: "Course Overview",
     sec_overview_sub: "4 Pillars of knowledge for modern healthcare managers.",
 

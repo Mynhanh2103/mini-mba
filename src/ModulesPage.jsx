@@ -59,7 +59,6 @@ const getData = (item, field, lang) => {
     const enValue = item[`${field}_en`];
     if (enValue && enValue.trim() !== "") return enValue;
   }
-  // Mặc định trả về tiếng Việt
   return item[field];
 };
 
@@ -195,13 +194,13 @@ export default function ModulesPage() {
                       )}
                     </div>
 
-                    {/* NÚT ĐĂNG KÝ */}
+                    {/* NÚT ĐĂNG KÝ 
                     <button
                       onClick={() => handleOpenRegister(mod)}
                       className="w-full py-3 bg-blue-50 hover:bg-blue-100 text-blue-700 font-bold rounded-xl transition-colors flex items-center justify-center gap-2 group-hover:bg-blue-600 group-hover:text-white cursor-pointer active:scale-95"
                     >
                       <ShoppingCart size={18} /> {t.card_btn}
-                    </button>
+                    </button>*/}
                   </div>
                 </div>
               </div>
