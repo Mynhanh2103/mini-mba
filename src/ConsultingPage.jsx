@@ -15,6 +15,7 @@ import {
   Newspaper,
 } from "lucide-react";
 import { Link } from "react-router-dom";
+
 // --- CẤU HÌNH NGÔN NGỮ TĨNH (Giữ nguyên phần này) ---
 const translations = {
   vi: {
@@ -51,7 +52,7 @@ const translations = {
     cta_title: "Bạn cần tư vấn chiến lược?",
     cta_desc: "Liên hệ ngay để xây dựng lộ trình chuyển đổi số phù hợp nhất.",
     cta_btn: "Liên hệ chuyên gia",
-    footer_addr: "268 Lý Thường Kiệt, Phường Dien Hong, Tp. Hồ Chí Minh"
+    footer_addr: "268 Lý Thường Kiệt, Phường Dien Hong, Tp. Hồ Chí Minh",
   },
   en: {
     page_title: "Digital Consulting",
@@ -97,16 +98,18 @@ const translations = {
     cta_desc:
       "Contact us at mr.truongchuong@gmail.com to build the most suitable roadmap.",
     cta_btn: "Contact Experts",
-    footer_addr: "268 Ly Thuong Kiet, Dien Hong Ward, Ho Chi Minh City"
+    footer_addr: "268 Ly Thuong Kiet, Dien Hong Ward, Ho Chi Minh City",
   },
 };
-const API_URL = import.meta.env.VITE_API_URL; //|| "http://127.0.0.1:8000";
+
+const API_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
+
 export default function ConsultingPage() {
   const [lang, setLang] = useState("en");
   const t = translations[lang];
 
   // --- STATE QUẢN LÝ DỮ LIỆU TỪ API ---
-  const [solutions, setSolutions] = useState([]); // Chứa danh sách bài viết từ Admin
+  const [solutions, setSolutions] = useState([]); // Khởi tạo mảng rỗng [] thay vì null
   const [loading, setLoading] = useState(true); // Trạng thái đang tải
 
   // State cho Modal
@@ -117,14 +120,19 @@ export default function ConsultingPage() {
   useEffect(() => {
     const fetchSolutions = async () => {
       try {
-        // Thay đổi URL này thành URL thật của dự án Django của bạn
-        // Ví dụ: http://localhost:8000/api/consulting-solutions/
         const response = await axios.get(
           `${API_URL}/api/consulting-solutions/`
         );
-        setSolutions(response.data);
+        // Kiểm tra nếu response.data là mảng thì mới set, nếu không set mảng rỗng
+        if (Array.isArray(response.data)) {
+          setSolutions(response.data);
+        } else {
+          console.warn("API không trả về mảng:", response.data);
+          setSolutions([]);
+        }
       } catch (error) {
         console.error("Lỗi khi lấy dữ liệu giải pháp:", error);
+        setSolutions([]); // Set mảng rỗng khi lỗi
       } finally {
         setLoading(false);
       }
@@ -136,7 +144,11 @@ export default function ConsultingPage() {
   // Helper an toàn để lấy dữ liệu (tránh lỗi nếu field null)
   const getData = (item, field) => {
     if (!item) return "";
-    return item[`${field}_${lang}`] || "";
+    // Ưu tiên lấy trường _en/vi từ API nếu có, hoặc dùng field gốc
+    if (lang === "en") {
+      return item[`${field}_en`] || item[field] || "";
+    }
+    return item[field] || "";
   };
 
   return (
@@ -150,7 +162,7 @@ export default function ConsultingPage() {
           <Home size={18} /> {lang === "vi" ? "Trang chủ" : "Home"}
         </Link>
 
-        {/* Nút đổi ngôn ngữ cũ */}
+        {/* Nút đổi ngôn ngữ */}
         <button
           onClick={() => setLang(lang === "vi" ? "en" : "vi")}
           className="flex items-center gap-2 bg-white/10 backdrop-blur px-4 py-2 rounded-full text-white font-bold border border-white/20 hover:bg-white/20 transition"
@@ -235,40 +247,44 @@ export default function ConsultingPage() {
             </div>
           ) : (
             <div className="grid md:grid-cols-3 gap-8">
-              {/* Render danh sách từ state 'solutions' */}
-              {solutions.map((item) => (
-                <div
-                  key={item.id}
-                  onClick={() => {
-                    setSelectedItem(item);
-                    setActiveTab("context");
-                  }}
-                  className="group bg-white rounded-2xl border border-slate-200 overflow-hidden cursor-pointer hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full flex flex-col"
-                >
-                  <div className="h-48 overflow-hidden relative shrink-0">
-                    {/* Sử dụng item.thumbnail từ Django Model */}
-                    <img
-                      // Logic: Nếu có thumbnail thì dùng, nếu không có (null) thì dùng ảnh placeholder mặc định
-                      src={
-                        item.thumbnail
-                          ? item.thumbnail
-                          : "https://via.placeholder.com/400x300?text=No+Image"
-                      }
-                      alt={getData(item, "title")}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
-                  </div>
-                  <div className="p-6 flex flex-col grow">
-                    <h3 className="font-bold text-lg mb-3 group-hover:text-blue-600 transition-colors line-clamp-2">
-                      {getData(item, "title")}
-                    </h3>
-                    <div className="mt-auto flex items-center gap-2 text-blue-600 text-sm font-semibold">
-                      {t.btn_detail} <ArrowRight size={16} />
+              {/* Kiểm tra mảng trước khi map */}
+              {Array.isArray(solutions) && solutions.length > 0 ? (
+                solutions.map((item) => (
+                  <div
+                    key={item.id}
+                    onClick={() => {
+                      setSelectedItem(item);
+                      setActiveTab("context");
+                    }}
+                    className="group bg-white rounded-2xl border border-slate-200 overflow-hidden cursor-pointer hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full flex flex-col"
+                  >
+                    <div className="h-48 overflow-hidden relative shrink-0">
+                      <img
+                        src={
+                          item.thumbnail
+                            ? item.thumbnail
+                            : "https://via.placeholder.com/400x300?text=No+Image"
+                        }
+                        alt={getData(item, "title")}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
+                    </div>
+                    <div className="p-6 flex flex-col grow">
+                      <h3 className="font-bold text-lg mb-3 group-hover:text-blue-600 transition-colors line-clamp-2">
+                        {getData(item, "title")}
+                      </h3>
+                      <div className="mt-auto flex items-center gap-2 text-blue-600 text-sm font-semibold">
+                        {t.btn_detail} <ArrowRight size={16} />
+                      </div>
                     </div>
                   </div>
+                ))
+              ) : (
+                <div className="col-span-3 text-center py-8 text-slate-500">
+                  Không có dữ liệu giải pháp.
                 </div>
-              ))}
+              )}
             </div>
           )}
         </div>
@@ -353,6 +369,7 @@ export default function ConsultingPage() {
           </div>
         </div>
       )}
+
       {/* FOOTER INFO */}
       <footer className="bg-slate-900 text-slate-400 py-12 border-t border-slate-800">
         <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-8">
@@ -369,7 +386,6 @@ export default function ConsultingPage() {
           </div>
           <div className="text-right flex flex-col justify-end">
             <div className="flex gap-4 justify-end mb-4">
-              {/* Social Icons Placeholder */}
               <div className="w-8 h-8 bg-slate-800 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors cursor-pointer">
                 <Globe size={16} />
               </div>

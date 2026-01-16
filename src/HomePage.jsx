@@ -17,10 +17,10 @@ import {
 // URL API
 const API_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
 
-// --- TỪ ĐIỂN ĐA NGÔN NGỮ (Dữ liệu chuẩn hóa từ file Company Profile) ---
+// --- TỪ ĐIỂN ĐA NGÔN NGỮ ---
 const translations = {
   vi: {
-    // Hero Section [cite: 376-378]
+    // Hero Section
     hero_title: "Kiến Tạo Tương Lai",
     hero_subtitle: "Y Tế Thông Minh Việt Nam",
     hero_desc1:
@@ -34,13 +34,13 @@ const translations = {
     stat_2: "Dự án Chuyển đổi số",
     stat_3: "Học viên Quản lý",
 
-    // About Section [cite: 386-388]
+    // About Section
     about_sub: "Về Smart Health Solutions",
     about_title: "Nền Tảng Chuyển Đổi Số Toàn Diện",
     about_desc:
       "Chúng tôi cung cấp hệ sinh thái dịch vụ toàn diện từ nghiên cứu, tư vấn đến triển khai giải pháp. Smart Health Solutions là sự kết hợp hoàn hảo giữa chuyên môn Y khoa, Công nghệ tiên tiến và Quản trị hiện đại.",
 
-    // Services Section [cite: 388-397]
+    // Services Section
     srv_title: "Hệ Sinh Thái Dịch Vụ",
     srv_1: "Tư Vấn Chuyển Đổi Số",
     srv_1_desc:
@@ -52,7 +52,7 @@ const translations = {
     srv_3_desc:
       "Cập nhật xu hướng công nghệ mới, phát triển giải pháp đột phá phù hợp với y tế Việt Nam.",
 
-    // Partners Section [cite: 399-402, 408]
+    // Partners Section
     partner_title: "Mạng Lưới Hợp Tác & Chuyên Gia",
     partner_desc:
       "Tự hào là Hub tri thức kết nối các đơn vị cung ứng công nghệ 4.0, các bệnh viện và chuyên gia hàng đầu trong và ngoài nước.",
@@ -65,7 +65,7 @@ const translations = {
     footer_addr: "268 Lý Thường Kiệt, Phường Diên Hồng, Tp. Hồ Chí Minh",
   },
   en: {
-    // Hero Section [cite: 424-426]
+    // Hero Section
     hero_title: "Shaping the Future of",
     hero_subtitle: "Smart Healthcare in Vietnam",
     hero_desc1:
@@ -80,13 +80,13 @@ const translations = {
     stat_2: "Digital Projects",
     stat_3: "Management Trainees",
 
-    // About Section [cite: 433-439]
+    // About Section
     about_sub: "About Smart Health Solutions",
     about_title: "Comprehensive Digital Transformation Platform",
     about_desc:
       "We provide a comprehensive ecosystem from research and consulting to solution implementation. Smart Health Solutions perfectly blends Medical expertise, Advanced Technology, and Modern Management.",
 
-    // Services Section [cite: 440-448]
+    // Services Section
     srv_title: "Service Ecosystem",
     srv_1: "Digital Consulting",
     srv_1_desc:
@@ -98,7 +98,7 @@ const translations = {
     srv_3_desc:
       "Updating technology trends and developing groundbreaking solutions tailored for Vietnam.",
 
-    // Partners Section [cite: 450-453, 459]
+    // Partners Section
     partner_title: "Partnership & Expert Network",
     partner_desc:
       "Proud to be a knowledge hub connecting 4.0 technology providers, hospitals, and leading domestic and international experts.",
@@ -118,28 +118,31 @@ export default function HomePage() {
   const [latestNews, setLatestNews] = useState([]);
   const [partners, setPartners] = useState([]);
   const [config, setConfig] = useState(null);
+  const [consultingServices, setConsultingServices] = useState([]);
+
+  // --- HÀM HELPER ĐA NGÔN NGỮ ---
   const getData = (configObj, field, lang, fallbackValue) => {
     if (!configObj) return fallbackValue;
     if (lang === "en") {
-      // Nếu là tiếng Anh, tìm trường có đuôi _en (ví dụ hero_title_en)
+      // Nếu là tiếng Anh, tìm trường có đuôi _en (ví dụ title_en)
       // Nếu _en rỗng, quay về lấy tiếng Việt (field gốc)
       return configObj[`${field}_en`] || configObj[field] || fallbackValue;
     }
     // Mặc định trả về tiếng Việt
     return configObj[field] || fallbackValue;
   };
-  // Lấy 3 bài viết mới nhất từ API để hiển thị ở mục Tin tức
+
+  // API Config Chung
   useEffect(() => {
-    // Gọi API mới của trang chủ tổng
     fetch(`${API_URL}/api/general-config/`)
       .then((res) => res.json())
       .then((data) => {
-        if (data.length > 0) setConfig(data[0]); // Lấy bản ghi đầu tiên
+        if (data.length > 0) setConfig(data[0]);
       });
   }, []);
 
+  // API Config Mini MBA (nếu cần dùng đè)
   useEffect(() => {
-    // Gọi API riêng của Mini MBA
     fetch(`${API_URL}/api/minimba-config/`)
       .then((res) => res.json())
       .then((data) => {
@@ -147,11 +150,11 @@ export default function HomePage() {
       });
   }, []);
 
+  // API Tin tức
   useEffect(() => {
     fetch(`${API_URL}/api/research/`)
       .then((res) => res.json())
       .then((data) => {
-        // Sắp xếp bài viết mới nhất lên đầu
         const sorted = data.sort(
           (a, b) => new Date(b.created_at) - new Date(a.created_at)
         );
@@ -160,54 +163,31 @@ export default function HomePage() {
       .catch((err) => console.error("Lỗi tải tin tức:", err));
   }, []);
 
+  // API Đối tác
   useEffect(() => {
     fetch(`${API_URL}/api/partners/`)
       .then((res) => res.json())
       .then((data) => {
-        // Sắp xếp theo thứ tự (order) nếu có
         const sorted = data.sort((a, b) => (a.order || 0) - (b.order || 0));
         setPartners(sorted);
       })
       .catch((err) => console.error("Lỗi tải đối tác:", err));
   }, []);
-  const [consultingServices, setConsultingServices] = useState([]); // [MỚI]
 
-  // 2. Thêm useEffect để gọi API dịch vụ
+  // API Dịch vụ
   useEffect(() => {
     fetch(`${API_URL}/api/consulting-services/`)
       .then((res) => res.json())
       .then((data) => {
-        // Sắp xếp theo thứ tự order
         const sorted = data.sort((a, b) => (a.order || 0) - (b.order || 0));
         setConsultingServices(sorted);
       })
       .catch((err) => console.error("Lỗi tải dịch vụ:", err));
   }, []);
 
-  // 3. Hàm helper chọn icon (đặt bên trong hoặc ngoài component đều được)
-  const getServiceIcon = (iconName) => {
-    const size = 32;
-    switch (iconName) {
-      case "Cpu":
-        return <Cpu size={size} />;
-      case "Activity":
-        return <Activity size={size} />;
-      case "Layers":
-        return <BookOpen size={size} />; // Dùng tạm BookOpen cho Layers
-      case "Users":
-        return <Users size={size} />;
-      case "Zap":
-        return <ArrowRight size={size} />; // Dùng tạm
-      case "ShieldCheck":
-        return <CheckCircle size={size} />;
-      default:
-        return <Activity size={size} />;
-    }
-  };
-
   return (
     <div className="min-h-screen bg-white font-sans text-slate-800 overflow-x-hidden">
-      {/* --- 1. NAVBAR (Language Switcher) --- */}
+      {/* --- 1. NAVBAR --- */}
       <nav className="absolute top-0 w-full z-50 py-6 px-6 flex justify-between items-center max-w-7xl mx-auto left-0 right-0">
         <div
           className="text-white font-bold text-2xl tracking-tighter cursor-pointer"
@@ -223,12 +203,9 @@ export default function HomePage() {
         </button>
       </nav>
 
-      {/* --- 2. HERO SECTION (Ấn tượng hơn) --- */}
+      {/* --- 2. HERO SECTION --- */}
       <header className="relative min-h-[90vh] flex items-center justify-center bg-slate-900 text-white overflow-hidden pt-20">
-        {/* Background Image có lớp phủ */}
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-40 scale-105 animate-pulse-slow" />
-
-        {/* Background trang trí */}
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-600 rounded-full blur-[150px] opacity-20 -translate-y-1/2 translate-x-1/3"></div>
         <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-teal-600 rounded-full blur-[150px] opacity-20 translate-y-1/3 -translate-x-1/3"></div>
 
@@ -253,54 +230,9 @@ export default function HomePage() {
             <p className="text-lg md:text-xl text-slate-300 mb-10 max-w-3xl mx-auto font-light leading-relaxed">
               {t.hero_desc2}
             </p>
-
-            {/*<div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link
-                to="/consulting"
-                className="px-8 py-4 bg-blue-600 hover:bg-blue-500 rounded-full font-bold transition-all shadow-lg shadow-blue-600/30 flex items-center justify-center gap-2 hover:-translate-y-1"
-              >
-                {t.btn_consulting} <ArrowRight size={18} />
-              </Link>
-              <Link
-                to="/training"
-                className="px-8 py-4 bg-white/10 hover:bg-white/20 backdrop-blur border border-white/30 rounded-full font-bold transition-all flex items-center justify-center hover:-translate-y-1"
-              >
-                {t.btn_training}
-              </Link>
-            </div>*/}
           </motion.div>
         </div>
       </header>
-
-      {/* --- 3. STATS SECTION (Con số biết nói) 
-      <div className="bg-blue-900 border-y border-white/10 relative z-20">
-        <div className="max-w-7xl mx-auto px-6 py-12 grid grid-cols-2 md:grid-cols-4 gap-8">
-          <div className="text-center">
-            <div className="text-4xl font-extrabold text-white mb-1">10+</div>
-            <div className="text-blue-300 text-sm uppercase tracking-wider">
-              {t.stat_1}
-            </div>
-          </div>
-          <div className="text-center">
-            <div className="text-4xl font-extrabold text-white mb-1">50+</div>
-            <div className="text-blue-300 text-sm uppercase tracking-wider">
-              {t.stat_2}
-            </div>
-          </div>
-          <div className="text-center">
-            <div className="text-4xl font-extrabold text-white mb-1">1000+</div>
-            <div className="text-blue-300 text-sm uppercase tracking-wider">
-              {t.stat_3}
-            </div>
-          </div>
-          <div className="text-center">
-            <div className="text-4xl font-extrabold text-white mb-1">100%</div>
-            <div className="text-blue-300 text-sm uppercase tracking-wider">
-              Satisfaction
-            </div>
-          </div>
-        </div>
-      </div>--- */}
 
       {/* --- 4. ABOUT & MISSION --- */}
       <section className="py-24 px-6 bg-slate-50">
@@ -322,7 +254,6 @@ export default function HomePage() {
             </p>
 
             <div className="space-y-4">
-              {/* Lấy ý từ file profile [cite: 382, 399] */}
               {[
                 lang === "vi"
                   ? "Kết nối chuyên gia toàn cầu"
@@ -352,14 +283,12 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* [THÊM MỚI] --- FOUNDER SECTION --- */}
+      {/* --- FOUNDER SECTION --- */}
       <section className="py-20 bg-white border-t border-slate-100">
         <div className="max-w-6xl mx-auto px-6">
-          {/* Container chính: Flex row để chia 2 cột */}
           <div className="flex flex-col md:flex-row items-start gap-12">
-            {/* === CỘT TRÁI: Tiêu đề "Founder" & Hình ảnh (Chiếm 5/12 chiều rộng) === */}
+            {/* CỘT TRÁI: Founder */}
             <div className="w-full md:w-5/12 flex flex-col items-center md:items-start space-y-6">
-              {/* Phần Tiêu đề nằm trên ảnh */}
               <div className="w-full text-center md:text-left">
                 <h2 className="text-3xl font-black text-[#002147] uppercase leading-none">
                   Founder & CEO
@@ -367,25 +296,20 @@ export default function HomePage() {
                 <div className="w-20 h-1.5 bg-yellow-400 mt-3 rounded-full mx-auto md:mx-0"></div>
               </div>
 
-              {/* Khung chứa ảnh */}
               <div className="relative w-64 h-64 md:w-80 md:h-80 group">
-                {/* Hiệu ứng nền mờ */}
                 <div className="absolute inset-0 bg-blue-100 rounded-full blur-2xl opacity-50 transform translate-x-4 translate-y-4"></div>
-
                 <img
                   src={config?.founder_image || "https://placehold.co/400x400"}
                   alt={config?.founder_name}
                   className="relative w-full h-full object-cover rounded-full border-4 border-white shadow-2xl z-10"
                 />
-
-                {/* Nhãn dán nhỏ góc dưới ảnh */}
                 <div className="absolute bottom-4 -right-4 z-20 bg-yellow-400 text-blue-900 font-bold px-4 py-1 rounded-full shadow-lg text-sm">
                   {getData(config, "founder_role", lang, "Founder & CEO")}
                 </div>
               </div>
             </div>
 
-            {/* === CỘT PHẢI: Tên & Nội dung Bio (Chiếm 7/12 chiều rộng) === */}
+            {/* CỘT PHẢI: Bio */}
             <div className="w-full md:w-7/12 text-center md:text-left md:pt-20">
               <h2 className="text-3xl font-extrabold text-slate-900 mb-2">
                 {config?.founder_name || "Mr. Trương Minh Chương"}
@@ -417,7 +341,6 @@ export default function HomePage() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            {/* Card 1: Tư vấn */}
             <Link
               to="/consulting"
               className="group p-8 rounded-3xl bg-white border border-slate-100 shadow-xl hover:shadow-2xl transition-all hover:-translate-y-2 relative overflow-hidden"
@@ -438,7 +361,6 @@ export default function HomePage() {
               </div>
             </Link>
 
-            {/* Card 2: Đào tạo */}
             <Link
               to="/training"
               className="group p-8 rounded-3xl bg-slate-900 text-white shadow-xl hover:shadow-2xl transition-all hover:-translate-y-2 relative overflow-hidden"
@@ -459,7 +381,6 @@ export default function HomePage() {
               </div>
             </Link>
 
-            {/* Card 3: Nghiên cứu */}
             <Link
               to="/research"
               className="group p-8 rounded-3xl bg-white border border-slate-100 shadow-xl hover:shadow-2xl transition-all hover:-translate-y-2 relative overflow-hidden"
@@ -483,16 +404,13 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* --- 6. PARTNERS SECTION (Logo đối tác) --- */}
+      {/* --- 6. PARTNERS SECTION --- */}
       <section className="py-16 bg-slate-50 border-y border-slate-200">
         <div className="max-w-7xl mx-auto px-6 text-center">
           <h3 className="text-xl font-bold text-slate-400 uppercase tracking-widest mb-8">
-            {lang === "vi"
-              ? "Mạng Lưới Hợp Tác & Chuyên Gia"
-              : "Partnership & Expert Network"}
+            {t.partner_title}
           </h3>
 
-          {/* Grid Logo Động */}
           <div className="flex flex-wrap justify-center items-center gap-12">
             {partners.length > 0 ? (
               partners.map((partner) => (
@@ -507,9 +425,7 @@ export default function HomePage() {
                   <img
                     src={partner.logo}
                     alt={partner.name}
-                    // [THÊM DÒNG NÀY] Giúp trình duyệt hiểu đây là ảnh public, không gửi cookie
                     crossOrigin="anonymous"
-                    // ------------------------------------------------------------------
                     className="h-10 md:h-12 object-contain opacity-60 grayscale group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500 transform group-hover:scale-110"
                   />
                 </a>
@@ -524,14 +440,12 @@ export default function HomePage() {
           </div>
 
           <p className="mt-8 text-sm text-slate-500 italic max-w-2xl mx-auto">
-            {lang === "vi"
-              ? "Tự hào là Hub tri thức kết nối các đơn vị cung ứng công nghệ 4.0, các bệnh viện và chuyên gia hàng đầu trong và ngoài nước."
-              : "Proud to be a knowledge hub connecting 4.0 technology providers, hospitals, and leading experts globally."}
+            {t.partner_desc}
           </p>
         </div>
       </section>
 
-      {/* --- 7. LATEST NEWS & COLLABORATIONS (Dữ liệu động) --- */}
+      {/* --- 7. LATEST NEWS (Dữ liệu động đã sửa ngôn ngữ) --- */}
       <section className="py-24 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="flex justify-between items-end mb-12">
@@ -552,11 +466,11 @@ export default function HomePage() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            {/* Nếu chưa có tin tức thì hiện Skeleton hoặc tin mẫu */}
             {latestNews.length > 0 ? (
               latestNews.map((news) => (
                 <Link
-                  to={`/research/${news.slug}`}
+                  to={`/research/${news.id}`} // Sử dụng ID thay vì slug nếu backend chưa có slug
+                  state={{ lang: lang }} // QUAN TRỌNG: Truyền ngôn ngữ sang trang chi tiết
                   key={news.id}
                   className="group cursor-pointer"
                 >
@@ -568,18 +482,19 @@ export default function HomePage() {
                         news.cover_url ||
                         "https://placehold.co/600x400"
                       }
-                      alt={news.title}
+                      alt={getData(news, "title", lang, "")}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                     />
                     <div className="absolute top-4 left-4 z-20 bg-white/90 backdrop-blur px-3 py-1 rounded-lg text-xs font-bold text-blue-900 uppercase">
                       {news.category || "News"}
                     </div>
                   </div>
+                  {/* Sử dụng getData để hiển thị đúng ngôn ngữ */}
                   <h3 className="text-xl font-bold text-slate-900 mb-2 group-hover:text-blue-600 transition-colors line-clamp-2">
-                    {news.title}
+                    {getData(news, "title", lang, "Untitled")}
                   </h3>
                   <p className="text-slate-500 text-sm line-clamp-2 mb-3">
-                    {news.summary}
+                    {getData(news, "summary", lang, "")}
                   </p>
                   <span className="text-sm font-bold text-slate-400 flex items-center gap-2 group-hover:text-blue-600 transition-colors">
                     {lang === "vi" ? "Đọc tiếp" : "Read more"}{" "}
