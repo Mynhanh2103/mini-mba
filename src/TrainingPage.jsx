@@ -66,7 +66,7 @@ export default function TrainingPage() {
       desc: t.p3_desc,
       icon: <Award size={32} />,
       color: "bg-yellow-100 text-yellow-600",
-      link: "#",
+      link: "/training/healthcare-mba",
     },
     {
       id: 4,
@@ -74,7 +74,7 @@ export default function TrainingPage() {
       desc: t.p4_desc,
       icon: <ShieldCheck size={32} />,
       color: "bg-green-100 text-green-600",
-      link: "#",
+      link: "/training/jci",
     },
   ];
 

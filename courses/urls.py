@@ -5,6 +5,18 @@ from rest_framework.routers import DefaultRouter
 from .views import ModuleViewSet, ScheduleViewSet, InstructorViewSet, RegistrationViewSet, CourseOverviewViewSet, MiniMBAConfigViewSet, UserProfileView
 from .views import UserProfileView, MarkLessonView, NoteView, LessonViewSet, MaterialViewSet, ResearchPostViewSet, TestimonialViewSet, GeneralHomepageConfigViewSet, PartnerViewSet, ConsultingServiceViewSet, TrainingProgramViewSet
 from .views import ConsultingSolutionViewSet
+from .views import (
+    HealthcareMBAConfigViewSet, HealthcareModuleViewSet, 
+    HealthcareInstructorViewSet, HealthcareScheduleViewSet, 
+    HealthcareRegistrationViewSet
+)
+from .views import (
+    JCIConfigViewSet, JCIModuleViewSet, 
+    JCIInstructorViewSet, JCIScheduleViewSet, 
+    JCIRegistrationViewSet
+)
+
+
 router = DefaultRouter()
 router.register(r'modules', ModuleViewSet)
 router.register(r'schedule', ScheduleViewSet)
@@ -21,6 +33,22 @@ router.register(r'partners', PartnerViewSet)
 router.register(r'consulting-services', ConsultingServiceViewSet)
 router.register(r'consulting-solutions', ConsultingSolutionViewSet)
 router.register(r'training-programs', TrainingProgramViewSet)
+
+# Đăng ký Router mới
+router.register(r'healthcaremba-config', HealthcareMBAConfigViewSet, basename='healthcare-config')
+router.register(r'healthcare-modules', HealthcareModuleViewSet)
+router.register(r'healthcare-instructors', HealthcareInstructorViewSet)
+router.register(r'healthcare-schedule', HealthcareScheduleViewSet)
+router.register(r'healthcare-register', HealthcareRegistrationViewSet)
+
+
+# ... Đăng ký Router
+router.register(r'jci-config', JCIConfigViewSet, basename='jci-config')
+router.register(r'jci-modules', JCIModuleViewSet)
+router.register(r'jci-instructors', JCIInstructorViewSet)
+router.register(r'jci-schedule', JCIScheduleViewSet)
+router.register(r'jci-register', JCIRegistrationViewSet)
+
 urlpatterns = [
     path('', include(router.urls)),
     path('profile/', UserProfileView.as_view(), name='user-profile'),

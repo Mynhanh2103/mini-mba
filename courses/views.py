@@ -11,6 +11,13 @@ from datetime import date
 from .models import ScheduleItem, UserLessonProgress, Lesson, UserNote, ResearchPost, GeneralHomepageConfig
 from .models import Partner, ConsultingService, TrainingProgram,ConsultingSolution
 from .serializers import PartnerSerializer, ConsultingServiceSerializer, TrainingProgramSerializer,ConsultingSolutionSerializer
+
+from .models import HealthcareMBAConfig, HealthcareModule, HealthcareInstructor, HealthcareSchedule, HealthcareRegistration
+from .serializers import HealthcareMBAConfigSerializer, HealthcareModuleSerializer, HealthcareInstructorSerializer, HealthcareScheduleSerializer, HealthcareRegistrationSerializer
+
+from .models import JCIConfig, JCIModule, JCIInstructor, JCISchedule, JCIRegistration
+from .serializers import JCIConfigSerializer, JCIModuleSerializer, JCIInstructorSerializer, JCIScheduleSerializer, JCIRegistrationSerializer
+
 class GeneralHomepageConfigViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = GeneralHomepageConfig.objects.all()
     serializer_class = GeneralHomepageConfigSerializer
@@ -176,4 +183,59 @@ class ConsultingSolutionViewSet(viewsets.ReadOnlyModelViewSet):
 class TrainingProgramViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = TrainingProgram.objects.filter(is_active=True).order_by('order')
     serializer_class = TrainingProgramSerializer
+    permission_classes = [permissions.AllowAny]
+
+# --- VIEWSETS CHO HEALTHCARE MBA ---
+
+class HealthcareMBAConfigViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = HealthcareMBAConfig.objects.all()
+    serializer_class = HealthcareMBAConfigSerializer
+    permission_classes = [permissions.AllowAny]
+
+class HealthcareModuleViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = HealthcareModule.objects.all().order_by('order')
+    serializer_class = HealthcareModuleSerializer
+    permission_classes = [permissions.AllowAny]
+
+class HealthcareInstructorViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = HealthcareInstructor.objects.all().order_by('order')
+    serializer_class = HealthcareInstructorSerializer
+    permission_classes = [permissions.AllowAny]
+
+class HealthcareScheduleViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = HealthcareSchedule.objects.all().order_by('date', 'time_start')
+    serializer_class = HealthcareScheduleSerializer
+    permission_classes = [permissions.AllowAny]
+
+class HealthcareRegistrationViewSet(viewsets.ModelViewSet):
+    queryset = HealthcareRegistration.objects.all()
+    serializer_class = HealthcareRegistrationSerializer
+    permission_classes = [permissions.AllowAny] # Để khách public có thể đăng ký
+
+
+# --- VIEWSETS CHO JCI CONCEPTS ---
+
+class JCIConfigViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = JCIConfig.objects.all()
+    serializer_class = JCIConfigSerializer
+    permission_classes = [permissions.AllowAny]
+
+class JCIModuleViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = JCIModule.objects.all().order_by('order')
+    serializer_class = JCIModuleSerializer
+    permission_classes = [permissions.AllowAny]
+
+class JCIInstructorViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = JCIInstructor.objects.all().order_by('order')
+    serializer_class = JCIInstructorSerializer
+    permission_classes = [permissions.AllowAny]
+
+class JCIScheduleViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = JCISchedule.objects.all().order_by('date', 'time_start')
+    serializer_class = JCIScheduleSerializer
+    permission_classes = [permissions.AllowAny]
+
+class JCIRegistrationViewSet(viewsets.ModelViewSet):
+    queryset = JCIRegistration.objects.all()
+    serializer_class = JCIRegistrationSerializer
     permission_classes = [permissions.AllowAny]

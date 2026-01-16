@@ -1,6 +1,8 @@
 from rest_framework import serializers
 from .models import Module, ScheduleItem, Instructor, Registration, CourseOverview, ConsultingSolution
 from .models import MiniMBAConfig, Lesson, Material, ResearchPost, Testimonial, GeneralHomepageConfig, Partner, ConsultingService, TrainingProgram
+from .models import HealthcareMBAConfig, HealthcareModule, HealthcareInstructor, HealthcareSchedule, HealthcareRegistration
+from .models import JCIConfig, JCIModule, JCIInstructor, JCISchedule, JCIRegistration
 class GeneralHomepageConfigSerializer(serializers.ModelSerializer):
     class Meta:
         model = GeneralHomepageConfig
@@ -100,4 +102,65 @@ class ConsultingSolutionSerializer(serializers.ModelSerializer):
 class TrainingProgramSerializer(serializers.ModelSerializer):
     class Meta:
         model = TrainingProgram
+        fields = '__all__'
+
+# --- SERIALIZER CHO HEALTHCARE MBA ---
+
+class HealthcareMBAConfigSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = HealthcareMBAConfig
+        fields = '__all__'
+
+class HealthcareModuleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = HealthcareModule
+        fields = '__all__'
+
+class HealthcareInstructorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = HealthcareInstructor
+        fields = '__all__'
+
+class HealthcareScheduleSerializer(serializers.ModelSerializer):
+    instructor_name = serializers.CharField(source='instructor.name', read_only=True)
+    module_title = serializers.CharField(source='module.title', read_only=True)
+    
+    class Meta:
+        model = HealthcareSchedule
+        fields = '__all__'
+
+class HealthcareRegistrationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = HealthcareRegistration
+        fields = '__all__'
+
+
+# --- SERIALIZER CHO JCI CONCEPTS ---
+
+class JCIConfigSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = JCIConfig
+        fields = '__all__'
+
+class JCIModuleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = JCIModule
+        fields = '__all__'
+
+class JCIInstructorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = JCIInstructor
+        fields = '__all__'
+
+class JCIScheduleSerializer(serializers.ModelSerializer):
+    instructor_name = serializers.CharField(source='instructor.name', read_only=True)
+    module_title = serializers.CharField(source='module.title', read_only=True)
+    
+    class Meta:
+        model = JCISchedule
+        fields = '__all__'
+
+class JCIRegistrationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = JCIRegistration
         fields = '__all__'

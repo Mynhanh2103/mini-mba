@@ -4,9 +4,18 @@ from unfold.admin import ModelAdmin # Dùng class của Unfold để đẹp hơn
 from .models import Module, Instructor, ScheduleItem, Registration, CourseOverview
 from .models import MiniMBAConfig, Lesson, Material, ResearchPost, Testimonial, Partner, ConsultingService
 from .models import TrainingProgram, GeneralHomepageConfig, ConsultingSolution
+from .models import (
+    HealthcareMBAConfig, HealthcareModule, HealthcareInstructor, 
+    HealthcareSchedule, HealthcareRegistration
+)
+
+from .models import (
+    JCIConfig, JCIModule, JCIInstructor, 
+    JCISchedule, JCIRegistration
+)
 # --- Cấu hình chung ---
-admin.site.site_header = "TBI Institute Admin"
-admin.site.site_title = "TBI Admin Portal"
+admin.site.site_header = "SHS Institute Admin"
+admin.site.site_title = "SHS Admin Portal"
 admin.site.index_title = "Trung tâm Quản trị Dữ liệu"
 # 1. Quản lý Trang chủ Tổng
 @admin.register(GeneralHomepageConfig)
@@ -258,3 +267,68 @@ class ConsultingSolutionAdmin(admin.ModelAdmin):
             'fields': ('context_vi', 'context_en', 'solution_vi', 'solution_en')
         }),
     )
+
+# ==========================================
+# ADMIN CHO HEALTHCARE MBA
+# ==========================================
+
+@admin.register(HealthcareMBAConfig)
+class HealthcareMBAConfigAdmin(ModelAdmin):
+    list_display = ('hero_title',)
+    fieldsets = (
+        ("Banner & Brochure", {"fields": (("hero_title", "hero_title_en"), ("hero_slogan", "hero_slogan_en"), "hero_image", "brochure_file")}),
+        ("Giới thiệu", {"fields": (("intro_title", "intro_title_en"), "intro_image", ("intro_desc", "intro_desc_en"))}),
+    )
+
+@admin.register(HealthcareModule)
+class HealthcareModuleAdmin(ModelAdmin):
+    list_display = ('title', 'order')
+    list_editable = ('order',)
+
+@admin.register(HealthcareInstructor)
+class HealthcareInstructorAdmin(ModelAdmin):
+    list_display = ('name', 'title', 'order')
+    list_editable = ('order',)
+
+@admin.register(HealthcareSchedule)
+class HealthcareScheduleAdmin(ModelAdmin):
+    list_display = ('date', 'time_start', 'topic', 'module', 'instructor')
+    list_filter = ('module', 'date', 'instructor')
+
+@admin.register(HealthcareRegistration)
+class HealthcareRegistrationAdmin(ModelAdmin):
+    list_display = ('full_name', 'phone', 'email', 'advice_type', 'created_at', 'is_contacted')
+    list_filter = ('is_contacted', 'created_at')
+
+
+# ==========================================
+# ADMIN CHO JCI CONCEPTS
+# ==========================================
+
+@admin.register(JCIConfig)
+class JCIConfigAdmin(ModelAdmin):
+    list_display = ('hero_title',)
+    fieldsets = (
+        ("Banner & Brochure", {"fields": (("hero_title", "hero_title_en"), ("hero_slogan", "hero_slogan_en"), "hero_image", "brochure_file")}),
+        ("Giới thiệu", {"fields": (("intro_title", "intro_title_en"), "intro_image", ("intro_desc", "intro_desc_en"))}),
+    )
+
+@admin.register(JCIModule)
+class JCIModuleAdmin(ModelAdmin):
+    list_display = ('title', 'order')
+    list_editable = ('order',)
+
+@admin.register(JCIInstructor)
+class JCIInstructorAdmin(ModelAdmin):
+    list_display = ('name', 'title', 'order')
+    list_editable = ('order',)
+
+@admin.register(JCISchedule)
+class JCIScheduleAdmin(ModelAdmin):
+    list_display = ('date', 'time_start', 'topic', 'module', 'instructor')
+    list_filter = ('module', 'date')
+
+@admin.register(JCIRegistration)
+class JCIRegistrationAdmin(ModelAdmin):
+    list_display = ('full_name', 'phone', 'email', 'company', 'created_at', 'is_contacted')
+    list_filter = ('is_contacted', 'created_at')

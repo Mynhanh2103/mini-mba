@@ -128,6 +128,7 @@ FRONTEND_URL = os.environ.get('FRONTEND_URL', 'http://localhost:5173')
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
+    "http://localhost:5174",
     "https://mini-mba-frontend.onrender.com"
 ]
 
@@ -137,17 +138,15 @@ CSRF_TRUSTED_ORIGINS = [
 ]
 
 # Config giao diện Admin Unfold (Giữ nguyên của bạn)
-UNFOLD = {
-    'SITE_TITLE': 'TBI Admin Portal',
-    'SITE_HEADER': 'Hệ thống Quản trị TBI',
-    'SITE_URL': '/',
-    
-    'SIDEBAR': {
-        'show_search': True,
-        'show_all_applications': False,
-        'navigation': [
-            # ... (Tổng quan giữ nguyên) ...
+# settings.py
 
+UNFOLD = {
+    "SITE_TITLE": "TBI Admin Portal",
+    "SITE_HEADER": "TBI Institute Admin",
+    "SIDEBAR": {
+        "show_search": True,
+        "show_all_applications": False,
+        "navigation": [
             # --- NHÓM 1: TRANG CHỦ CÔNG TY (GENERAL) ---
             {
                 "title": "1. Quản lý Trang Chủ (Tổng)",
@@ -219,67 +218,163 @@ UNFOLD = {
                     },
                 ],
             },
-
-            # --- TRANG 4: TRANG ĐÀO TẠO (MINI MBA) ---
+            # ------------------------------------
+            # 4. MINI MBA (GENERAL)
+            # ------------------------------------
             {
-               "title": "4. Trang Đào Tạo (Mini MBA)",
+                "title": "Mini MBA (General)",
                 "separator": True,
                 "items": [
                     {
-                        "title": "Cấu hình Landing Page", # [MỚI] Trỏ về MiniMBAConfig
-                        "icon": "campaign", # Icon cái loa quảng cáo
+                        "title": "Cấu hình Trang chủ",
+                        "icon": "settings",
                         "link": reverse_lazy("admin:courses_minimbaconfig_changelist"),
-                        "badge": "Ads",
                     },
                     {
-                        "title": "Danh sách Đăng ký",
-                        "icon": "how_to_reg",
-                        "link": reverse_lazy("admin:courses_registration_changelist"),
-                    },
-                    {
-                        "title": "Danh mục Khóa học", # Cần Model TrainingProgram
-                        "icon": "category",
-                        "link": reverse_lazy("admin:courses_trainingprogram_changelist"),
-                    },
-                    {
-                        "title": "Giới thiệu 4 Trụ cột",
-                        "icon": "view_quilt",
-                        "link": reverse_lazy("admin:courses_courseoverview_changelist"),
-                    },
-                    {
-                        "title": "Đội ngũ Giảng viên",
-                        "icon": "groups",
-                        "link": reverse_lazy("admin:courses_instructor_changelist"),
-                    },
-                    {
-                        "title": "Lịch Khai giảng",
-                        "icon": "event",
-                        "link": reverse_lazy("admin:courses_scheduleitem_changelist"),
-                    },
-                    # --- NỘI DUNG HỌC TẬP (LMS) ---
-                    {
-                        "title": "Quản lý Modules Học",
+                        "title": "Chuyên đề (Modules)",
                         "icon": "view_module",
                         "link": reverse_lazy("admin:courses_module_changelist"),
                     },
                     {
+                        "title": "Lịch học",
+                        "icon": "calendar_today",
+                        "link": reverse_lazy("admin:courses_scheduleitem_changelist"),
+                    },
+                    {
+                        "title": "Giảng viên",
+                        "icon": "people",
+                        "link": reverse_lazy("admin:courses_instructor_changelist"),
+                    },
+                    {
+                        "title": "Danh sách Đăng ký",
+                        "icon": "app_registration",
+                        "link": reverse_lazy("admin:courses_registration_changelist"),
+                    },
+                     {
                         "title": "Bài học (Lessons)",
                         "icon": "menu_book",
                         "link": reverse_lazy("admin:courses_lesson_changelist"),
                     },
-                    {
-                        "title": "Kho Tài liệu (Materials)",
+                     {
+                        "title": "Tài liệu (Materials)",
                         "icon": "folder_shared",
                         "link": reverse_lazy("admin:courses_material_changelist"),
                     },
                 ],
             },
 
-            # --- CẤU HÌNH HỆ THỐNG ---
+            # ------------------------------------
+            # 5. MINI MBA HEALTHCARE
+            # ------------------------------------
             {
-                "title": "Hệ thống",
+                "title": "Mini MBA Healthcare",
                 "separator": True,
                 "items": [
+                    {
+                        "title": "Cấu hình Landing Page",
+                        "icon": "medical_services",
+                        "link": reverse_lazy("admin:courses_healthcarembaconfig_changelist"),
+                    },
+                    {
+                        "title": "Chuyên đề (HC Modules)",
+                        "icon": "library_books",
+                        "link": reverse_lazy("admin:courses_healthcaremodule_changelist"),
+                    },
+                    {
+                        "title": "Lịch khai giảng",
+                        "icon": "event_note",
+                        "link": reverse_lazy("admin:courses_healthcareschedule_changelist"),
+                    },
+                    {
+                        "title": "Đội ngũ Giảng viên",
+                        "icon": "school",
+                        "link": reverse_lazy("admin:courses_healthcareinstructor_changelist"),
+                    },
+                    {
+                        "title": "Đăng ký Tư vấn",
+                        "icon": "contact_mail",
+                        "link": reverse_lazy("admin:courses_healthcareregistration_changelist"),
+                    },
+                ],
+            },
+
+            # ------------------------------------
+            # 6. JCI CONCEPTS (MỚI)
+            # ------------------------------------
+            {
+                "title": "Khóa học JCI (Quality)",
+                "separator": True,
+                "items": [
+                    {
+                        "title": "Cấu hình Trang JCI",
+                        "icon": "verified_user", # Icon khiên bảo vệ
+                        "link": reverse_lazy("admin:courses_jciconfig_changelist"),
+                    },
+                    {
+                        "title": "Chuyên đề JCI",
+                        "icon": "playlist_add_check",
+                        "link": reverse_lazy("admin:courses_jcimodule_changelist"),
+                    },
+                    {
+                        "title": "Lịch học JCI",
+                        "icon": "event_available",
+                        "link": reverse_lazy("admin:courses_jcischedule_changelist"),
+                    },
+                    {
+                        "title": "Giảng viên JCI",
+                        "icon": "person_pin",
+                        "link": reverse_lazy("admin:courses_jciinstructor_changelist"),
+                    },
+                    {
+                        "title": "Đăng ký JCI",
+                        "icon": "how_to_reg",
+                        "link": reverse_lazy("admin:courses_jciregistration_changelist"),
+                    },
+                ],
+            },
+
+            # ------------------------------------
+            # 4. HỆ THỐNG & THƯ VIỆN CHUNG
+            # ------------------------------------
+            {
+                "title": "Hệ thống & Thư viện",
+                "separator": True,
+                "items": [
+                    {
+                        "title": "Trang chủ Tổng (General)",
+                        "icon": "home",
+                        "link": reverse_lazy("admin:courses_generalhomepageconfig_changelist"),
+                    },
+                    {
+                        "title": "Nghiên cứu & Bài viết",
+                        "icon": "article",
+                        "link": reverse_lazy("admin:courses_researchpost_changelist"),
+                    },
+                    {
+                        "title": "Khách hàng nói về chúng tôi",
+                        "icon": "reviews",
+                        "link": reverse_lazy("admin:courses_testimonial_changelist"),
+                    },
+                    {
+                        "title": "Đối tác (Partners)",
+                        "icon": "business",
+                        "link": reverse_lazy("admin:courses_partner_changelist"),
+                    },
+                     {
+                        "title": "Dịch vụ Tư vấn",
+                        "icon": "support_agent",
+                        "link": reverse_lazy("admin:courses_consultingservice_changelist"),
+                    },
+                    {
+                        "title": "Giải pháp (Solutions)",
+                        "icon": "lightbulb",
+                        "link": reverse_lazy("admin:courses_consultingsolution_changelist"),
+                    },
+                    {
+                        "title": "Chương trình Đào tạo (List)",
+                        "icon": "list_alt",
+                        "link": reverse_lazy("admin:courses_trainingprogram_changelist"),
+                    },
                     {
                         "title": "Tài khoản Admin",
                         "icon": "admin_panel_settings",

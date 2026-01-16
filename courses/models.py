@@ -424,3 +424,212 @@ class TrainingProgram(models.Model):
         return self.title
     
  
+#==========================================
+# PHẦN MỚI: MINI MBA HEALTHCARE MANAGEMENT
+# ==========================================
+
+class HealthcareMBAConfig(models.Model):
+    # Cấu hình Landing Page cho Healthcare MBA
+    hero_title = models.CharField(max_length=200, default="Mini MBA Healthcare Management", verbose_name="Tiêu đề Banner (VN)")
+    hero_title_en = models.CharField(max_length=200, default="Mini MBA Healthcare Management", verbose_name="Tiêu đề Banner (EN)", blank=True)
+    
+    hero_slogan = models.CharField(max_length=300, default="Nâng tầm quản trị y tế", verbose_name="Slogan (VN)")
+    hero_slogan_en = models.CharField(max_length=300, default="Elevating Healthcare Management", verbose_name="Slogan (EN)", blank=True)
+    
+    hero_image = models.ImageField(upload_to='healthcare_mba/', verbose_name="Ảnh nền Banner", null=True, blank=True)
+    brochure_file = models.FileField(upload_to='healthcare_mba/brochures/', verbose_name="File Brochure", null=True, blank=True)
+
+    # Nội dung giới thiệu
+    intro_title = models.CharField(max_length=200, default="Về chương trình", verbose_name="Tiêu đề Giới thiệu (VN)")
+    intro_title_en = models.CharField(max_length=200, default="About the program", verbose_name="Tiêu đề Giới thiệu (EN)", blank=True)
+    
+    intro_desc = RichTextField(verbose_name="Mô tả giới thiệu (VN)")
+    intro_desc_en = RichTextField(verbose_name="Mô tả giới thiệu (EN)", blank=True, null=True)
+    
+    intro_image = models.ImageField(upload_to='healthcare_mba/', verbose_name="Ảnh Giới thiệu", null=True, blank=True)
+
+    def __str__(self):
+        return "Cấu hình Landing Page - Healthcare MBA"
+
+    class Meta:
+        verbose_name = "Cấu hình Trang Healthcare MBA"
+        verbose_name_plural = "Cấu hình Trang Healthcare MBA"
+
+class HealthcareModule(models.Model):
+    title = models.CharField(max_length=200, verbose_name="Tên chuyên đề (VN)")
+    title_en = models.CharField(max_length=200, verbose_name="Tên chuyên đề (EN)", blank=True)
+    description = models.TextField(verbose_name="Mô tả (VN)")
+    description_en = models.TextField(verbose_name="Mô tả (EN)", blank=True)
+    icon_name = models.CharField(max_length=50, default="BookOpen", verbose_name="Tên Icon (Lucide)")
+    order = models.IntegerField(default=0, verbose_name="Thứ tự hiển thị")
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = "[Healthcare] Chuyên đề (Module)"
+        verbose_name_plural = "[Healthcare] Danh sách Chuyên đề"
+        ordering = ['order']
+
+class HealthcareInstructor(models.Model):
+    name = models.CharField(max_length=100, verbose_name="Tên giảng viên")
+    title = models.CharField(max_length=100, verbose_name="Chức danh (VN)")
+    title_en = models.CharField(max_length=100, verbose_name="Chức danh (EN)", blank=True)
+    bio = models.TextField(verbose_name="Tiểu sử (VN)", blank=True)
+    bio_en = models.TextField(verbose_name="Tiểu sử (EN)", blank=True)
+    avatar = models.ImageField(upload_to='healthcare_instructors/', verbose_name="Ảnh đại diện")
+    order = models.IntegerField(default=0, verbose_name="Thứ tự")
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "[Healthcare] Giảng viên"
+        verbose_name_plural = "[Healthcare] Danh sách Giảng viên"
+        ordering = ['order']
+
+class HealthcareSchedule(models.Model):
+    module = models.ForeignKey(HealthcareModule, on_delete=models.CASCADE, related_name='schedules', verbose_name="Thuộc Chuyên đề")
+    topic = models.CharField(max_length=200, verbose_name="Chủ đề buổi học (VN)")
+    topic_en = models.CharField(max_length=200, verbose_name="Chủ đề buổi học (EN)", blank=True)
+    
+    date = models.DateField(verbose_name="Ngày học")
+    time_start = models.TimeField(verbose_name="Giờ bắt đầu")
+    time_end = models.TimeField(verbose_name="Giờ kết thúc")
+    
+    instructor = models.ForeignKey(HealthcareInstructor, on_delete=models.SET_NULL, null=True, verbose_name="Giảng viên phụ trách")
+    is_online = models.BooleanField(default=True, verbose_name="Học Online?")
+
+    def __str__(self):
+        return f"{self.date} - {self.topic}"
+
+    class Meta:
+        verbose_name = "[Healthcare] Lịch học"
+        verbose_name_plural = "[Healthcare] Lịch khai giảng"
+        ordering = ['date', 'time_start']
+
+class HealthcareRegistration(models.Model):
+    full_name = models.CharField(max_length=100, verbose_name="Họ và tên")
+    email = models.EmailField(verbose_name="Email")
+    phone = models.CharField(max_length=20, verbose_name="Số điện thoại")
+    company = models.CharField(max_length=200, verbose_name="Đơn vị công tác", blank=True)
+    position = models.CharField(max_length=100, verbose_name="Chức vụ", blank=True)
+    
+    ADVICE_CHOICES = [
+        ('full', 'Tư vấn toàn khóa'),
+        ('module', 'Tư vấn theo chuyên đề'),
+    ]
+    advice_type = models.CharField(max_length=20, choices=ADVICE_CHOICES, default='full', verbose_name="Loại tư vấn")
+    
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Ngày đăng ký")
+    is_contacted = models.BooleanField(default=False, verbose_name="Đã liên hệ?")
+
+    def __str__(self):
+        return f"{self.full_name} - {self.phone}"
+
+    class Meta:
+        verbose_name = "[Healthcare] Đăng ký tư vấn"
+        verbose_name_plural = "[Healthcare] Danh sách Đăng ký"
+
+
+
+# ==========================================
+# PHẦN MỚI: KHÓA HỌC JCI CONCEPTS
+# ==========================================
+
+class JCIConfig(models.Model):
+    # Cấu hình Landing Page
+    hero_title = models.CharField(max_length=200, default="JCI Concepts – Quản Lý Chất Lượng", verbose_name="Tiêu đề Banner (VN)")
+    hero_title_en = models.CharField(max_length=200, default="JCI Concepts – Quality Management", verbose_name="Tiêu đề Banner (EN)", blank=True)
+    
+    hero_slogan = models.CharField(max_length=300, default="Nâng Tầm Chất Lượng Bệnh Viện Theo Chuẩn JCI", verbose_name="Slogan (VN)")
+    hero_slogan_en = models.CharField(max_length=300, default="Elevating Hospital Quality to JCI Standards", verbose_name="Slogan (EN)", blank=True)
+    
+    hero_image = models.ImageField(upload_to='jci/', verbose_name="Ảnh nền Banner", null=True, blank=True)
+    brochure_file = models.FileField(upload_to='jci/brochures/', verbose_name="File Brochure", null=True, blank=True)
+
+    # Giới thiệu
+    intro_title = models.CharField(max_length=200, default="Về khóa học JCI", verbose_name="Tiêu đề Giới thiệu (VN)")
+    intro_title_en = models.CharField(max_length=200, default="About JCI Course", verbose_name="Tiêu đề Giới thiệu (EN)", blank=True)
+    
+    intro_desc = RichTextField(verbose_name="Mô tả giới thiệu (VN)")
+    intro_desc_en = RichTextField(verbose_name="Mô tả giới thiệu (EN)", blank=True, null=True)
+    
+    intro_image = models.ImageField(upload_to='jci/', verbose_name="Ảnh Giới thiệu", null=True, blank=True)
+
+    def __str__(self):
+        return "Cấu hình Trang JCI Concepts"
+
+    class Meta:
+        verbose_name = "Cấu hình Trang JCI"
+        verbose_name_plural = "Cấu hình Trang JCI"
+
+class JCIModule(models.Model):
+    title = models.CharField(max_length=200, verbose_name="Tên chuyên đề (VN)")
+    title_en = models.CharField(max_length=200, verbose_name="Tên chuyên đề (EN)", blank=True)
+    description = models.TextField(verbose_name="Mô tả (VN)")
+    description_en = models.TextField(verbose_name="Mô tả (EN)", blank=True)
+    icon_name = models.CharField(max_length=50, default="ShieldCheck", verbose_name="Tên Icon (Lucide)")
+    order = models.IntegerField(default=0, verbose_name="Thứ tự hiển thị")
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = "[JCI] Chuyên đề"
+        verbose_name_plural = "[JCI] Danh sách Chuyên đề"
+        ordering = ['order']
+
+class JCIInstructor(models.Model):
+    name = models.CharField(max_length=100, verbose_name="Tên giảng viên")
+    title = models.CharField(max_length=100, verbose_name="Chức danh (VN)")
+    title_en = models.CharField(max_length=100, verbose_name="Chức danh (EN)", blank=True)
+    bio = models.TextField(verbose_name="Tiểu sử (VN)", blank=True)
+    bio_en = models.TextField(verbose_name="Tiểu sử (EN)", blank=True)
+    avatar = models.ImageField(upload_to='jci_instructors/', verbose_name="Ảnh đại diện")
+    order = models.IntegerField(default=0, verbose_name="Thứ tự")
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "[JCI] Giảng viên"
+        verbose_name_plural = "[JCI] Danh sách Giảng viên"
+        ordering = ['order']
+
+class JCISchedule(models.Model):
+    module = models.ForeignKey(JCIModule, on_delete=models.CASCADE, related_name='schedules', verbose_name="Thuộc Chuyên đề")
+    topic = models.CharField(max_length=200, verbose_name="Chủ đề buổi học (VN)")
+    topic_en = models.CharField(max_length=200, verbose_name="Chủ đề buổi học (EN)", blank=True)
+    
+    date = models.DateField(verbose_name="Ngày học")
+    time_start = models.TimeField(verbose_name="Giờ bắt đầu")
+    time_end = models.TimeField(verbose_name="Giờ kết thúc")
+    
+    instructor = models.ForeignKey(JCIInstructor, on_delete=models.SET_NULL, null=True, verbose_name="Giảng viên phụ trách")
+    is_online = models.BooleanField(default=True, verbose_name="Học Online?")
+
+    def __str__(self):
+        return f"{self.date} - {self.topic}"
+
+    class Meta:
+        verbose_name = "[JCI] Lịch học"
+        verbose_name_plural = "[JCI] Lịch khai giảng"
+        ordering = ['date', 'time_start']
+
+class JCIRegistration(models.Model):
+    full_name = models.CharField(max_length=100, verbose_name="Họ và tên")
+    email = models.EmailField(verbose_name="Email")
+    phone = models.CharField(max_length=20, verbose_name="Số điện thoại")
+    company = models.CharField(max_length=200, verbose_name="Bệnh viện/Đơn vị", blank=True)
+    position = models.CharField(max_length=100, verbose_name="Chức vụ", blank=True)
+    
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Ngày đăng ký")
+    is_contacted = models.BooleanField(default=False, verbose_name="Đã liên hệ?")
+
+    def __str__(self):
+        return f"{self.full_name} - {self.phone}"
+
+    class Meta:
+        verbose_name = "[JCI] Đăng ký tư vấn"
+        verbose_name_plural = "[JCI] Danh sách Đăng ký"
