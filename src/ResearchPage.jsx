@@ -11,42 +11,48 @@ import {
   BookOpen,
   ChevronRight,
   Home,
-  Globe, // Thêm icon Globe
+  Globe,
 } from "lucide-react";
 
 // --- CẤU HÌNH ---
 const API_URL =
   import.meta.env.VITE_API_URL || "https://mini-mba-admin.onrender.com";
 
+// --- HÀM HELPER ĐA NGÔN NGỮ (QUAN TRỌNG) ---
+// Hàm này tự động lấy trường _en nếu đang ở chế độ tiếng Anh
+const getData = (item, field, lang) => {
+  if (!item) return "";
+  if (lang === "en") {
+    // Ưu tiên lấy trường _en (ví dụ: title_en)
+    const enValue = item[`${field}_en`];
+    // Nếu có dữ liệu tiếng Anh thì trả về, nếu không thì fallback về tiếng Việt
+    if (enValue && enValue.trim() !== "") return enValue;
+  }
+  return item[field]; // Mặc định trả về tiếng Việt (trường gốc)
+};
+
 // --- TỪ ĐIỂN UI ---
 const translations = {
   vi: {
     breadcrumb_home: "Trang chủ",
     breadcrumb_research: "Thư viện & Nghiên cứu",
-
     hero_title: "Kho Tri Thức",
     hero_highlight: "Quản Trị Y Tế",
     hero_desc:
       "Cập nhật các xu hướng mới nhất, bài nghiên cứu chuyên sâu và góc nhìn từ chuyên gia hàng đầu.",
-
     tab_all: "Tất cả",
     tab_news: "Tin tức",
     tab_research: "Nghiên cứu",
     tab_perspective: "Góc nhìn",
-
     search_ph: "Tìm kiếm bài viết...",
-
     loading: "Đang tải dữ liệu...",
     no_result_title: "Không tìm thấy bài viết",
     no_result_desc: "Thử tìm từ khóa khác hoặc chọn chuyên mục khác xem sao.",
-
     card_read_more: "Đọc chi tiết",
-
     cta_title: "Bạn muốn nghiên cứu sâu hơn?",
     cta_desc:
       "Đăng ký khóa học Mini MBA để truy cập kho tài liệu nội bộ và các Case Study độc quyền.",
     cta_btn: "Đăng ký tư vấn ngay",
-
     cat_news: "Tin tức Y tế",
     cat_research: "Nghiên cứu",
     cat_perspective: "Góc nhìn",
@@ -55,31 +61,24 @@ const translations = {
   en: {
     breadcrumb_home: "Home",
     breadcrumb_research: "Library & Research",
-
     hero_title: "Healthcare Management",
-    hero_highlight: "Knowledge Hub ",
+    hero_highlight: "Knowledge Hub",
     hero_desc:
       "Update the latest trends, in-depth research articles, and insights from leading experts.",
-
     tab_all: "All",
     tab_news: "News",
     tab_research: "Research",
     tab_perspective: "Perspective",
-
     search_ph: "Search articles...",
-
     loading: "Loading data...",
     no_result_title: "No articles found",
     no_result_desc:
       "Try searching for a different keyword or selecting another category.",
-
     card_read_more: "Read more",
-
     cta_title: "Want deeper research?",
     cta_desc:
       "Register for the Mini MBA course to access internal documents and exclusive Case Studies.",
     cta_btn: "Register for consultation",
-
     cat_news: "Health News",
     cat_research: "Research",
     cat_perspective: "Perspective",
@@ -101,8 +100,9 @@ const formatDate = (dateString, lang) => {
 };
 
 export default function ResearchPage() {
-  const [lang, setLang] = useState("en"); // State ngôn ngữ
-  const t = translations[lang]; // Từ điển hiện tại
+  // 1. SET MẶC ĐỊNH LÀ "EN" (TIẾNG ANH)
+  const [lang, setLang] = useState("en");
+  const t = translations[lang];
 
   const [posts, setPosts] = useState([]);
   const [filteredPosts, setFilteredPosts] = useState([]);
@@ -112,7 +112,7 @@ export default function ResearchPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
 
-  // Helper màu sắc cho từng chuyên mục (Dynamic Label)
+  // Helper màu sắc cho từng chuyên mục
   const getCategoryStyle = (cat) => {
     switch (cat) {
       case "news":
@@ -154,7 +154,7 @@ export default function ResearchPage() {
     fetchPosts();
   }, []);
 
-  // 2. Xử lý Lọc & Tìm kiếm
+  // 2. Xử lý Lọc & Tìm kiếm (CẬP NHẬT ĐỂ TÌM KIẾM ĐÚNG NGÔN NGỮ)
   useEffect(() => {
     let result = posts;
 
@@ -164,15 +164,16 @@ export default function ResearchPage() {
 
     if (searchTerm) {
       const lowerTerm = searchTerm.toLowerCase();
-      result = result.filter(
-        (post) =>
-          post.title.toLowerCase().includes(lowerTerm) ||
-          post.summary.toLowerCase().includes(lowerTerm)
-      );
+      result = result.filter((post) => {
+        // Lấy tiêu đề và tóm tắt theo ngôn ngữ hiện tại để tìm kiếm
+        const title = getData(post, "title", lang).toLowerCase();
+        const summary = getData(post, "summary", lang).toLowerCase();
+        return title.includes(lowerTerm) || summary.includes(lowerTerm);
+      });
     }
 
     setFilteredPosts(result);
-  }, [searchTerm, selectedCategory, posts]);
+  }, [searchTerm, selectedCategory, posts, lang]); // Thêm lang vào dependency
 
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-800">
@@ -289,7 +290,8 @@ export default function ResearchPage() {
                         post.cover_url ||
                         "https://placehold.co/600x400?text=No+Image"
                       }
-                      alt={post.title}
+                      // Dùng getData cho alt ảnh luôn
+                      alt={getData(post, "title", lang)}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
                     {/* Badge Category */}
@@ -314,18 +316,21 @@ export default function ResearchPage() {
                       </span>
                     </div>
 
+                    {/* TITLE: SỬ DỤNG HÀM getData */}
                     <h2 className="text-xl font-bold text-slate-900 mb-3 line-clamp-2 group-hover:text-blue-700 transition-colors">
-                      {post.title}
+                      {getData(post, "title", lang)}
                     </h2>
 
+                    {/* SUMMARY: SỬ DỤNG HÀM getData */}
                     <p className="text-slate-600 text-sm line-clamp-3 mb-6 flex-grow leading-relaxed">
-                      {post.summary}
+                      {getData(post, "summary", lang)}
                     </p>
 
                     {/* Footer Card */}
                     <div className="pt-4 border-t border-slate-100 flex items-center justify-between mt-auto">
                       <Link
-                        to={`/research/${post.slug}`}
+                        to={`/research/${post.id}`} // Sử dụng ID thay vì Slug nếu backend chưa hỗ trợ slug
+                        state={{ lang: lang }} // QUAN TRỌNG: Truyền ngôn ngữ sang trang chi tiết
                         className="text-blue-700 font-bold text-sm flex items-center gap-2 hover:gap-3 transition-all"
                       >
                         {t.card_read_more} <ArrowRight size={16} />
