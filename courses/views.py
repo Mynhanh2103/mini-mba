@@ -18,6 +18,16 @@ from .serializers import HealthcareMBAConfigSerializer, HealthcareModuleSerializ
 from .models import JCIConfig, JCIModule, JCIInstructor, JCISchedule, JCIRegistration
 from .serializers import JCIConfigSerializer, JCIModuleSerializer, JCIInstructorSerializer, JCIScheduleSerializer, JCIRegistrationSerializer
 
+from .models import (
+    AiHealthcareConfig, AiHealthcareModule, 
+    AiHealthcareInstructor, AiHealthcareSchedule, AiHealthcareRegistration
+)
+from .serializers import (
+    AiHealthcareConfigSerializer, AiHealthcareModuleSerializer,
+    AiHealthcareInstructorSerializer, AiHealthcareScheduleSerializer,
+    AiHealthcareRegistrationSerializer
+)
+
 class GeneralHomepageConfigViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = GeneralHomepageConfig.objects.all()
     serializer_class = GeneralHomepageConfigSerializer
@@ -239,3 +249,25 @@ class JCIRegistrationViewSet(viewsets.ModelViewSet):
     queryset = JCIRegistration.objects.all()
     serializer_class = JCIRegistrationSerializer
     permission_classes = [permissions.AllowAny]
+
+
+
+class AiHealthcareConfigViewSet(viewsets.ModelViewSet):
+    queryset = AiHealthcareConfig.objects.all()
+    serializer_class = AiHealthcareConfigSerializer
+
+class AiHealthcareModuleViewSet(viewsets.ModelViewSet):
+    queryset = AiHealthcareModule.objects.all().order_by('order')
+    serializer_class = AiHealthcareModuleSerializer
+
+class AiHealthcareInstructorViewSet(viewsets.ModelViewSet):
+    queryset = AiHealthcareInstructor.objects.all().order_by('order')
+    serializer_class = AiHealthcareInstructorSerializer
+
+class AiHealthcareScheduleViewSet(viewsets.ModelViewSet):
+    queryset = AiHealthcareSchedule.objects.all().order_by('date')
+    serializer_class = AiHealthcareScheduleSerializer
+
+class AiHealthcareRegistrationViewSet(viewsets.ModelViewSet):
+    queryset = AiHealthcareRegistration.objects.all().order_by('-created_at')
+    serializer_class = AiHealthcareRegistrationSerializer

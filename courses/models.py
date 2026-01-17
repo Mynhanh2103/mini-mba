@@ -633,3 +633,96 @@ class JCIRegistration(models.Model):
     class Meta:
         verbose_name = "[JCI] Đăng ký tư vấn"
         verbose_name_plural = "[JCI] Danh sách Đăng ký"
+
+# --- CẤU HÌNH TRANG LANDING (AI HEALTHCARE) ---
+class AiHealthcareConfig(models.Model):
+    hero_title_vi = models.CharField(max_length=255, default="AI in Healthcare")
+    hero_title_en = models.CharField(max_length=255, default="AI in Healthcare")
+    hero_subtitle_vi = models.CharField(max_length=255, default="Ứng dụng Trí tuệ Nhân tạo trong Y tế")
+    hero_subtitle_en = models.CharField(max_length=255, default="Artificial Intelligence in Medicine")
+    hero_desc_vi = models.TextField(default="Chương trình đào tạo chuyên sâu...")
+    hero_desc_en = models.TextField(default="Intensive training program...")
+    hero_image = models.ImageField(upload_to='ai_healthcare/hero/', blank=True, null=True)
+    brochure_file = models.FileField(upload_to='ai_healthcare/brochures/', blank=True, null=True)
+    
+    # Số liệu thống kê (Stats)
+    stat_duration = models.CharField(max_length=50, default="43 Giờ")
+    stat_format = models.CharField(max_length=50, default="Hybrid")
+    stat_cert = models.CharField(max_length=50, default="TAMI Certificate")
+
+    def __str__(self):
+        return "Cấu hình AI Healthcare Landing Page"
+
+    class Meta:
+        verbose_name = "Cấu hình Trang AI Healthcare"
+        verbose_name_plural = "1. Cấu hình Trang AI Healthcare"
+
+# --- MODULE KHÓA HỌC (TUẦN HỌC) ---
+class AiHealthcareModule(models.Model):
+    title_vi = models.CharField(max_length=255)
+    title_en = models.CharField(max_length=255)
+    week_label = models.CharField(max_length=50, help_text="Ví dụ: Week 1, Tuần 1")
+    description_vi = RichTextField()
+    description_en = RichTextField()
+    icon_name = models.CharField(max_length=50, default="BookOpen", help_text="Tên icon từ thư viện Lucide (vd: Database, BrainCircuit, Code...)")
+    format = models.CharField(max_length=50, default="Online", help_text="Online / Offline / Hybrid")
+    order = models.IntegerField(default=0)
+
+    def __str__(self):
+        return f"{self.week_label}: {self.title_vi}"
+
+    class Meta:
+        ordering = ['order']
+        verbose_name = "Chuyên đề AI (Module)"
+        verbose_name_plural = "2. Chuyên đề AI (Modules)"
+
+# --- GIẢNG VIÊN (EXPERTS) ---
+class AiHealthcareInstructor(models.Model):
+    name = models.CharField(max_length=100)
+    title_vi = models.CharField(max_length=100)
+    title_en = models.CharField(max_length=100)
+    bio_vi = models.TextField(blank=True)
+    bio_en = models.TextField(blank=True)
+    avatar = models.ImageField(upload_to='ai_healthcare/instructors/', blank=True, null=True)
+    order = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        ordering = ['order']
+        verbose_name = "Giảng viên AI"
+        verbose_name_plural = "3. Giảng viên AI"
+
+# --- LỊCH HỌC (SCHEDULE) ---
+class AiHealthcareSchedule(models.Model):
+    date = models.DateField()
+    time_start = models.TimeField()
+    time_end = models.TimeField()
+    topic_vi = models.CharField(max_length=255)
+    topic_en = models.CharField(max_length=255)
+    instructor_name = models.CharField(max_length=100, blank=True)
+    is_online = models.BooleanField(default=True)
+
+    def __str__(self):
+        return f"{self.date} - {self.topic_vi}"
+
+    class Meta:
+        ordering = ['date', 'time_start']
+        verbose_name = "Lịch học AI"
+        verbose_name_plural = "4. Lịch học AI"
+
+# --- ĐĂNG KÝ (REGISTRATION) ---
+class AiHealthcareRegistration(models.Model):
+    full_name = models.CharField(max_length=100)
+    phone = models.CharField(max_length=20)
+    email = models.EmailField()
+    organization = models.CharField(max_length=200, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.full_name} - {self.phone}"
+
+    class Meta:
+        verbose_name = "Đăng ký AI Healthcare"
+        verbose_name_plural = "5. Danh sách Đăng ký AI"

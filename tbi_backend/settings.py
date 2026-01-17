@@ -149,12 +149,12 @@ UNFOLD = {
         "navigation": [
             # --- NHÓM 1: TRANG CHỦ CÔNG TY (GENERAL) ---
             {
-                "title": "1. Quản lý Trang Chủ (Tổng)",
+                "title": "Quản lý Nội dung (CMS)",
                 "separator": True,
                 "items": [
                     {
-                        "title": "Banner & Slogan Công ty", # Trỏ về model GeneralHomepageConfig
-                        "icon": "web", 
+                        "title": "Cấu hình Trang Chủ",
+                        "icon": "settings_suggest",
                         "link": reverse_lazy("admin:courses_generalhomepageconfig_changelist"),
                     },
                     {
@@ -162,67 +162,34 @@ UNFOLD = {
                         "icon": "handshake",
                         "link": reverse_lazy("admin:courses_partner_changelist"),
                     },
-                ],
-            },
-            
-            # --- TRANG 1: HOMEPAGE (TRANG CHỦ) ---
-            {
-                "title": "1. Quản lý Trang Chủ",
-                "separator": True,
-                "items": [
                     {
-                        "title": "Banner & Slogan (Hero)",
-                        "icon": "image", 
-                        "link": reverse_lazy("admin:courses_generalhomepageconfig_changelist"),
-                    },
-                    {
-                        "title": "Đối tác & Khách hàng", # Cần Model Partner
-                        "icon": "handshake",
-                        "link": reverse_lazy("admin:courses_partner_changelist"),
-                    },
-                    {
-                        "title": "Ý kiến Học viên (Feedback)",
-                        "icon": "format_quote",
+                        "title": "Ý kiến Học viên (Review)",
+                        "icon": "reviews",
                         "link": reverse_lazy("admin:courses_testimonial_changelist"),
                     },
-                ],
-            },
-
-            # --- TRANG 2: TRANG TƯ VẤN ---
-            {
-                "title": "2. Trang Tư Vấn",
-                "separator": True,
-                "items": [
-                    {
-                        "title": "Các Gói Dịch vụ", # Cần Model ConsultingService
-                        "icon": "support_agent",
-                        "link": reverse_lazy("admin:courses_consultingservice_changelist"),
-                    },
-                    {
-                        "title": "Thư viện Giải pháp", # Tên model ConsultingSolution
-                        "icon": "library_books",       # Icon hình quyển sách/thư viện
-                        "link": reverse_lazy("admin:courses_consultingsolution_changelist"),
-                    },
-                ],
-            },
-
-            # --- TRANG 3: TRANG NGHIÊN CỨU ---
-            {
-                "title": "3. Trang Nghiên Cứu",
-                "separator": True,
-                "items": [
                     {
                         "title": "Bài viết & Tin tức",
                         "icon": "article",
                         "link": reverse_lazy("admin:courses_researchpost_changelist"),
                     },
+                    {
+                        "title": "Các Gói Dịch vụ",
+                        "icon": "support_agent",
+                        "link": reverse_lazy("admin:courses_consultingservice_changelist"),
+                    },
+                    {
+                        "title": "Thư viện Giải pháp",
+                        "icon": "library_books",
+                        "link": reverse_lazy("admin:courses_consultingsolution_changelist"),
+                    },
                 ],
             },
+
             # ------------------------------------
-            # 4. MINI MBA (GENERAL)
+            # 2. MINI MBA (GENERAL)
             # ------------------------------------
             {
-                "title": "Mini MBA (General)",
+                "title": "Đào tạo: Mini MBA (General)",
                 "separator": True,
                 "items": [
                     {
@@ -264,10 +231,10 @@ UNFOLD = {
             },
 
             # ------------------------------------
-            # 5. MINI MBA HEALTHCARE
+            # 3. MINI MBA HEALTHCARE
             # ------------------------------------
             {
-                "title": "Mini MBA Healthcare",
+                "title": "Đào tạo: Mini MBA Healthcare",
                 "separator": True,
                 "items": [
                     {
@@ -277,7 +244,7 @@ UNFOLD = {
                     },
                     {
                         "title": "Chuyên đề (HC Modules)",
-                        "icon": "library_books",
+                        "icon": "healing",
                         "link": reverse_lazy("admin:courses_healthcaremodule_changelist"),
                     },
                     {
@@ -299,15 +266,15 @@ UNFOLD = {
             },
 
             # ------------------------------------
-            # 6. JCI CONCEPTS (MỚI)
+            # 4. JCI CONCEPTS
             # ------------------------------------
             {
-                "title": "Khóa học JCI (Quality)",
+                "title": "Đào tạo: JCI Concepts",
                 "separator": True,
                 "items": [
                     {
                         "title": "Cấu hình Trang JCI",
-                        "icon": "verified_user", # Icon khiên bảo vệ
+                        "icon": "verified_user",
                         "link": reverse_lazy("admin:courses_jciconfig_changelist"),
                     },
                     {
@@ -334,44 +301,49 @@ UNFOLD = {
             },
 
             # ------------------------------------
-            # 4. HỆ THỐNG & THƯ VIỆN CHUNG
+            # 5. AI IN HEALTHCARE (MỚI)
             # ------------------------------------
             {
-                "title": "Hệ thống & Thư viện",
+                "title": "Đào tạo: AI in Healthcare",
                 "separator": True,
                 "items": [
                     {
-                        "title": "Trang chủ Tổng (General)",
-                        "icon": "home",
-                        "link": reverse_lazy("admin:courses_generalhomepageconfig_changelist"),
+                        "title": "Cấu hình Trang AI",
+                        "icon": "memory", # Icon vi mạch/AI
+                        "link": reverse_lazy("admin:courses_aihealthcareconfig_changelist"),
                     },
                     {
-                        "title": "Nghiên cứu & Bài viết",
-                        "icon": "article",
-                        "link": reverse_lazy("admin:courses_researchpost_changelist"),
+                        "title": "Chuyên đề AI",
+                        "icon": "view_list",
+                        "link": reverse_lazy("admin:courses_aihealthcaremodule_changelist"),
                     },
                     {
-                        "title": "Khách hàng nói về chúng tôi",
-                        "icon": "reviews",
-                        "link": reverse_lazy("admin:courses_testimonial_changelist"),
+                        "title": "Lịch học AI",
+                        "icon": "calendar_month",
+                        "link": reverse_lazy("admin:courses_aihealthcareschedule_changelist"),
                     },
                     {
-                        "title": "Đối tác (Partners)",
-                        "icon": "business",
-                        "link": reverse_lazy("admin:courses_partner_changelist"),
-                    },
-                     {
-                        "title": "Dịch vụ Tư vấn",
-                        "icon": "support_agent",
-                        "link": reverse_lazy("admin:courses_consultingservice_changelist"),
+                        "title": "Giảng viên AI",
+                        "icon": "group",
+                        "link": reverse_lazy("admin:courses_aihealthcareinstructor_changelist"),
                     },
                     {
-                        "title": "Giải pháp (Solutions)",
-                        "icon": "lightbulb",
-                        "link": reverse_lazy("admin:courses_consultingsolution_changelist"),
+                        "title": "Đăng ký AI",
+                        "icon": "app_registration",
+                        "link": reverse_lazy("admin:courses_aihealthcareregistration_changelist"),
                     },
+                ],
+            },
+
+            # ------------------------------------
+            # 6. HỆ THỐNG
+            # ------------------------------------
+            {
+                "title": "Hệ thống Quản trị",
+                "separator": True,
+                "items": [
                     {
-                        "title": "Chương trình Đào tạo (List)",
+                        "title": "Danh sách Khóa học (Menu)",
                         "icon": "list_alt",
                         "link": reverse_lazy("admin:courses_trainingprogram_changelist"),
                     },

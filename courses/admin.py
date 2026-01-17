@@ -13,6 +13,12 @@ from .models import (
     JCIConfig, JCIModule, JCIInstructor, 
     JCISchedule, JCIRegistration
 )
+
+from .models import (
+    AiHealthcareConfig, AiHealthcareModule, 
+    AiHealthcareInstructor, AiHealthcareSchedule, AiHealthcareRegistration
+)
+
 # --- Cấu hình chung ---
 admin.site.site_header = "SHS Institute Admin"
 admin.site.site_title = "SHS Admin Portal"
@@ -332,3 +338,26 @@ class JCIScheduleAdmin(ModelAdmin):
 class JCIRegistrationAdmin(ModelAdmin):
     list_display = ('full_name', 'phone', 'email', 'company', 'created_at', 'is_contacted')
     list_filter = ('is_contacted', 'created_at')
+
+
+@admin.register(AiHealthcareConfig)
+class AiHealthcareConfigAdmin(ModelAdmin):
+    pass
+
+@admin.register(AiHealthcareModule)
+class AiHealthcareModuleAdmin(ModelAdmin):
+    list_display = ('week_label', 'title_vi', 'format', 'order')
+    search_fields = ('title_vi', 'title_en')
+
+@admin.register(AiHealthcareInstructor)
+class AiHealthcareInstructorAdmin(ModelAdmin):
+    list_display = ('name', 'title_vi', 'order')
+
+@admin.register(AiHealthcareSchedule)
+class AiHealthcareScheduleAdmin(ModelAdmin):
+    list_display = ('date', 'time_start', 'topic_vi', 'is_online')
+    list_filter = ('is_online', 'date')
+
+@admin.register(AiHealthcareRegistration)
+class AiHealthcareRegistrationAdmin(ModelAdmin):
+    list_display = ('full_name', 'phone', 'email', 'organization', 'created_at')

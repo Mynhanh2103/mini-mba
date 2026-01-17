@@ -50,7 +50,7 @@ export default function TrainingPage() {
       desc: t.p1_desc,
       icon: <Zap size={32} />,
       color: "bg-purple-100 text-purple-600",
-      link: "#",
+      link: "/training/ai-healthcare",
     },
     {
       id: 2,

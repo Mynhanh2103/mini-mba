@@ -3,6 +3,11 @@ from .models import Module, ScheduleItem, Instructor, Registration, CourseOvervi
 from .models import MiniMBAConfig, Lesson, Material, ResearchPost, Testimonial, GeneralHomepageConfig, Partner, ConsultingService, TrainingProgram
 from .models import HealthcareMBAConfig, HealthcareModule, HealthcareInstructor, HealthcareSchedule, HealthcareRegistration
 from .models import JCIConfig, JCIModule, JCIInstructor, JCISchedule, JCIRegistration
+from .models import (
+    AiHealthcareConfig, AiHealthcareModule, 
+    AiHealthcareInstructor, AiHealthcareSchedule, AiHealthcareRegistration
+)
+
 class GeneralHomepageConfigSerializer(serializers.ModelSerializer):
     class Meta:
         model = GeneralHomepageConfig
@@ -163,4 +168,30 @@ class JCIScheduleSerializer(serializers.ModelSerializer):
 class JCIRegistrationSerializer(serializers.ModelSerializer):
     class Meta:
         model = JCIRegistration
+        fields = '__all__'
+
+
+class AiHealthcareConfigSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AiHealthcareConfig
+        fields = '__all__'
+
+class AiHealthcareModuleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AiHealthcareModule
+        fields = '__all__'
+
+class AiHealthcareInstructorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AiHealthcareInstructor
+        fields = '__all__'
+
+class AiHealthcareScheduleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AiHealthcareSchedule
+        fields = '__all__'
+
+class AiHealthcareRegistrationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AiHealthcareRegistration
         fields = '__all__'

@@ -16,6 +16,10 @@ from .views import (
     JCIRegistrationViewSet
 )
 
+from .views import(
+    AiHealthcareConfigViewSet, AiHealthcareInstructorViewSet, AiHealthcareModuleViewSet, AiHealthcareRegistrationViewSet,
+    AiHealthcareScheduleViewSet
+)
 
 router = DefaultRouter()
 router.register(r'modules', ModuleViewSet)
@@ -48,6 +52,13 @@ router.register(r'jci-modules', JCIModuleViewSet)
 router.register(r'jci-instructors', JCIInstructorViewSet)
 router.register(r'jci-schedule', JCIScheduleViewSet)
 router.register(r'jci-register', JCIRegistrationViewSet)
+
+
+router.register(r'aihealthcare-config', AiHealthcareConfigViewSet)
+router.register(r'aihealthcare-modules', AiHealthcareModuleViewSet)
+router.register(r'aihealthcare-instructors', AiHealthcareInstructorViewSet)
+router.register(r'aihealthcare-schedule', AiHealthcareScheduleViewSet)
+router.register(r'aihealthcare-register', AiHealthcareRegistrationViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
