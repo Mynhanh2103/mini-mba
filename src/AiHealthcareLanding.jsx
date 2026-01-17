@@ -499,7 +499,7 @@ export default function AiHealthcareLanding() {
               <img
                 src={
                   config?.hero_image ||
-                  "/public/images/epub_healthcare-artificial-intelligence-ai-iStock-1961399015_1080x1080_webp.webp"
+                  "/images/epub_healthcare-artificial-intelligence-ai-iStock-1961399015_1080x1080_webp.webp"
                 }
                 alt="AI Healthcare"
                 className="w-full h-auto object-cover opacity-80"
@@ -559,7 +559,7 @@ export default function AiHealthcareLanding() {
                 <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-2xl blur-lg opacity-40 group-hover:opacity-70 transition duration-700 animate-pulse"></div>
                 <div className="relative w-full bg-white rounded-2xl shadow-2xl flex items-center justify-center h-56 md:h-72 overflow-hidden border-2 border-white/50">
                   <img
-                    src="/public/logo/3-TAMI_LOGO_FRAME_V1CS3-01-white.webp"
+                    src="/logo/3-TAMI_LOGO_FRAME_V1CS3-01-white.webp"
                     alt="TAMI Logo"
                     className="w-full h-full object-contain p-4"
                     onError={(e) => {
