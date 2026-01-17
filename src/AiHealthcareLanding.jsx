@@ -993,7 +993,7 @@ export default function AiHealthcareLanding() {
               Smart Health Solutions
             </h3>
 
-            <p className="mb-2">{t.footer_addr}</p>
+            <p className="mb-2 text-slate-400">{t("footer_addr")}</p>
 
             <p className="mb-2">Email: mr.truongchuong@gmail.com</p>
 
