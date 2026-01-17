@@ -13,6 +13,7 @@ import LoginPage from "./LoginPage";
 import Dashboard from "./Dashboard";
 import JciLanding from "./JciLanding";
 import HealthcareMBALanding from "./HealthcareMBALanding";
+import AiHealthcareLanding from "./AiHealthcareLanding";
 // Component cuộn lên đầu trang mỗi khi chuyển trang
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
@@ -44,6 +45,7 @@ export default function App() {
         {/* Khóa Mini MBA */}
         <Route path="/training/jci" element={<JciLanding />} />
         <Route path="/training/healthcare-mba" element={<HealthcareMBALanding />} />
+        <Route path="/training/ai-healthcare" element={<AiHealthcareLanding />} />
         <Route path="/training/modules" element={<ModulesPage />} />{" "}
         {/* Đăng ký Module lẻ */}
         {/* 5. HỆ THỐNG USER & ADMIN */}
