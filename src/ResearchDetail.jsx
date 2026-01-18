@@ -109,6 +109,7 @@ export default function ResearchDetail() {
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true); // Bắt đầu load
+      console.log("TEST API BASE:", API_BASE);
       try {
         // Gọi song song 2 API: Lấy bài viết & Lấy bài liên quan
         const [postRes, relatedRes] = await Promise.all([
