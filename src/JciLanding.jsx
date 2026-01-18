@@ -402,16 +402,50 @@ export default function JciLanding() {
                 {t("trusted_by")}
               </p>
               <div className="flex flex-wrap items-center gap-8 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
-                {/* Sử dụng Text thay vì khung xám để đẹp hơn */}
-                <span className="text-xl font-serif font-bold text-slate-800">
-                  Nguyen Tri Phuong Hospital
-                </span>
-                <span className="text-xl font-sans font-bold text-slate-800 italic">
-                  Ho Chi Minh Oncology Hospital
-                </span>
-                <span className="text-lg font-bold text-slate-800 border-2 border-slate-800 px-1">
-                  JCI
-                </span>
+                {/* Logo Phương Châu */}
+                <img
+                  src="/logo/logopcg_jrjp4d.png" // Thay bằng đường dẫn file thật của bạn
+                  alt="Phuong Chau"
+                  className="h-10 w-auto object-contain hover:scale-110 transition-transform duration-300"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src =
+                      "https://placehold.co/120x50?text=Phuong+Chau";
+                  }}
+                />
+                {/* Logo Gia Định */}
+                <img
+                  src="/logo/Logo-Benh-Vien-Nhan-Dan-Gia-Dinh_kvpwzo.webp" // Thay bằng đường dẫn file thật của bạn
+                  alt="Gia Dinh"
+                  className="h-12 w-auto object-contain hover:scale-110 transition-transform duration-300"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = "https://placehold.co/120x50?text=Gia+Dinh";
+                  }}
+                />
+
+                {/* Logo Ung Bướu (Oncology) */}
+                <img
+                  src="/logo/images_qdg3n6.png" // Thay bằng đường dẫn file thật của bạn
+                  alt="Ho Chi Minh Oncology Hospital"
+                  className="h-14 w-auto object-contain hover:scale-110 transition-transform duration-300"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src =
+                      "https://placehold.co/150x50?text=Oncology+HCMC";
+                  }}
+                />
+                {/* Logo JCI */}
+                <img
+                  src="/logo/image.webp" // Thay bằng đường dẫn file thật của bạn
+                  alt="JCI"
+                  className="h-12 w-auto object-contain hover:scale-110 transition-transform duration-300"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src =
+                      "https://placehold.co/120x50?text=NTP+Hospital";
+                  }}
+                />
               </div>
             </div>
           </motion.div>

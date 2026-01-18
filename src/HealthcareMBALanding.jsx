@@ -427,21 +427,56 @@ export default function HealthcareMBALanding() {
             </div>
             <div className="mt-12">
               <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">
-                {t("trusted_by")}
+                {/* Bạn nhớ thêm key "trusted_by": "Được tin tưởng bởi" vào biến translations nhé */}
+                {t("trusted_by") || "Được tin tưởng bởi"}
               </p>
               <div className="flex flex-wrap items-center gap-8 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
-                <span className="text-xl font-serif font-bold text-slate-800">
-                  Phuong Chau
-                </span>
-                <span className="text-xl font-sans font-bold text-slate-800 italic">
-                  Nguyen Tri Phuong
-                </span>
-                <span className="text-lg font-bold text-slate-800 ">
-                  Gia Dinh
-                </span>
-                <span className="text-xl font-mono font-bold text-slate-800">
-                  Ho Chi Minh Oncology Hospital
-                </span>
+                {/* Logo Phương Châu */}
+                <img
+                  src="/logo/logopcg_jrjp4d.png" // Thay bằng đường dẫn file thật của bạn
+                  alt="Phuong Chau"
+                  className="h-10 w-auto object-contain hover:scale-110 transition-transform duration-300"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src =
+                      "https://placehold.co/120x50?text=Phuong+Chau";
+                  }}
+                />
+
+                {/* Logo Nguyễn Tri Phương */}
+                <img
+                  src="/logo/bvntp_j1au0x.png" // Thay bằng đường dẫn file thật của bạn
+                  alt="Nguyen Tri Phuong"
+                  className="h-12 w-auto object-contain hover:scale-110 transition-transform duration-300"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src =
+                      "https://placehold.co/120x50?text=NTP+Hospital";
+                  }}
+                />
+
+                {/* Logo Gia Định */}
+                <img
+                  src="/logo/Logo-Benh-Vien-Nhan-Dan-Gia-Dinh_kvpwzo.webp" // Thay bằng đường dẫn file thật của bạn
+                  alt="Gia Dinh"
+                  className="h-12 w-auto object-contain hover:scale-110 transition-transform duration-300"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = "https://placehold.co/120x50?text=Gia+Dinh";
+                  }}
+                />
+
+                {/* Logo Ung Bướu (Oncology) */}
+                <img
+                  src="/logo/images_qdg3n6.png" // Thay bằng đường dẫn file thật của bạn
+                  alt="Ho Chi Minh Oncology Hospital"
+                  className="h-14 w-auto object-contain hover:scale-110 transition-transform duration-300"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src =
+                      "https://placehold.co/150x50?text=Oncology+HCMC";
+                  }}
+                />
               </div>
             </div>
           </motion.div>

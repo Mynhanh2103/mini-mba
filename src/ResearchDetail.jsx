@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useLocation } from "react-router-dom"; // Thêm useLocation
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Calendar,
@@ -14,10 +14,9 @@ import {
   X,
 } from "lucide-react";
 
-const API_URL =
-  import.meta.env.VITE_API_URL || "http://127.0.0.1:8000"; //"https://mini-mba-admin.onrender.com";
+// 1. SỬA URL API: Trỏ thẳng về Render để tránh lỗi kết nối
+const API_URL = "https://mini-mba-admin.onrender.com";
 
-// --- TỪ ĐIỂN DỊCH THUẬT (Anh / Việt) ---
 const translations = {
   vi: {
     loading: "Đang tải nội dung...",
@@ -78,34 +77,31 @@ const translations = {
   },
 };
 
-// --- COMPONENT CHÍNH (Mặc định lang = 'en') ---
-export default function ResearchDetail({ lang = "en" }) {
-  const { slug } = useParams();
+export default function ResearchDetail() {
+  // 2. SỬA LỖI PARAMS: Dùng 'id' thay vì 'slug' (để khớp với App.jsx)
+  const { id } = useParams();
+
+  // 3. SỬA LỖI NGÔN NGỮ: Lấy lang từ state của React Router
+  const location = useLocation();
+  const lang = location.state?.lang || "en"; // Mặc định là 'en' nếu không có state
+
   const [post, setPost] = useState(null);
   const [relatedPosts, setRelatedPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [showEmailModal, setShowEmailModal] = useState(false);
 
-  // Lấy bộ từ điển ngôn ngữ (Fallback về EN nếu không tìm thấy)
   const t = translations[lang] || translations.en;
 
-  // --- HÀM HELPER: LẤY DỮ LIỆU ĐA NGÔN NGỮ ---
-  // Logic: Ưu tiên lấy tiếng Anh, nếu rỗng thì lấy tiếng Việt (để không bị trắng trang)
+  // Helper lấy dữ liệu đa ngôn ngữ
   const getLocalizedData = (data, field) => {
     if (!data) return "";
-
-    // Nếu đang xem tiếng Anh
     if (lang === "en") {
-      const enData = data[`${field}_en`];
-      // Kiểm tra xem có dữ liệu tiếng Anh không (và không phải chuỗi rỗng)
-      return enData && enData.trim() !== "" ? enData : data[field];
+      const enValue = data[`${field}_en`];
+      return enValue && enValue.trim() !== "" ? enValue : data[field];
     }
-
-    // Mặc định trả về dữ liệu gốc (thường là tiếng Việt)
     return data[field];
   };
 
-  // Helper format ngày tháng (Tự động theo locale)
   const formatDate = (dateString) => {
     if (!dateString) return "";
     const locale = lang === "vi" ? "vi-VN" : "en-US";
@@ -116,22 +112,29 @@ export default function ResearchDetail({ lang = "en" }) {
     });
   };
 
-  // Fetch dữ liệu từ API
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
       try {
-        const resPost = await fetch(`${API_URL}/api/research/${slug}/`);
+        // 4. GỌI API BẰNG ID
+        // Lưu ý: Thêm dấu '/' ở cuối URL để tránh lỗi chuyển hướng của Django
+        const resPost = await fetch(`${API_URL}/api/research/${id}/`);
+
         if (resPost.ok) {
           const data = await resPost.json();
           setPost(data);
+        } else {
+          console.error("Post not found");
+          setPost(null);
         }
 
         const resRelated = await fetch(`${API_URL}/api/research/`);
         if (resRelated.ok) {
           const data = await resRelated.json();
-          // Lọc bài hiện tại ra khỏi danh sách liên quan
-          setRelatedPosts(data.filter((p) => p.slug !== slug).slice(0, 5));
+          // Lọc bài hiện tại (so sánh theo ID)
+          setRelatedPosts(
+            data.filter((p) => String(p.id) !== String(id)).slice(0, 5)
+          );
         }
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -140,9 +143,11 @@ export default function ResearchDetail({ lang = "en" }) {
       }
     };
 
-    fetchData();
-    window.scrollTo(0, 0);
-  }, [slug]);
+    if (id) {
+      fetchData();
+      window.scrollTo(0, 0);
+    }
+  }, [id]);
 
   const handleDownloadSubmit = (e) => {
     e.preventDefault();
@@ -173,12 +178,10 @@ export default function ResearchDetail({ lang = "en" }) {
       </div>
     );
 
-  // Chuẩn bị dữ liệu hiển thị (Đã qua xử lý ngôn ngữ)
   const displayTitle = getLocalizedData(post, "title");
   const displaySummary = getLocalizedData(post, "summary");
   const displayContent = getLocalizedData(post, "content");
 
-  // Xử lý nhãn Category
   const categoryLabel =
     post.category === "research"
       ? t.category.research
@@ -188,7 +191,7 @@ export default function ResearchDetail({ lang = "en" }) {
 
   return (
     <div className="min-h-screen bg-white font-sans text-slate-800">
-      {/* --- TOP BAR NAVIGATION --- */}
+      {/* TOP BAR */}
       <div className="bg-slate-900 text-white py-3 sticky top-0 z-40 shadow-md">
         <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
           <Link
@@ -211,7 +214,7 @@ export default function ResearchDetail({ lang = "en" }) {
         </div>
       </div>
 
-      {/* --- HERO HEADER --- */}
+      {/* HERO HEADER */}
       <header className="bg-slate-50 border-b border-slate-200 py-12 md:py-16">
         <div className="max-w-4xl mx-auto px-6 text-center">
           <span className="inline-block px-3 py-1 bg-blue-100 text-blue-800 text-xs font-bold uppercase tracking-wider rounded-full mb-4">
@@ -238,22 +241,20 @@ export default function ResearchDetail({ lang = "en" }) {
         </div>
       </header>
 
-      {/* --- MAIN CONTENT (2 COLUMNS) --- */}
+      {/* MAIN CONTENT */}
       <div className="max-w-7xl mx-auto px-6 py-12 grid grid-cols-1 lg:grid-cols-12 gap-12">
-        {/* LEFT COLUMN: ARTICLE CONTENT (8/12) */}
+        {/* ARTICLE CONTENT */}
         <article className="lg:col-span-8">
-          {/* Summary / Sapo */}
           {displaySummary && (
             <div className="bg-blue-50 border-l-4 border-blue-600 p-6 rounded-r-xl mb-8 italic text-slate-700 text-lg leading-relaxed">
               {displaySummary}
             </div>
           )}
 
-          {/* Cover Image */}
-          {post.cover_url && (
+          {(post.cover_image || post.cover_url) && (
             <div className="mb-10 rounded-2xl overflow-hidden shadow-lg">
               <img
-                src={post.cover_url}
+                src={post.cover_image || post.cover_url}
                 alt={displayTitle}
                 className="w-full h-auto object-cover"
               />
@@ -263,7 +264,6 @@ export default function ResearchDetail({ lang = "en" }) {
             </div>
           )}
 
-          {/* HTML Content */}
           <div
             className="prose prose-lg prose-slate max-w-none 
             prose-headings:font-bold prose-headings:text-slate-900 
@@ -271,7 +271,6 @@ export default function ResearchDetail({ lang = "en" }) {
             dangerouslySetInnerHTML={{ __html: displayContent }}
           />
 
-          {/* Tags */}
           <div className="mt-12 pt-8 border-t border-slate-200">
             <p className="text-slate-500 text-sm">
               <strong>{t.keywords}:</strong> Digital Transformation, Smart
@@ -280,9 +279,8 @@ export default function ResearchDetail({ lang = "en" }) {
           </div>
         </article>
 
-        {/* RIGHT COLUMN: SIDEBAR (4/12) */}
+        {/* SIDEBAR */}
         <aside className="lg:col-span-4 space-y-8">
-          {/* Download Box (Lead Magnet) */}
           {post.pdf_url && (
             <div className="bg-yellow-50 border border-yellow-200 rounded-2xl p-6 shadow-sm sticky top-24">
               <div className="flex items-center gap-3 mb-4 text-yellow-800">
@@ -299,7 +297,6 @@ export default function ResearchDetail({ lang = "en" }) {
             </div>
           )}
 
-          {/* Related Posts */}
           <div className="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm">
             <h3 className="font-bold text-slate-900 mb-4 flex items-center gap-2">
               <Bookmark className="text-blue-600" size={20} /> {t.relatedPosts}
@@ -308,7 +305,8 @@ export default function ResearchDetail({ lang = "en" }) {
               {relatedPosts.map((p) => (
                 <Link
                   key={p.id}
-                  to={`/research/${p.slug}`}
+                  to={`/research/${p.id}`} // Sửa lại link dùng ID
+                  state={{ lang: lang }} // Truyền lang sang bài viết liên quan
                   className="group block"
                 >
                   <h4 className="font-bold text-slate-700 text-sm group-hover:text-blue-700 transition-colors line-clamp-2 mb-1">
@@ -322,14 +320,13 @@ export default function ResearchDetail({ lang = "en" }) {
             </div>
           </div>
 
-          {/* Course Ad */}
           <div className="bg-gradient-to-br from-blue-900 to-slate-900 rounded-2xl p-6 text-white text-center">
             <h3 className="font-bold text-xl mb-2 text-yellow-400">
               {t.adsTitle}
             </h3>
             <p className="text-blue-100 text-sm mb-4">{t.adsDesc}</p>
             <Link
-              to="/#dang-ky"
+              to="/training/mini-mba#dang-ky"
               className="inline-block px-6 py-2 bg-yellow-500 hover:bg-yellow-400 text-blue-900 font-bold rounded-lg text-sm transition-colors"
             >
               {t.learnMore}
@@ -338,7 +335,7 @@ export default function ResearchDetail({ lang = "en" }) {
         </aside>
       </div>
 
-      {/* --- EMAIL MODAL --- */}
+      {/* EMAIL MODAL */}
       <AnimatePresence>
         {showEmailModal && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
