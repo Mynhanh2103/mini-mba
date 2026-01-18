@@ -16,7 +16,7 @@ import {
 import axios from "axios";
 
 // 1. CẤU HÌNH API: Trỏ thẳng về Render để tránh lỗi kết nối localhost
-const API_BASE = "https://mini-mba-admin.onrender.com";
+const API_BASE = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
 
 const translations = {
   vi: {
@@ -75,8 +75,7 @@ const translations = {
 };
 
 export default function ResearchDetail() {
-  // 2. LẤY ID TỪ URL
-  const { id } = useParams();
+  const { slug } = useParams();
 
   // 3. LẤY NGÔN NGỮ TỪ STATE (Mặc định EN nếu ko có)
   const location = useLocation();
@@ -108,40 +107,40 @@ export default function ResearchDetail() {
   // 4. GỌI API (SỬA LỖI LOADING)
   useEffect(() => {
     const fetchData = async () => {
-      setIsLoading(true); // Bắt đầu load
-      console.log("TEST API BASE:", API_BASE);
+      setIsLoading(true);
       try {
-        // Gọi song song 2 API: Lấy bài viết & Lấy bài liên quan
-        const [postRes, relatedRes] = await Promise.all([
-          axios.get(`${API_BASE}/api/research/${id}/`),
-          axios.get(`${API_BASE}/api/research/`),
-        ]);
+        const timeStamp = new Date().getTime();
 
+        // [THAY ĐỔI 2] Gọi API bằng slug
+        // Lưu ý: Backend Django cần thiết lập lookup_field = 'slug' thì mới chạy được dòng này
+        const postRes = await axios.get(
+          `${API_BASE}/api/research/${slug}/?t=${timeStamp}`
+        );
         setPost(postRes.data);
 
-        // Lọc bài liên quan (trừ bài hiện tại)
+        // Gọi API lấy bài liên quan
+        const relatedRes = await axios.get(
+          `${API_BASE}/api/research/?t=${timeStamp}`
+        );
         if (relatedRes.data) {
+          // [THAY ĐỔI 3] Lọc bài viết hiện tại dựa trên slug
           setRelatedPosts(
-            relatedRes.data
-              .filter((p) => String(p.id) !== String(id))
-              .slice(0, 5)
+            relatedRes.data.filter((p) => p.slug !== slug).slice(0, 5)
           );
         }
       } catch (error) {
         console.error("Lỗi tải trang chi tiết:", error);
-        setPost(null); // Set null để hiển thị màn hình 'Not Found'
+        setPost(null);
       } finally {
-        // 5. QUAN TRỌNG: Luôn tắt loading dù thành công hay thất bại
         setIsLoading(false);
       }
     };
 
-    if (id) {
+    if (slug) {
       fetchData();
       window.scrollTo(0, 0);
     }
-  }, [id]);
-
+  }, [slug]);
   const handleDownloadSubmit = (e) => {
     e.preventDefault();
     alert(t.alertDownloading);
@@ -173,7 +172,7 @@ export default function ResearchDetail() {
           <h2 className="text-2xl font-bold text-slate-800 mb-2">
             {t.notFound}
           </h2>
-          <p className="text-slate-500 mb-6">ID bài viết: {id}</p>
+          <p className="text-slate-500 mb-6">Slug: {slug}</p>
           <Link
             to="/research"
             className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-full font-bold hover:bg-blue-700 transition-colors"
@@ -296,8 +295,8 @@ export default function ResearchDetail() {
             <div className="space-y-4">
               {relatedPosts.map((p) => (
                 <Link
-                  key={p.id}
-                  to={`/research/${p.id}`}
+                  key={p.slug}
+                  to={`/research/${p.slug}`}
                   state={{ lang: lang }} // Truyền ngôn ngữ để giữ trạng thái
                   className="group block"
                 >

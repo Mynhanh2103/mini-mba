@@ -329,7 +329,7 @@ export default function ResearchPage() {
                     {/* Footer Card */}
                     <div className="pt-4 border-t border-slate-100 flex items-center justify-between mt-auto">
                       <Link
-                        to={`/research/${post.id}`} // Sử dụng ID thay vì Slug nếu backend chưa hỗ trợ slug
+                        to={`/research/${post.slug}`} 
                         state={{ lang: lang }} // QUAN TRỌNG: Truyền ngôn ngữ sang trang chi tiết
                         className="text-blue-700 font-bold text-sm flex items-center gap-2 hover:gap-3 transition-all"
                       >
