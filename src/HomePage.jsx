@@ -152,7 +152,8 @@ export default function HomePage() {
 
   // API Tin tức
   useEffect(() => {
-    fetch(`${API_URL}/api/research/`)
+    const timestamp = new Date().getTime();
+    fetch(`${API_URL}/api/research/?t=${timestamp}`)
       .then((res) => res.json())
       .then((data) => {
         const sorted = data.sort(
@@ -467,41 +468,47 @@ export default function HomePage() {
 
           <div className="grid md:grid-cols-3 gap-8">
             {latestNews.length > 0 ? (
-              latestNews.map((news) => (
-                <Link
-                  to={`/research/${news.slug}`} // Sử dụng ID thay vì slug nếu backend chưa có slug
-                  state={{ lang: lang }} // QUAN TRỌNG: Truyền ngôn ngữ sang trang chi tiết
-                  key={news.slug}
-                  className="group cursor-pointer"
-                >
-                  <div className="h-56 overflow-hidden rounded-2xl mb-4 relative">
-                    <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-all z-10" />
-                    <img
-                      src={
-                        news.cover_image ||
-                        news.cover_url ||
-                        "https://placehold.co/600x400"
-                      }
-                      alt={getData(news, "title", lang, "")}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                    />
-                    <div className="absolute top-4 left-4 z-20 bg-white/90 backdrop-blur px-3 py-1 rounded-lg text-xs font-bold text-blue-900 uppercase">
-                      {news.category || "News"}
+              latestNews.map((news) => {
+                // 2. SỬA LỖI LINK: Ưu tiên dùng slug, fallback về id nếu slug rỗng
+                const linkTo = news.slug
+                  ? `/research/${news.slug}`
+                  : `/research/${news.id}`;
+
+                return (
+                  <Link
+                    to={linkTo} // Đã fix URL
+                    state={{ lang: lang }} // Truyền ngôn ngữ
+                    key={news.id}
+                    className="group cursor-pointer"
+                  >
+                    <div className="h-56 overflow-hidden rounded-2xl mb-4 relative">
+                      <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-all z-10" />
+                      <img
+                        src={
+                          news.cover_image ||
+                          news.cover_url ||
+                          "https://placehold.co/600x400"
+                        }
+                        alt={getData(news, "title", lang, "")}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                      />
+                      <div className="absolute top-4 left-4 z-20 bg-white/90 backdrop-blur px-3 py-1 rounded-lg text-xs font-bold text-blue-900 uppercase">
+                        {news.category || "News"}
+                      </div>
                     </div>
-                  </div>
-                  {/* Sử dụng getData để hiển thị đúng ngôn ngữ */}
-                  <h3 className="text-xl font-bold text-slate-900 mb-2 group-hover:text-blue-600 transition-colors line-clamp-2">
-                    {getData(news, "title", lang, "Untitled")}
-                  </h3>
-                  <p className="text-slate-500 text-sm line-clamp-2 mb-3">
-                    {getData(news, "summary", lang, "")}
-                  </p>
-                  <span className="text-sm font-bold text-slate-400 flex items-center gap-2 group-hover:text-blue-600 transition-colors">
-                    {lang === "vi" ? "Đọc tiếp" : "Read more"}{" "}
-                    <ArrowRight size={14} />
-                  </span>
-                </Link>
-              ))
+                    <h3 className="text-xl font-bold text-slate-900 mb-2 group-hover:text-blue-600 transition-colors line-clamp-2">
+                      {getData(news, "title", lang, "Untitled")}
+                    </h3>
+                    <p className="text-slate-500 text-sm line-clamp-2 mb-3">
+                      {getData(news, "summary", lang, "")}
+                    </p>
+                    <span className="text-sm font-bold text-slate-400 flex items-center gap-2 group-hover:text-blue-600 transition-colors">
+                      {lang === "vi" ? "Đọc tiếp" : "Read more"}{" "}
+                      <ArrowRight size={14} />
+                    </span>
+                  </Link>
+                );
+              })
             ) : (
               <div className="col-span-3 text-center py-10 text-slate-400 italic bg-slate-50 rounded-xl border border-dashed border-slate-300">
                 {lang === "vi"
