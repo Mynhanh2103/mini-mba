@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams, Link, useLocation } from "react-router-dom"; // Thêm useLocation
+import { useParams, Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Calendar,
@@ -13,20 +13,20 @@ import {
   Mail,
   X,
 } from "lucide-react";
+import axios from "axios";
 
-// 1. SỬA URL API: Trỏ thẳng về Render để tránh lỗi kết nối
-const API_URL = "https://mini-mba-admin.onrender.com";
+// 1. CẤU HÌNH API: Trỏ thẳng về Render để tránh lỗi kết nối localhost
+const API_BASE = "https://mini-mba-admin.onrender.com";
 
 const translations = {
   vi: {
     loading: "Đang tải nội dung...",
-    notFound: "Không tìm thấy bài viết",
+    notFound: "Không tìm thấy bài viết hoặc bài viết đã bị xóa.",
     backToLibrary: "Quay lại thư viện",
     readTime: "phút đọc",
     keywords: "Từ khóa",
     originalDoc: "Tài liệu nghiên cứu gốc",
-    descDoc:
-      "Tải xuống bản PDF đầy đủ của nghiên cứu này (bao gồm số liệu chi tiết và biểu đồ).",
+    descDoc: "Tải xuống bản PDF đầy đủ của nghiên cứu này.",
     downloadBtn: "Tải PDF miễn phí",
     relatedPosts: "Bài viết liên quan",
     adsTitle: "Mini MBA Y Tế",
@@ -34,111 +34,103 @@ const translations = {
       "Nâng cao năng lực quản trị và chuyển đổi số cho lãnh đạo bệnh viện.",
     learnMore: "Tìm hiểu ngay",
     emailTitle: "Gửi tài liệu qua Email",
-    emailDesc:
-      "Vui lòng nhập email để hệ thống gửi link tải tài liệu Full PDF cho bạn.",
+    emailDesc: "Vui lòng nhập email để nhận link tải tài liệu.",
     emailLabel: "Email công việc",
     sendBtn: "Gửi ngay",
-    securityNote: "Chúng tôi cam kết bảo mật thông tin của bạn.",
+    securityNote: "Chúng tôi cam kết bảo mật thông tin.",
     alertDownloading: "Cảm ơn! Tài liệu đang được tải xuống...",
-    illustrativeImage: "Hình ảnh minh họa cho bài nghiên cứu",
+    illustrativeImage: "Hình ảnh minh họa",
     category: {
-      research: "Nghiên cứu khoa học",
-      news: "Tin tức Y tế",
-      expert: "Góc nhìn chuyên gia",
+      research: "Nghiên cứu",
+      news: "Tin tức",
+      expert: "Góc nhìn",
     },
   },
   en: {
     loading: "Loading content...",
-    notFound: "Article not found",
+    notFound: "Article not found or deleted.",
     backToLibrary: "Back to Library",
     readTime: "min read",
     keywords: "Keywords",
     originalDoc: "Original Research Document",
-    descDoc:
-      "Download the full PDF version of this research (including detailed data and charts).",
+    descDoc: "Download the full PDF version of this research.",
     downloadBtn: "Download PDF Free",
     relatedPosts: "Related Articles",
     adsTitle: "Mini MBA Healthcare",
-    adsDesc:
-      "Enhancing management and digital transformation capabilities for hospital leaders.",
+    adsDesc: "Enhancing management capabilities for hospital leaders.",
     learnMore: "Learn More",
     emailTitle: "Send Document via Email",
-    emailDesc: "Please enter your email to receive the full PDF download link.",
+    emailDesc: "Please enter your email to receive the download link.",
     emailLabel: "Work Email",
     sendBtn: "Send Now",
     securityNote: "We are committed to protecting your privacy.",
     alertDownloading: "Thank you! The document is downloading...",
-    illustrativeImage: "Illustrative image for the research",
+    illustrativeImage: "Illustrative image",
     category: {
-      research: "Scientific Research",
-      news: "Healthcare News",
-      expert: "Expert Perspective",
+      research: "Research",
+      news: "News",
+      expert: "Expert View",
     },
   },
 };
 
 export default function ResearchDetail() {
-  // 2. SỬA LỖI PARAMS: Dùng 'id' thay vì 'slug' (để khớp với App.jsx)
+  // 2. LẤY ID TỪ URL
   const { id } = useParams();
 
-  // 3. SỬA LỖI NGÔN NGỮ: Lấy lang từ state của React Router
+  // 3. LẤY NGÔN NGỮ TỪ STATE (Mặc định EN nếu ko có)
   const location = useLocation();
-  const lang = location.state?.lang || "en"; // Mặc định là 'en' nếu không có state
+  const lang = location.state?.lang || "en";
+  const t = translations[lang] || translations.en;
 
   const [post, setPost] = useState(null);
   const [relatedPosts, setRelatedPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [showEmailModal, setShowEmailModal] = useState(false);
 
-  const t = translations[lang] || translations.en;
-
   // Helper lấy dữ liệu đa ngôn ngữ
-  const getLocalizedData = (data, field) => {
-    if (!data) return "";
+  const getData = (item, field) => {
+    if (!item) return "";
     if (lang === "en") {
-      const enValue = data[`${field}_en`];
-      return enValue && enValue.trim() !== "" ? enValue : data[field];
+      const enValue = item[`${field}_en`];
+      return enValue && enValue.trim() !== "" ? enValue : item[field];
     }
-    return data[field];
+    return item[field];
   };
 
   const formatDate = (dateString) => {
     if (!dateString) return "";
-    const locale = lang === "vi" ? "vi-VN" : "en-US";
-    return new Date(dateString).toLocaleDateString(locale, {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
+    return new Date(dateString).toLocaleDateString(
+      lang === "vi" ? "vi-VN" : "en-US"
+    );
   };
 
+  // 4. GỌI API (SỬA LỖI LOADING)
   useEffect(() => {
     const fetchData = async () => {
-      setIsLoading(true);
+      setIsLoading(true); // Bắt đầu load
       try {
-        // 4. GỌI API BẰNG ID
-        // Lưu ý: Thêm dấu '/' ở cuối URL để tránh lỗi chuyển hướng của Django
-        const resPost = await fetch(`${API_URL}/api/research/${id}/`);
+        // Gọi song song 2 API: Lấy bài viết & Lấy bài liên quan
+        const [postRes, relatedRes] = await Promise.all([
+          axios.get(`${API_BASE}/api/research/${id}/`),
+          axios.get(`${API_BASE}/api/research/`),
+        ]);
 
-        if (resPost.ok) {
-          const data = await resPost.json();
-          setPost(data);
-        } else {
-          console.error("Post not found");
-          setPost(null);
-        }
+        setPost(postRes.data);
 
-        const resRelated = await fetch(`${API_URL}/api/research/`);
-        if (resRelated.ok) {
-          const data = await resRelated.json();
-          // Lọc bài hiện tại (so sánh theo ID)
+        // Lọc bài liên quan (trừ bài hiện tại)
+        if (relatedRes.data) {
           setRelatedPosts(
-            data.filter((p) => String(p.id) !== String(id)).slice(0, 5)
+            relatedRes.data
+              .filter((p) => String(p.id) !== String(id))
+              .slice(0, 5)
           );
         }
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error("Lỗi tải trang chi tiết:", error);
+        setPost(null); // Set null để hiển thị màn hình 'Not Found'
       } finally {
+        // 5. QUAN TRỌNG: Luôn tắt loading dù thành công hay thất bại
         setIsLoading(false);
       }
     };
@@ -158,29 +150,42 @@ export default function ResearchDetail() {
     }
   };
 
+  // --- RENDER GIAO DIỆN ---
+
   if (isLoading)
     return (
       <div className="min-h-screen flex items-center justify-center bg-slate-50">
-        <div className="text-blue-600 font-bold animate-pulse">{t.loading}</div>
+        <div className="flex flex-col items-center gap-4">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+          <div className="text-slate-500 font-medium">{t.loading}</div>
+        </div>
       </div>
     );
 
   if (!post)
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-slate-50 gap-4">
-        <h2 className="text-2xl font-bold text-slate-800">{t.notFound}</h2>
-        <Link
-          to="/research"
-          className="text-blue-600 hover:underline flex items-center gap-2"
-        >
-          <ArrowLeft size={16} /> {t.backToLibrary}
-        </Link>
+      <div className="min-h-screen flex flex-col items-center justify-center bg-slate-50 gap-6 p-6 text-center">
+        <div className="w-20 h-20 bg-slate-200 rounded-full flex items-center justify-center text-slate-400">
+          <FileText size={40} />
+        </div>
+        <div>
+          <h2 className="text-2xl font-bold text-slate-800 mb-2">
+            {t.notFound}
+          </h2>
+          <p className="text-slate-500 mb-6">ID bài viết: {id}</p>
+          <Link
+            to="/research"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-full font-bold hover:bg-blue-700 transition-colors"
+          >
+            <ArrowLeft size={20} /> {t.backToLibrary}
+          </Link>
+        </div>
       </div>
     );
 
-  const displayTitle = getLocalizedData(post, "title");
-  const displaySummary = getLocalizedData(post, "summary");
-  const displayContent = getLocalizedData(post, "content");
+  const displayTitle = getData(post, "title");
+  const displaySummary = getData(post, "summary");
+  const displayContent = getData(post, "content");
 
   const categoryLabel =
     post.category === "research"
@@ -201,13 +206,7 @@ export default function ResearchDetail() {
             <ArrowLeft size={16} /> {t.backToLibrary}
           </Link>
           <div className="flex gap-4">
-            <button
-              className="text-slate-300 hover:text-white"
-              title="Bookmark"
-            >
-              <Bookmark size={18} />
-            </button>
-            <button className="text-slate-300 hover:text-white" title="Share">
+            <button className="text-slate-300 hover:text-white">
               <Share2 size={18} />
             </button>
           </div>
@@ -235,7 +234,7 @@ export default function ResearchDetail() {
               <Calendar size={16} /> {formatDate(post.created_at)}
             </div>
             <div className="flex items-center gap-2">
-              <Clock size={16} /> 10 {t.readTime}
+              <Clock size={16} /> 5 {t.readTime}
             </div>
           </div>
         </div>
@@ -243,7 +242,7 @@ export default function ResearchDetail() {
 
       {/* MAIN CONTENT */}
       <div className="max-w-7xl mx-auto px-6 py-12 grid grid-cols-1 lg:grid-cols-12 gap-12">
-        {/* ARTICLE CONTENT */}
+        {/* ARTICLE */}
         <article className="lg:col-span-8">
           {displaySummary && (
             <div className="bg-blue-50 border-l-4 border-blue-600 p-6 rounded-r-xl mb-8 italic text-slate-700 text-lg leading-relaxed">
@@ -258,9 +257,6 @@ export default function ResearchDetail() {
                 alt={displayTitle}
                 className="w-full h-auto object-cover"
               />
-              <p className="text-center text-slate-400 text-xs mt-2 italic">
-                {t.illustrativeImage}
-              </p>
             </div>
           )}
 
@@ -270,17 +266,11 @@ export default function ResearchDetail() {
             prose-a:text-blue-700 prose-img:rounded-xl"
             dangerouslySetInnerHTML={{ __html: displayContent }}
           />
-
-          <div className="mt-12 pt-8 border-t border-slate-200">
-            <p className="text-slate-500 text-sm">
-              <strong>{t.keywords}:</strong> Digital Transformation, Smart
-              Hospital, Healthcare Management, Mini MBA.
-            </p>
-          </div>
         </article>
 
         {/* SIDEBAR */}
         <aside className="lg:col-span-4 space-y-8">
+          {/* Download Box */}
           {post.pdf_url && (
             <div className="bg-yellow-50 border border-yellow-200 rounded-2xl p-6 shadow-sm sticky top-24">
               <div className="flex items-center gap-3 mb-4 text-yellow-800">
@@ -290,13 +280,14 @@ export default function ResearchDetail() {
               <p className="text-slate-600 text-sm mb-6">{t.descDoc}</p>
               <button
                 onClick={() => setShowEmailModal(true)}
-                className="w-full bg-blue-900 hover:bg-blue-800 text-white font-bold py-3 rounded-xl flex items-center justify-center gap-2 transition-all shadow-lg shadow-blue-900/20"
+                className="w-full bg-blue-900 hover:bg-blue-800 text-white font-bold py-3 rounded-xl flex items-center justify-center gap-2 transition-all shadow-lg"
               >
                 <Download size={18} /> {t.downloadBtn}
               </button>
             </div>
           )}
 
+          {/* Related Posts */}
           <div className="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm">
             <h3 className="font-bold text-slate-900 mb-4 flex items-center gap-2">
               <Bookmark className="text-blue-600" size={20} /> {t.relatedPosts}
@@ -305,12 +296,12 @@ export default function ResearchDetail() {
               {relatedPosts.map((p) => (
                 <Link
                   key={p.id}
-                  to={`/research/${p.id}`} // Sửa lại link dùng ID
-                  state={{ lang: lang }} // Truyền lang sang bài viết liên quan
+                  to={`/research/${p.id}`}
+                  state={{ lang: lang }} // Truyền ngôn ngữ để giữ trạng thái
                   className="group block"
                 >
                   <h4 className="font-bold text-slate-700 text-sm group-hover:text-blue-700 transition-colors line-clamp-2 mb-1">
-                    {getLocalizedData(p, "title")}
+                    {getData(p, "title")}
                   </h4>
                   <span className="text-xs text-slate-400">
                     {formatDate(p.created_at)}
@@ -318,19 +309,6 @@ export default function ResearchDetail() {
                 </Link>
               ))}
             </div>
-          </div>
-
-          <div className="bg-gradient-to-br from-blue-900 to-slate-900 rounded-2xl p-6 text-white text-center">
-            <h3 className="font-bold text-xl mb-2 text-yellow-400">
-              {t.adsTitle}
-            </h3>
-            <p className="text-blue-100 text-sm mb-4">{t.adsDesc}</p>
-            <Link
-              to="/training/mini-mba#dang-ky"
-              className="inline-block px-6 py-2 bg-yellow-500 hover:bg-yellow-400 text-blue-900 font-bold rounded-lg text-sm transition-colors"
-            >
-              {t.learnMore}
-            </Link>
           </div>
         </aside>
       </div>
@@ -387,9 +365,6 @@ export default function ResearchDetail() {
                 >
                   {t.sendBtn}
                 </button>
-                <p className="text-xs text-center text-slate-400">
-                  {t.securityNote}
-                </p>
               </form>
             </motion.div>
           </div>
