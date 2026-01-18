@@ -469,9 +469,9 @@ export default function HomePage() {
             {latestNews.length > 0 ? (
               latestNews.map((news) => (
                 <Link
-                  to={`/research/${news.id}`} // Sử dụng ID thay vì slug nếu backend chưa có slug
+                  to={`/research/${news.slug}`} // Sử dụng ID thay vì slug nếu backend chưa có slug
                   state={{ lang: lang }} // QUAN TRỌNG: Truyền ngôn ngữ sang trang chi tiết
-                  key={news.id}
+                  key={news.slug}
                   className="group cursor-pointer"
                 >
                   <div className="h-56 overflow-hidden rounded-2xl mb-4 relative">
