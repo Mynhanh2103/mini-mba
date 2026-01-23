@@ -13,7 +13,7 @@ import {
 import { Link } from "react-router-dom";
 // Import Modal đăng ký
 import RegisterModal from "./components/RegisterModal";
-
+import { useLanguage } from "./LanguageContext";
 const API_URL =
   import.meta.env.VITE_API_URL || "https://mini-mba-admin.onrender.com";
 
@@ -63,7 +63,7 @@ const getData = (item, field, lang) => {
 };
 
 export default function ModulesPage() {
-  const [lang, setLang] = useState("en"); // State ngôn ngữ
+  const { lang, toggleLanguage } = useLanguage(); // State ngôn ngữ
   const t = translations[lang]; // Từ điển hiện tại
 
   const [modules, setModules] = useState([]);
@@ -105,10 +105,10 @@ export default function ModulesPage() {
         {/* Nút đổi ngôn ngữ góc phải */}
         <div className="absolute top-6 right-6 z-20">
           <button
-            onClick={() => setLang(lang === "vi" ? "en" : "vi")}
-            className="flex items-center gap-2 bg-white/10 hover:bg-white/20 backdrop-blur px-4 py-2 rounded-full text-white font-bold border border-white/20 transition-all"
+            onClick={toggleLanguage} // Gọi hàm toggle từ Context
+            className="flex items-center gap-2 bg-white/10 backdrop-blur px-4 py-2 rounded-full text-black font-bold border border-white/20 hover:bg-white/20 transition-all cursor-pointer"
           >
-            <Globe size={16} /> {lang === "vi" ? "EN" : "VN"}
+            <Globe size={18} /> {lang === "vi" ? "EN" : "VN"}
           </button>
         </div>
 

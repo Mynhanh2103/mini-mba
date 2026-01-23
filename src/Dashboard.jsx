@@ -16,7 +16,7 @@ import {
   X,
   CheckCircle,
 } from "lucide-react";
-
+import { useLanguage } from "./LanguageContext";
 // Helper formatDate
 const formatDate = (dateString) => {
   if (!dateString) return "";

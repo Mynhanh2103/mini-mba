@@ -24,7 +24,7 @@ import {
   MapPin,
 } from "lucide-react";
 import axios from "axios";
-
+import { useLanguage } from "./LanguageContext";
 const API_BASE = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
 
 // --- TỪ ĐIỂN UI ---
@@ -207,7 +207,7 @@ const audienceData = [
 
 export default function JciLanding() {
   // --- 1. LANGUAGE STATE (Mặc định EN) ---
-  const [lang, setLang] = useState("en");
+  const {lang, toggleLanguage} = useLanguage();
   const t = (key) => translations[lang][key] || translations["en"][key];
 
   // State Data
@@ -252,9 +252,6 @@ export default function JciLanding() {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
     setMobileMenuOpen(false);
   };
-
-  // Hàm chuyển đổi ngôn ngữ
-  const toggleLang = () => setLang((prev) => (prev === "en" ? "vi" : "en"));
 
   if (loading)
     return (
@@ -306,11 +303,10 @@ export default function JciLanding() {
           <div className="flex items-center gap-3">
             {/* NÚT CHUYỂN NGÔN NGỮ (Luôn hiện ở mọi màn hình) */}
             <button
-              onClick={toggleLang}
-              className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-slate-200 hover:border-amber-400 hover:bg-amber-50 transition-all text-xs font-bold text-slate-700"
+              onClick={toggleLanguage} // Gọi hàm toggle từ Context
+              className="flex items-center gap-2 bg-white/10 backdrop-blur px-4 py-2 rounded-full text-black font-bold border border-white/20 hover:bg-white/20 transition-all cursor-pointer"
             >
-              <Globe className="w-4 h-4 text-amber-500" />
-              {lang === "en" ? "EN" : "VN"}
+              <Globe size={18} /> {lang === "vi" ? "EN" : "VN"}
             </button>
 
             {/* Nút Mobile Toggle (Chỉ hiện trên Mobile) */}

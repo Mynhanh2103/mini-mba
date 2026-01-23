@@ -13,7 +13,7 @@ import {
   Home,
   Globe,
 } from "lucide-react";
-
+import { useLanguage } from "./LanguageContext";
 // --- CẤU HÌNH ---
 const API_URL =
   import.meta.env.VITE_API_URL || "https://mini-mba-admin.onrender.com";
@@ -95,13 +95,13 @@ const formatDate = (dateString, lang) => {
       year: "numeric",
       month: "long",
       day: "numeric",
-    }
+    },
   );
 };
 
 export default function ResearchPage() {
   // 1. SET MẶC ĐỊNH LÀ "EN" (TIẾNG ANH)
-  const [lang, setLang] = useState("en");
+  const {lang, toggleLanguage} = useLanguage();
   const t = translations[lang];
 
   const [posts, setPosts] = useState([]);
@@ -193,8 +193,8 @@ export default function ResearchPage() {
 
             {/* Nút đổi ngôn ngữ */}
             <button
-              onClick={() => setLang(lang === "vi" ? "en" : "vi")}
-              className="flex items-center gap-2 bg-white/10 hover:bg-white/20 px-3 py-1 rounded-full text-xs font-bold transition-colors border border-white/20"
+              onClick={toggleLanguage} // Gọi hàm toggle từ Context
+              className="flex items-center gap-2 bg-white/10 backdrop-blur px-4 py-2 rounded-full text-white font-bold border border-white/20 hover:bg-white/20 transition-all cursor-pointer"
             >
               <Globe size={14} /> {lang === "vi" ? "EN" : "VN"}
             </button>
@@ -329,7 +329,7 @@ export default function ResearchPage() {
                     {/* Footer Card */}
                     <div className="pt-4 border-t border-slate-100 flex items-center justify-between mt-auto">
                       <Link
-                        to={`/research/${post.slug}`} 
+                        to={`/research/${post.slug}`}
                         state={{ lang: lang }} // QUAN TRỌNG: Truyền ngôn ngữ sang trang chi tiết
                         className="text-blue-700 font-bold text-sm flex items-center gap-2 hover:gap-3 transition-all"
                       >

@@ -13,7 +13,7 @@ import {
   ChevronRight,
   CheckCircle,
 } from "lucide-react";
-
+import { useLanguage } from "./LanguageContext"; // Đường dẫn tuỳ vào vị trí file
 // URL API
 const API_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
 
@@ -113,7 +113,7 @@ const translations = {
 };
 
 export default function HomePage() {
-  const [lang, setLang] = useState("en");
+  const {lang, toggleLanguage} = useLanguage();
   const t = translations[lang];
   const [latestNews, setLatestNews] = useState([]);
   const [partners, setPartners] = useState([]);
@@ -157,7 +157,7 @@ export default function HomePage() {
       .then((res) => res.json())
       .then((data) => {
         const sorted = data.sort(
-          (a, b) => new Date(b.created_at) - new Date(a.created_at)
+          (a, b) => new Date(b.created_at) - new Date(a.created_at),
         );
         setLatestNews(sorted.slice(0, 3));
       })
@@ -197,7 +197,7 @@ export default function HomePage() {
           SmartHealthSolutions<span className="text-blue-400">.vn</span>
         </div>
         <button
-          onClick={() => setLang(lang === "vi" ? "en" : "vi")}
+          onClick={toggleLanguage} // Gọi hàm toggle từ Context
           className="flex items-center gap-2 bg-white/10 backdrop-blur px-4 py-2 rounded-full text-white font-bold border border-white/20 hover:bg-white/20 transition-all cursor-pointer"
         >
           <Globe size={18} /> {lang === "vi" ? "EN" : "VN"}

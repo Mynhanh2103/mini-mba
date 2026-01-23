@@ -14,7 +14,7 @@ import {
   X,
 } from "lucide-react";
 import axios from "axios";
-
+import { useLanguage } from "./LanguageContext";
 // 1. CẤU HÌNH API: Trỏ thẳng về Render để tránh lỗi kết nối localhost
 const API_BASE = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
 
@@ -79,7 +79,7 @@ export default function ResearchDetail() {
 
   // 3. LẤY NGÔN NGỮ TỪ STATE (Mặc định EN nếu ko có)
   const location = useLocation();
-  const lang = location.state?.lang || "en";
+  const {lang, toggleLanguage} = useLanguage();
   const t = translations[lang] || translations.en;
 
   const [post, setPost] = useState(null);

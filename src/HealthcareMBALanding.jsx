@@ -29,7 +29,7 @@ import {
   BrainCircuit,
 } from "lucide-react";
 import axios from "axios";
-
+import { useLanguage } from "./LanguageContext";
 const API_BASE = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
 
 // --- TỪ ĐIỂN UI ---
@@ -211,7 +211,7 @@ const audienceData = [
 ];
 
 export default function HealthcareMBALanding() {
-  const [lang, setLang] = useState("en");
+  const {lang, toggleLanguage} = useLanguage();
   const t = (key) => translations[lang][key] || translations["en"][key] || key;
   const toggleLang = () => setLang((prev) => (prev === "en" ? "vi" : "en"));
 
@@ -255,7 +255,7 @@ export default function HealthcareMBALanding() {
         }
 
         const sortedModules = (resModules.data || []).sort(
-          (a, b) => (a.order || 0) - (b.order || 0)
+          (a, b) => (a.order || 0) - (b.order || 0),
         );
         setModules(sortedModules);
 
@@ -339,11 +339,10 @@ export default function HealthcareMBALanding() {
 
           <div className="flex items-center gap-3">
             <button
-              onClick={toggleLang}
-              className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-slate-200 hover:border-blue-400 hover:bg-blue-50 transition-all text-xs font-bold text-slate-700"
+              onClick={toggleLanguage} // Gọi hàm toggle từ Context
+              className="flex items-center gap-2 bg-white/10 backdrop-blur px-4 py-2 rounded-full text-black font-bold border border-gray/20 hover:bg-white/20 transition-all cursor-pointer"
             >
-              <Globe className="w-4 h-4 text-blue-600" />
-              {lang === "en" ? "EN" : "VN"}
+              <Globe size={18} /> {lang === "vi" ? "EN" : "VN"}
             </button>
             <button
               className="lg:hidden p-2 text-slate-600 hover:bg-slate-100 rounded-full transition-colors"
@@ -572,7 +571,7 @@ export default function HealthcareMBALanding() {
                         {/* SỬA LỖI ICON: Render an toàn */}
                         {(() => {
                           const IconComp = getModuleIcon(
-                            displayModules[activeModule]
+                            displayModules[activeModule],
                           );
                           return <IconComp size={28} />;
                         })()}

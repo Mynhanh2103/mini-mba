@@ -15,7 +15,7 @@ import {
   Newspaper,
 } from "lucide-react";
 import { Link } from "react-router-dom";
-
+import { useLanguage } from "./LanguageContext";
 // --- CẤU HÌNH NGÔN NGỮ TĨNH (Giữ nguyên phần này) ---
 const translations = {
   vi: {
@@ -105,7 +105,7 @@ const translations = {
 const API_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
 
 export default function ConsultingPage() {
-  const [lang, setLang] = useState("en");
+  const { lang, toggleLanguage } = useLanguage();
   const t = translations[lang];
 
   // --- STATE QUẢN LÝ DỮ LIỆU TỪ API ---
@@ -121,7 +121,7 @@ export default function ConsultingPage() {
     const fetchSolutions = async () => {
       try {
         const response = await axios.get(
-          `${API_URL}/api/consulting-solutions/`
+          `${API_URL}/api/consulting-solutions/`,
         );
         // Kiểm tra nếu response.data là mảng thì mới set, nếu không set mảng rỗng
         if (Array.isArray(response.data)) {
@@ -157,15 +157,15 @@ export default function ConsultingPage() {
       <nav className="absolute top-0 w-full z-50 py-6 px-6 flex justify-between items-center">
         <Link
           to="/"
-          className="flex items-center gap-2 bg-white/10 backdrop-blur px-4 py-2 rounded-full text-white font-bold border border-white/20 hover:bg-white/20 transition"
+          className="flex items-center gap-2 bg-white/10 backdrop-blur px-4 py-2 rounded-full text-white font-bold border border-gray/20 hover:bg-white/20 transition"
         >
           <Home size={18} /> {lang === "vi" ? "Trang chủ" : "Home"}
         </Link>
 
         {/* Nút đổi ngôn ngữ */}
         <button
-          onClick={() => setLang(lang === "vi" ? "en" : "vi")}
-          className="flex items-center gap-2 bg-white/10 backdrop-blur px-4 py-2 rounded-full text-white font-bold border border-white/20 hover:bg-white/20 transition"
+          onClick={toggleLanguage} // Gọi hàm toggle từ Context
+          className="flex items-center gap-2 bg-white/10 backdrop-blur px-4 py-2 rounded-full text-white font-bold border border-white/20 hover:bg-white/20 transition-all cursor-pointer"
         >
           <Globe size={18} /> {lang === "vi" ? "EN" : "VN"}
         </button>

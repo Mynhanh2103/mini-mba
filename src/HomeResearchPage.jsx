@@ -9,7 +9,7 @@ import {
   LayoutGrid,
   Home,
 } from "lucide-react";
-
+import { useLanguage } from "./LanguageContext";
 // (Dữ liệu fetch API giữ nguyên, chỉ thay phần hiển thị text tĩnh)
 const API_URL =
   import.meta.env.VITE_API_URL || "https://mini-mba-admin.onrender.com";
@@ -50,7 +50,7 @@ const translations = {
 export default function ResearchPage() {
   const [posts, setPosts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [lang, setLang] = useState("en");
+ const {lang, toggleLanguage} = useLanguage();
   const t = translations[lang];
 
   useEffect(() => {
@@ -70,15 +70,15 @@ export default function ResearchPage() {
         {/* --- NÚT HOME MỚI --- */}
         <Link
           to="/"
-          className="flex items-center gap-2 bg-white/10 backdrop-blur px-4 py-2 rounded-full text-white font-bold border border-white/20 hover:bg-white/20 transition"
+          className="flex items-center gap-2 bg-white/10 backdrop-blur px-4 py-2 rounded-full text-black font-bold border border-white/20 hover:bg-white/20 transition"
         >
           <Home size={18} /> {lang === "vi" ? "Trang chủ" : "Home"}
         </Link>
 
         {/* Nút đổi ngôn ngữ cũ */}
         <button
-          onClick={() => setLang(lang === "vi" ? "en" : "vi")}
-          className="flex items-center gap-2 bg-white/10 backdrop-blur px-4 py-2 rounded-full text-white font-bold border border-white/20 hover:bg-white/20"
+          onClick={toggleLanguage} // Gọi hàm toggle từ Context
+          className="flex items-center gap-2 bg-white/10 backdrop-blur px-4 py-2 rounded-full text-white font-bold border border-white/20 hover:bg-white/20 transition-all cursor-pointer"
         >
           <Globe size={18} /> {lang === "vi" ? "EN" : "VN"}
         </button>

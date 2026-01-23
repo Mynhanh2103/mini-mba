@@ -32,7 +32,7 @@ import {
   Settings, // Icon cho Vận hành
 } from "lucide-react";
 import Testimonials from "./components/Testimonials";
-
+import { useLanguage } from "./LanguageContext";
 const BASE_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
 
 // --- 1. TỪ ĐIỂN UI (ĐÃ BỔ SUNG ĐẦY ĐỦ) ---
@@ -367,8 +367,8 @@ const TimelineRow = ({ item, index, lang }) => {
           isHoliday
             ? "bg-red-100 text-red-500"
             : isPassed
-            ? "bg-slate-200 text-slate-500"
-            : "bg-blue-600 text-white"
+              ? "bg-slate-200 text-slate-500"
+              : "bg-blue-600 text-white"
         }`}
       >
         {isHoliday ? (
@@ -390,8 +390,8 @@ const TimelineRow = ({ item, index, lang }) => {
               isHoliday
                 ? "bg-red-100 text-red-600"
                 : isPassed
-                ? "bg-slate-100 text-slate-500"
-                : "bg-blue-50 text-blue-700"
+                  ? "bg-slate-100 text-slate-500"
+                  : "bg-blue-50 text-blue-700"
             }`}
           >
             {dateDisplay}
@@ -407,8 +407,8 @@ const TimelineRow = ({ item, index, lang }) => {
             isHoliday
               ? "text-red-500 italic"
               : isPassed
-              ? "text-slate-500 line-through"
-              : "text-slate-900"
+                ? "text-slate-500 line-through"
+                : "text-slate-900"
           }`}
         >
           {getData(item, "topic", lang)}
@@ -430,7 +430,7 @@ const TimelineRow = ({ item, index, lang }) => {
 // --- 4. MAIN APP ---
 
 export default function MiniMBALanding() {
-  const [lang, setLang] = useState("en");
+  const {lang, toggleLanguage} = useLanguage();
   const [scrolled, setScrolled] = useState(false);
 
   const t = (key) => translations[lang][key] || key;
@@ -468,7 +468,7 @@ export default function MiniMBALanding() {
               const data = await res.json();
               // Sắp xếp module
               const sorted = data.sort(
-                (a, b) => (a.order || 0) - (b.order || 0)
+                (a, b) => (a.order || 0) - (b.order || 0),
               );
               setModules(sorted);
             }
@@ -645,12 +645,12 @@ export default function MiniMBALanding() {
                 >
                   {item.label}
                 </button>
-              )
+              ),
             )}
             {/* Language Switcher */}
             <button
-              onClick={toggleLang}
-              className="flex items-center gap-1 border border-current px-3 py-1 rounded-full hover:bg-white/10 transition font-bold"
+              onClick={toggleLanguage} // Gọi hàm toggle từ Context
+              className="flex items-center gap-2 bg-white/10 backdrop-blur px-4 py-2 rounded-full text-black font-bold border border-white/20 hover:bg-white/20 transition-all cursor-pointer"
             >
               <Globe size={16} /> {lang === "vi" ? "EN" : "VN"}
             </button>
@@ -967,8 +967,8 @@ export default function MiniMBALanding() {
                     {typeof item === "string"
                       ? item
                       : lang === "en"
-                      ? item.title_en || item.title
-                      : item.title}
+                        ? item.title_en || item.title
+                        : item.title}
                   </span>
                 </li>
               ))}

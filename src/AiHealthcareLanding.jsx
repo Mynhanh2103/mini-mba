@@ -30,7 +30,7 @@ import {
   MapPin, // Thêm icon địa điểm
 } from "lucide-react";
 import axios from "axios";
-
+import { useLanguage } from "./LanguageContext";
 // --- CẤU HÌNH API ---
 const API_BASE = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
 
@@ -225,7 +225,7 @@ const defaultModules = [
 ];
 
 export default function AiHealthcareLanding() {
-  const [lang, setLang] = useState("en");
+  const {lang, toggleLanguage} = useLanguage();
   const t = (key) => translations[lang][key] || key;
   const toggleLang = () => setLang((prev) => (prev === "en" ? "vi" : "en"));
 
@@ -259,7 +259,7 @@ export default function AiHealthcareLanding() {
         }
 
         const sortedModules = (resModules.data || []).sort(
-          (a, b) => (a.order || 0) - (b.order || 0)
+          (a, b) => (a.order || 0) - (b.order || 0),
         );
         setModules(sortedModules);
 
@@ -371,11 +371,10 @@ export default function AiHealthcareLanding() {
 
           <div className="flex items-center gap-3">
             <button
-              onClick={toggleLang}
-              className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-slate-200 hover:border-cyan-400 hover:bg-cyan-50 transition-all text-xs font-bold text-slate-700"
+              onClick={toggleLanguage} // Gọi hàm toggle từ Context
+              className="flex items-center gap-2 bg-white/10 backdrop-blur px-4 py-2 rounded-full text-black font-bold border border-gray/20 hover:bg-white/20 transition-all cursor-pointer"
             >
-              <Globe className="w-4 h-4 text-cyan-600" />
-              {lang === "en" ? "EN" : "VN"}
+              <Globe size={18} /> {lang === "vi" ? "EN" : "VN"}
             </button>
             <button
               className="lg:hidden p-2 text-slate-600"
@@ -455,7 +454,7 @@ export default function AiHealthcareLanding() {
                   : config.hero_title_vi
                 : t("hero_title")}{" "}
               <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400 text-4xl lg:text-5xl block mt-2">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400 text-4xl lg:text-5x1 block mt-2">
                 {config
                   ? lang === "en"
                     ? config.hero_subtitle_en
@@ -714,7 +713,7 @@ export default function AiHealthcareLanding() {
                       <div className="w-16 h-16 bg-cyan-600 rounded-2xl flex items-center justify-center text-white mb-8">
                         {getIcon(
                           displayModules[activeModule].icon_name ||
-                            displayModules[activeModule].icon
+                            displayModules[activeModule].icon,
                         )}
                       </div>
                       <h3 className="text-3xl font-bold mb-6 leading-tight">
@@ -884,8 +883,8 @@ export default function AiHealthcareLanding() {
                                 ? "Online"
                                 : "Trực tuyến"
                               : lang === "en"
-                              ? "Offline"
-                              : "Tại lớp"}
+                                ? "Offline"
+                                : "Tại lớp"}
                           </span>
                         </td>
                       </tr>

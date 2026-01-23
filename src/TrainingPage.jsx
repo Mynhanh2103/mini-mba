@@ -9,7 +9,7 @@ import {
   Globe,
   Home,
 } from "lucide-react";
-
+import { useLanguage } from "./LanguageContext";
 const translations = {
   vi: {
     title: "Chương Trình Đào Tạo",
@@ -40,7 +40,7 @@ const translations = {
 };
 
 export default function TrainingPage() {
-  const [lang, setLang] = useState("en");
+  const {lang, toggleLanguage} = useLanguage();
   const t = translations[lang];
 
   const programs = [
@@ -91,8 +91,8 @@ export default function TrainingPage() {
 
         {/* Nút đổi ngôn ngữ cũ (Giữ nguyên) */}
         <button
-          onClick={() => setLang(lang === "vi" ? "en" : "vi")}
-          className="flex items-center gap-2 bg-white px-4 py-2 rounded-full text-slate-700 font-bold border border-slate-200 shadow-sm hover:bg-slate-50"
+          onClick={toggleLanguage} // Gọi hàm toggle từ Context
+          className="flex items-center gap-2 bg-gray/10 backdrop-blur px-4 py-2 rounded-full text-black font-bold border border-black/20 hover:bg-white/20 transition-all cursor-pointer"
         >
           <Globe size={18} /> {lang === "vi" ? "EN" : "VN"}
         </button>
