@@ -50,6 +50,7 @@ const translations = {
     sec_method_title: "Phương Pháp Đào Tạo",
     sec_audience_title: "Đối Tượng Tham Gia",
     sec_schedule_title: "Lịch Khai Giảng Sắp Tới",
+    sec_schedule_subtitle: "Tham gia khóa học sắp tới để bắt đầu hành trình nâng cao chất lượng của bạn",
     schedule_online: "Học Trực Tuyến (Zoom)",
     schedule_offline: "Học Trực Tiếp",
     btn_register_slot: "Đăng ký giữ chỗ",
@@ -81,6 +82,7 @@ const translations = {
     sec_method_title: "Methodology",
     sec_audience_title: "Who Should Attend?",
     sec_schedule_title: "Upcoming Schedule",
+    sec_schedule_subtitle: "Join the upcoming cohort to start your quality journey",
     schedule_online: "Live Online (Zoom)",
     schedule_offline: "Offline Class",
     btn_register_slot: "Book Your Slot",
@@ -370,7 +372,7 @@ export default function JciLanding() {
               <Star className="w-3 h-3 fill-amber-600 text-amber-600" />{" "}
               {t("hero_badge")}
             </div>
-            <h1 className="text-4xl lg:text-6xl font-extrabold text-slate-900 leading-[1.15] mb-6">
+            <h1 className="text-2xl lg:text-5xl font-extrabold text-slate-900 leading-[1.15] mb-6">
               {lang === "en" ? config?.hero_title_en : config?.hero_title}
               {!config && t("hero_title")}
             </h1>
@@ -642,7 +644,7 @@ export default function JciLanding() {
                 {t("sec_schedule_title")}
               </h2>
               <p className="text-slate-400">
-                Join the upcoming cohort to start your quality journey.
+                {t("sec_schedule_subtitle")}
               </p>
             </div>
             <button

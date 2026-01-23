@@ -28,18 +28,18 @@ const translations = {
     cap_1: "Chuyên gia quản trị y tế",
     cap_1_desc: "Am hiểu mô hình vận hành, tối ưu quy trình.",
     cap_2: "Chuyên gia IT y tế",
-    cap_2_desc: "Kinh nghiệm triển khai HIS, LIS, PACS phức tạp.",
+    cap_2_desc: "Kinh nghiệm triển khai HIS, LIS, PACS, EMR, HL7 phức tạp.",
     cap_3: "Chuyên gia lâm sàng",
     cap_3_desc: "Đảm bảo giải pháp phù hợp chuyên môn y khoa.",
     area_title: "Lĩnh Vực Tư Vấn Chuyên Sâu",
     area_1: "Chiến lược CĐS",
-    area_1_desc: "Đánh giá mức độ trưởng thành số, xây dựng lộ trình.",
+    area_1_desc: "Đánh giá mức độ trưởng thành số, xây dựng lộ trình",
     area_2: "Quản lý Vận hành",
-    area_2_desc: "Tối ưu dòng bệnh nhân, quản lý nguồn lực.",
+    area_2_desc: "Tối ưu dòng bệnh nhân, quản lý nguồn lực",
     area_3: "Công nghệ Y tế",
-    area_3_desc: "Tư vấn Telehealth, AI & IoT.",
+    area_3_desc: "Tư vấn Telehealth, AI & IoT",
     area_4: "Đào tạo Năng lực",
-    area_4_desc: "Huấn luyện đội ngũ IT và nhân viên y tế.",
+    area_4_desc: "Huấn luyện đội ngũ IT và nhân viên y tế",
 
     lib_title: "Thư Viện Giải Pháp & Kiến Thức",
     lib_sub:
@@ -144,13 +144,24 @@ export default function ConsultingPage() {
   // Helper an toàn để lấy dữ liệu (tránh lỗi nếu field null)
   const getData = (item, field) => {
     if (!item) return "";
-    // Ưu tiên lấy trường _en/vi từ API nếu có, hoặc dùng field gốc
-    if (lang === "en") {
-      return item[`${field}_en`] || item[field] || "";
-    }
-    return item[field] || "";
-  };
 
+    // 1. Nếu đang chọn Tiếng Anh
+    if (lang === "en") {
+      const enValue = item[`${field}_en`];
+      // Nếu có tiếng Anh thì trả về, nếu không thì fallback về tiếng Việt
+      if (enValue && enValue.trim() !== "") return enValue;
+    }
+
+    // 2. Nếu đang chọn Tiếng Việt (hoặc tiếng Anh bị rỗng)
+    const viValue = item[`${field}_vi`] || item[field];
+    // Fallback: Nếu tiếng Việt cũng rỗng, thử lấy tiếng Anh bù vào (để không bị trắng)
+    if (!viValue || viValue.trim() === "") {
+      return item[`${field}_en`] || "";
+    }
+    return viValue;
+  };
+  console.log("Ngôn ngữ hiện tại:", lang);
+  console.log("Dữ liệu Solutions:", solutions);
   return (
     <div className="min-h-screen bg-white font-sans text-slate-800">
       {/* LANGUAGE SWITCHER */}
