@@ -129,7 +129,8 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
     "http://localhost:5174",
-    "https://mini-mba-frontend.onrender.com"
+    "https://mini-mba-frontend.onrender.com",
+    "https://mini-mba-admin.onrender.com",
 ]
 
 CSRF_TRUSTED_ORIGINS = [
@@ -379,3 +380,4 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),    # Refresh token sống 1 ngày
 }
 CORS_ALLOW_CREDENTIALS = True
+ALLOWED_HOSTS = ['mini-mba-admin.onrender.com', 'localhost', '127.0.0.1']
