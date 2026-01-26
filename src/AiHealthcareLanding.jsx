@@ -225,7 +225,7 @@ const defaultModules = [
 ];
 
 export default function AiHealthcareLanding() {
-  const {lang, toggleLanguage} = useLanguage();
+  const { lang, toggleLanguage } = useLanguage();
   const t = (key) => translations[lang][key] || key;
   const toggleLang = () => setLang((prev) => (prev === "en" ? "vi" : "en"));
 
@@ -476,15 +476,20 @@ export default function AiHealthcareLanding() {
               >
                 {t("hero_cta")} <ArrowRight className="w-5 h-5" />
               </button>
-              {config?.brochure_file && (
-                <a
-                  href={config.brochure_file}
-                  download
-                  className="px-8 py-4 bg-white/10 border border-white/20 hover:bg-white/20 text-white font-bold rounded-full transition-all flex items-center gap-2 backdrop-blur-sm"
+                 <a
+                  // 1. Logic đường dẫn: Đảm bảo link luôn đúng (có http)
+                  href="/Khoa Health Informatics - AI in healthcare.pdf"
+                  // 2. Thuộc tính kích hoạt tải file
+                  download="AI_Healthcare_Syllabus.pdf" // Tên file khi tải về máy
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  // 3. Giao diện: Copy y nguyên từ mẫu bạn gửi (Nút vàng, chữ xanh, bóng đổ)
+                  className="w-full sm:w-auto px-8 py-4 bg-yellow-500 hover:bg-yellow-400 text-blue-900 font-bold rounded-full shadow-xl shadow-yellow-500/30 transition-all transform hover:-translate-y-1 text-lg flex flex-row items-center justify-center gap-2 cursor-pointer whitespace-nowrap"
                 >
-                  <BookOpen className="w-5 h-5" /> {t("hero_brochure")}
+                  {/* 4. Nội dung & Icon */}
+                  {t("hero_brochure")}
+                  <ArrowRight className="w-5 h-5 shrink-0" />
                 </a>
-              )}
             </div>
           </motion.div>
 
@@ -504,21 +509,7 @@ export default function AiHealthcareLanding() {
                 className="w-full h-auto object-cover opacity-80"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent"></div>
-              <div className="absolute bottom-8 left-8 right-8">
-                <div className="flex items-center gap-4 bg-slate-900/80 backdrop-blur p-4 rounded-xl border border-slate-700">
-                  <div className="w-12 h-12 bg-cyan-500 rounded-lg flex items-center justify-center text-slate-900">
-                    <BrainCircuit size={28} />
-                  </div>
-                  <div>
-                    <p className="text-slate-400 text-xs uppercase font-bold">
-                      Powered by
-                    </p>
-                    <p className="text-white font-bold text-lg">
-                      Machine Learning
-                    </p>
-                  </div>
-                </div>
-              </div>
+              <div className="absolute bottom-8 left-8 right-8"></div>
             </div>
           </motion.div>
         </div>

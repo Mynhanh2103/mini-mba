@@ -19,7 +19,7 @@ import { useLanguage } from "./LanguageContext";
 // --- CẤU HÌNH NGÔN NGỮ TĨNH (Giữ nguyên phần này) ---
 const translations = {
   vi: {
-    page_title: "Tư Vấn Số Hóa Y Tế",
+    page_title: "Tư Vấn Chuyển Đổi Số",
     page_sub:
       "Giải pháp chiến lược – Đồng hành cùng hệ thống Y tế Việt Nam chuyển mình số hóa.",
     cap_title: "Năng Lực Tư Vấn Cốt Lõi",
@@ -35,11 +35,11 @@ const translations = {
     area_1: "Chiến lược CĐS",
     area_1_desc: "Đánh giá mức độ trưởng thành số, xây dựng lộ trình",
     area_2: "Quản lý Vận hành",
-    area_2_desc: "Tối ưu dòng bệnh nhân, quản lý nguồn lực",
+    area_2_desc: "Tối ưu dòng bệnh nhân, quản lý nguồn lực, phân tích chi phí, kết quả thực hiện của đơn vị",
     area_3: "Công nghệ Y tế",
-    area_3_desc: "Tư vấn Telehealth, AI & IoT",
+    area_3_desc: "Tư vấn các giải pháp chuyển đổi số, telehealth, telemedicine, AI,…",
     area_4: "Đào tạo Năng lực",
-    area_4_desc: "Huấn luyện đội ngũ IT và nhân viên y tế",
+    area_4_desc: "Huấn luyện đội ngũ IT, nhân viên y tế, nhà quản trị bệnh viện, đơn vị chăm sóc sức khỏe",
 
     lib_title: "Thư Viện Giải Pháp & Kiến Thức",
     lib_sub:
@@ -49,8 +49,8 @@ const translations = {
     tab_solution: "Giải pháp SHS",
     cta_modal: "Liên hệ tư vấn giải pháp này",
 
-    cta_title: "Bạn cần tư vấn chiến lược?",
-    cta_desc: "Liên hệ ngay để xây dựng lộ trình chuyển đổi số phù hợp nhất.",
+    cta_title: "Bạn cần tư vấn chuyển đổi số?",
+    cta_desc: "Liên hệ ngay để xây dựng lộ trình chuyển đổi số phù hợp nhất",
     cta_btn: "Liên hệ chuyên gia",
     footer_addr: "268 Lý Thường Kiệt, Phường Dien Hong, Tp. Hồ Chí Minh",
   },
@@ -76,15 +76,15 @@ const translations = {
 
     area_2: "Hospital Operations",
     area_2_desc:
-      "Optimizing patient flow and resource, hospital performance improvement, cost structure and pricing.",
+      "Optimizing patient flow, resources, cost analysis, and unit performance results",
 
     area_3: "Healthcare IT",
     area_3_desc:
-      "Consulting on Telehealth, telemedicine, hybrid model, patient journey, AI chatbot.",
+      "Consulting on Digitalization solutions, Telehealth, Telemedicine, AI,...",
 
     area_4: "Capacity Building",
     area_4_desc:
-      "Training IT teams, biomedical engineers, hospital administration staff.",
+      "Training IT teams, medical staff, hospital administrators, and healthcare units",
 
     lib_title: "Solutions & Knowledge Library",
     lib_sub:
@@ -94,7 +94,7 @@ const translations = {
     tab_solution: "SHS Solution",
     cta_modal: "Consult on this solution",
 
-    cta_title: "Need Strategic Consulting?",
+    cta_title: "Need Digitalization Consulting?",
     cta_desc:
       "Contact us at mr.truongchuong@gmail.com to build the most suitable roadmap.",
     cta_btn: "Contact Experts",

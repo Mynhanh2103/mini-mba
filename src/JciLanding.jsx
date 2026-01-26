@@ -50,7 +50,8 @@ const translations = {
     sec_method_title: "Phương Pháp Đào Tạo",
     sec_audience_title: "Đối Tượng Tham Gia",
     sec_schedule_title: "Lịch Khai Giảng Sắp Tới",
-    sec_schedule_subtitle: "Tham gia khóa học sắp tới để bắt đầu hành trình nâng cao chất lượng của bạn",
+    sec_schedule_subtitle:
+      "Tham gia khóa học sắp tới để bắt đầu hành trình nâng cao chất lượng của bạn",
     schedule_online: "Học Trực Tuyến (Zoom)",
     schedule_offline: "Học Trực Tiếp",
     btn_register_slot: "Đăng ký giữ chỗ",
@@ -82,7 +83,8 @@ const translations = {
     sec_method_title: "Methodology",
     sec_audience_title: "Who Should Attend?",
     sec_schedule_title: "Upcoming Schedule",
-    sec_schedule_subtitle: "Join the upcoming cohort to start your quality journey",
+    sec_schedule_subtitle:
+      "Join the upcoming cohort to start your quality journey",
     schedule_online: "Live Online (Zoom)",
     schedule_offline: "Offline Class",
     btn_register_slot: "Book Your Slot",
@@ -209,7 +211,7 @@ const audienceData = [
 
 export default function JciLanding() {
   // --- 1. LANGUAGE STATE (Mặc định EN) ---
-  const {lang, toggleLanguage} = useLanguage();
+  const { lang, toggleLanguage } = useLanguage();
   const t = (key) => translations[lang][key] || translations["en"][key];
 
   // State Data
@@ -388,10 +390,20 @@ export default function JciLanding() {
               >
                 {t("hero_cta")} <ArrowRight className="w-5 h-5" />
               </button>
-              <button className="px-8 py-4 bg-white border border-slate-200 hover:border-amber-300 text-slate-700 font-bold rounded-full transition-all flex items-center gap-2 shadow-sm">
-                <FileText className="w-5 h-5 text-slate-400" />{" "}
+              <a
+                // 1. Logic đường dẫn: Đảm bảo link luôn đúng (có http)
+                href="/Dao tao JCI - course outlines.pdf"
+                // 2. Thuộc tính kích hoạt tải file
+                download="JCI Accreditation_Syllabus.pdf" // Tên file khi tải về máy
+                target="_blank"
+                rel="noopener noreferrer"
+                // 3. Giao diện: Copy y nguyên từ mẫu bạn gửi (Nút vàng, chữ xanh, bóng đổ)
+                className="w-full sm:w-auto px-8 py-4 bg-yellow-500 hover:bg-yellow-400 text-blue-900 font-bold rounded-full shadow-xl shadow-yellow-500/30 transition-all transform hover:-translate-y-1 text-lg flex flex-row items-center justify-center gap-2 cursor-pointer whitespace-nowrap"
+              >
+                {/* 4. Nội dung & Icon */}
                 {t("hero_brochure")}
-              </button>
+                <ArrowRight className="w-5 h-5 shrink-0" />
+              </a>
             </div>
 
             {/* --- REPLACED GRAY BOXES WITH TRUST INDICATORS --- */}
@@ -643,9 +655,7 @@ export default function JciLanding() {
               <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-2">
                 {t("sec_schedule_title")}
               </h2>
-              <p className="text-slate-400">
-                {t("sec_schedule_subtitle")}
-              </p>
+              <p className="text-slate-400">{t("sec_schedule_subtitle")}</p>
             </div>
             <button
               onClick={() => scrollTo("register")}

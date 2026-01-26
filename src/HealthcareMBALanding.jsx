@@ -211,7 +211,7 @@ const audienceData = [
 ];
 
 export default function HealthcareMBALanding() {
-  const {lang, toggleLanguage} = useLanguage();
+  const { lang, toggleLanguage } = useLanguage();
   const t = (key) => translations[lang][key] || translations["en"][key] || key;
   const toggleLang = () => setLang((prev) => (prev === "en" ? "vi" : "en"));
 
@@ -419,10 +419,20 @@ export default function HealthcareMBALanding() {
               >
                 {t("hero_cta")} <ArrowRight className="w-5 h-5" />
               </button>
-              <button className="px-8 py-4 bg-white border border-slate-200 hover:border-blue-300 text-slate-700 font-bold rounded-full transition-all flex items-center gap-2 shadow-sm">
-                <FileText className="w-5 h-5 text-slate-400" />{" "}
+              <a
+                // 1. Logic đường dẫn: Đảm bảo link luôn đúng (có http)
+                href="/Thiet ke mini MBA ver 2 - Course outlines.pdf"
+                // 2. Thuộc tính kích hoạt tải file
+                download="MBA_Healthcare_Syllabus.pdf" // Tên file khi tải về máy
+                target="_blank"
+                rel="noopener noreferrer"
+                // 3. Giao diện: Copy y nguyên từ mẫu bạn gửi (Nút vàng, chữ xanh, bóng đổ)
+                className="w-full sm:w-auto px-8 py-4 bg-yellow-500 hover:bg-yellow-400 text-blue-900 font-bold rounded-full shadow-xl shadow-yellow-500/30 transition-all transform hover:-translate-y-1 text-lg flex flex-row items-center justify-center gap-2 cursor-pointer whitespace-nowrap"
+              >
+                {/* 4. Nội dung & Icon */}
                 {t("hero_brochure")}
-              </button>
+                <ArrowRight className="w-5 h-5 shrink-0" />
+              </a>
             </div>
             <div className="mt-12">
               <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">

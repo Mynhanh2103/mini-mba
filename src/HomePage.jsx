@@ -24,7 +24,7 @@ const translations = {
     hero_title: "Kiến Tạo Tương Lai",
     hero_subtitle: "Y Tế Thông Minh Việt Nam",
     hero_desc1:
-      "Tiên phong trong giải pháp Chuyển đổi số - Đào tạo Quản trị - Nghiên cứu Kỹ Thuật Số",
+      "Tiên phong trong giải pháp Chuyển đổi số - Đào tạo Quản trị - Nghiên cứu Chuyển Đổi Số",
     hero_desc2: "Kết nối tri thức toàn cầu để nâng tầm hệ thống y tế Việt Nam",
     btn_consulting: "Giải pháp Tư vấn",
     btn_training: "Chương trình Đào tạo",
