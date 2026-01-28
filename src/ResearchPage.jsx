@@ -51,8 +51,8 @@ const translations = {
     card_read_more: "Đọc chi tiết",
     cta_title: "Bạn muốn nghiên cứu sâu hơn?",
     cta_desc:
-      "Đăng ký khóa học Mini MBA để truy cập kho tài liệu nội bộ và các Case Study độc quyền.",
-    cta_btn: "Đăng ký tư vấn ngay",
+      "Đăng ký các dịch vụ của Smart Health Solutions để truy cập kho tài liệu nội bộ và các Case Study độc quyền.",
+    cta_btn: "Liên hệ ngay",
     cat_news: "Tin tức Y tế",
     cat_research: "Nghiên cứu",
     cat_perspective: "Góc nhìn",
@@ -77,8 +77,8 @@ const translations = {
     card_read_more: "Read more",
     cta_title: "Want deeper research?",
     cta_desc:
-      "Register for the Mini MBA course to access internal documents and exclusive Case Studies.",
-    cta_btn: "Register for consultation",
+      "Register for Smart Health Solutions services to access internal documents and exclusive Case Studies.",
+    cta_btn: "Contact Now",
     cat_news: "Health News",
     cat_research: "Research",
     cat_perspective: "Perspective",
@@ -360,7 +360,7 @@ export default function ResearchPage() {
           <h2 className="text-3xl font-bold mb-4">{t.cta_title}</h2>
           <p className="text-blue-200 mb-8 text-lg">{t.cta_desc}</p>
           <Link
-            to="/training/mini-mba#dang-ky"
+            to="/contact"
             className="inline-block px-8 py-3 bg-yellow-500 hover:bg-yellow-400 text-blue-900 font-bold rounded-full transition-colors"
           >
             {t.cta_btn}

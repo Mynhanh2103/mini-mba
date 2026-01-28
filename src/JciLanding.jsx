@@ -35,6 +35,7 @@ const translations = {
     nav_audience: "Đối tượng",
     nav_instructors: "Chuyên gia",
     nav_register: "Đăng ký ngay",
+    nav_contact: "Liên hệ",
     hero_badge: "TIÊU CHUẨN VÀNG TRONG QUẢN TRỊ BỆNH VIỆN",
     hero_title: "Quản Trị Chất Lượng & An Toàn Người Bệnh Theo JCI",
     hero_desc:
@@ -68,6 +69,7 @@ const translations = {
     nav_audience: "Audience",
     nav_instructors: "Experts",
     nav_register: "Register Now",
+    nav_contact: "Contact",
     hero_badge: "THE GOLD STANDARD IN HOSPITAL MANAGEMENT",
     hero_title: "JCI Accreditation & Patient Safety Management",
     hero_desc:
@@ -294,7 +296,12 @@ export default function JciLanding() {
                 {item.label}
               </button>
             ))}
-
+            <Link
+              to="/contact"
+              className="hover:text-cyan-600 transition-colors uppercase tracking-wide text-xs font-bold"
+            >
+              {t("nav_contact")}
+            </Link>
             <button
               onClick={() => scrollTo("register")}
               className="px-6 py-2.5 bg-slate-900 text-white font-bold rounded-full hover:bg-slate-800 transition-all shadow-lg shadow-slate-900/20 text-xs uppercase tracking-wider"
@@ -345,7 +352,12 @@ export default function JciLanding() {
                 >
                   {t("sec_schedule_title")}
                 </button>
-
+                <Link
+                  to="/contact"
+                  className="hover:text-cyan-600 transition-colors uppercase tracking-wide text-xs font-bold"
+                >
+                  {t("nav_contact")}
+                </Link>
                 {/* Nút Đăng ký trong Mobile Menu */}
                 <button
                   onClick={() => scrollTo("register")}

@@ -304,12 +304,12 @@ export default function ConsultingPage() {
         <div className="bg-slate-900 rounded-3xl p-12 text-center text-white">
           <h2 className="text-3xl font-bold mb-4">{t.cta_title}</h2>
           <p className="text-blue-200 mb-8">{t.cta_desc}</p>
-          <a
-            href="mailto:mr.truongchuong@gmail.com"
+          <Link
+            to="/contact"
             className="inline-block px-8 py-3 bg-yellow-500 text-blue-900 font-bold rounded-full hover:bg-yellow-400 transition-colors"
           >
             {t.cta_btn}
-          </a>
+          </Link>
         </div>
       </div>
 
@@ -368,14 +368,14 @@ export default function ConsultingPage() {
                 }}
               />
 
-              {/* Call To Action trong Modal */}
+              {/* Call To Action trong Modal 
               {activeTab === "solution" && (
                 <div className="mt-8 p-6 bg-blue-50 rounded-xl border border-blue-100 text-center">
                   <button className="px-6 py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition shadow-lg shadow-blue-200">
                     {t.cta_modal}
                   </button>
                 </div>
-              )}
+              )}*/}
             </div>
           </div>
         </div>

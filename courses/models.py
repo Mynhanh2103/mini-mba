@@ -726,3 +726,19 @@ class AiHealthcareRegistration(models.Model):
     class Meta:
         verbose_name = "Đăng ký AI Healthcare"
         verbose_name_plural = "5. Danh sách Đăng ký AI"
+
+class Contact(models.Model):
+    full_name = models.CharField(max_length=255, verbose_name="Họ và tên")
+    email = models.EmailField(verbose_name="Email")
+    phone = models.CharField(max_length=20, verbose_name="Số điện thoại")
+    content = models.TextField(verbose_name="Nội dung liên hệ")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Ngày gửi")
+    is_resolved = models.BooleanField(default=False, verbose_name="Đã xử lý")
+
+    def __str__(self):
+        return f"{self.full_name} - {self.phone}"
+
+    class Meta:
+        verbose_name = "Liên hệ khách hàng"
+        verbose_name_plural = "Danh sách liên hệ"
+        ordering = ['-created_at']

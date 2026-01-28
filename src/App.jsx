@@ -14,6 +14,7 @@ import Dashboard from "./Dashboard";
 import JciLanding from "./JciLanding";
 import HealthcareMBALanding from "./HealthcareMBALanding";
 import AiHealthcareLanding from "./AiHealthcareLanding";
+import ContactPage from "./ContactPage";
 // Component cuộn lên đầu trang mỗi khi chuyển trang
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
@@ -51,6 +52,7 @@ export default function App() {
         {/* 5. HỆ THỐNG USER & ADMIN */}
         <Route path="/login" element={<LoginPage />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/contact" element={<ContactPage />} />
         {/* 404 NOT FOUND */}
         <Route
           path="*"

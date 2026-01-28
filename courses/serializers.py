@@ -7,6 +7,7 @@ from .models import (
     AiHealthcareConfig, AiHealthcareModule, 
     AiHealthcareInstructor, AiHealthcareSchedule, AiHealthcareRegistration
 )
+from .models import Contact
 
 class GeneralHomepageConfigSerializer(serializers.ModelSerializer):
     class Meta:
@@ -195,3 +196,8 @@ class AiHealthcareRegistrationSerializer(serializers.ModelSerializer):
     class Meta:
         model = AiHealthcareRegistration
         fields = '__all__'
+
+class ContactSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Contact
+        fields = ['id', 'full_name', 'email', 'phone', 'content', 'created_at']

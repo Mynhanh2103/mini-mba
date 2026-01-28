@@ -21,6 +21,8 @@ from .views import(
     AiHealthcareScheduleViewSet
 )
 
+from .views import ContactAPIView
+
 router = DefaultRouter()
 router.register(r'modules', ModuleViewSet)
 router.register(r'schedule', ScheduleViewSet)
@@ -60,9 +62,12 @@ router.register(r'aihealthcare-instructors', AiHealthcareInstructorViewSet)
 router.register(r'aihealthcare-schedule', AiHealthcareScheduleViewSet)
 router.register(r'aihealthcare-register', AiHealthcareRegistrationViewSet)
 
+
+
 urlpatterns = [
     path('', include(router.urls)),
     path('profile/', UserProfileView.as_view(), name='user-profile'),
     path('mark-lesson/', MarkLessonView.as_view(), name='mark-lesson'),
-    path('note/', NoteView.as_view(), name='user-note')
+    path('note/', NoteView.as_view(), name='user-note'),
+    path('api/contact/', ContactAPIView.as_view(), name='api-contact'),
 ]

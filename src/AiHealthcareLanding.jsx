@@ -42,6 +42,7 @@ const translations = {
     nav_roadmap: "Lịch học", // [MỚI]
     nav_instructors: "Giảng viên",
     nav_register: "Đăng ký",
+    nav_contact: "Liên hệ",
     hero_badge: "Hợp tác chiến lược cùng TAMI (Đài Loan)",
     hero_title: "AI in Healthcare",
     hero_subtitle: "Ứng dụng Trí tuệ Nhân tạo trong Y tế",
@@ -101,6 +102,7 @@ const translations = {
     nav_roadmap: "Schedule", // [MỚI]
     nav_instructors: "Instructors",
     nav_register: "Register",
+    nav_contact: "Contact",
     hero_badge: "Strategic Partnership with TAMI (Taiwan)",
     hero_title: "AI in Healthcare",
     hero_subtitle: "Artificial Intelligence in Medicine",
@@ -361,6 +363,12 @@ export default function AiHealthcareLanding() {
                 {item.label}
               </button>
             ))}
+            <Link
+              to="/contact"
+              className="hover:text-cyan-600 transition-colors uppercase tracking-wide text-xs font-bold"
+            >
+              {t("nav_contact")}
+            </Link>
             <button
               onClick={() => scrollToSection("register")}
               className="px-6 py-2.5 bg-cyan-600 text-white font-bold rounded-full hover:bg-cyan-700 transition-all shadow-lg shadow-cyan-600/20 text-xs uppercase tracking-wider"
@@ -413,6 +421,12 @@ export default function AiHealthcareLanding() {
                 >
                   {t("nav_roadmap")}
                 </button>
+                <Link
+                  to="/contact"
+                  className="hover:text-cyan-600 transition-colors uppercase tracking-wide text-xs font-bold"
+                >
+                  {t("nav_contact")}
+                </Link>
                 <button
                   onClick={() => scrollToSection("register")}
                   className="w-full py-3 bg-cyan-600 text-white font-bold rounded-xl mt-2"
@@ -476,20 +490,20 @@ export default function AiHealthcareLanding() {
               >
                 {t("hero_cta")} <ArrowRight className="w-5 h-5" />
               </button>
-                 <a
-                  // 1. Logic đường dẫn: Đảm bảo link luôn đúng (có http)
-                  href="/Khoa Health Informatics - AI in healthcare.pdf"
-                  // 2. Thuộc tính kích hoạt tải file
-                  download="AI_Healthcare_Syllabus.pdf" // Tên file khi tải về máy
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  // 3. Giao diện: Copy y nguyên từ mẫu bạn gửi (Nút vàng, chữ xanh, bóng đổ)
-                  className="w-full sm:w-auto px-8 py-4 bg-yellow-500 hover:bg-yellow-400 text-blue-900 font-bold rounded-full shadow-xl shadow-yellow-500/30 transition-all transform hover:-translate-y-1 text-lg flex flex-row items-center justify-center gap-2 cursor-pointer whitespace-nowrap"
-                >
-                  {/* 4. Nội dung & Icon */}
-                  {t("hero_brochure")}
-                  <ArrowRight className="w-5 h-5 shrink-0" />
-                </a>
+              <a
+                // 1. Logic đường dẫn: Đảm bảo link luôn đúng (có http)
+                href="/Khoa Health Informatics - AI in healthcare.pdf"
+                // 2. Thuộc tính kích hoạt tải file
+                download="AI_Healthcare_Syllabus.pdf" // Tên file khi tải về máy
+                target="_blank"
+                rel="noopener noreferrer"
+                // 3. Giao diện: Copy y nguyên từ mẫu bạn gửi (Nút vàng, chữ xanh, bóng đổ)
+                className="w-full sm:w-auto px-8 py-4 bg-yellow-500 hover:bg-yellow-400 text-blue-900 font-bold rounded-full shadow-xl shadow-yellow-500/30 transition-all transform hover:-translate-y-1 text-lg flex flex-row items-center justify-center gap-2 cursor-pointer whitespace-nowrap"
+              >
+                {/* 4. Nội dung & Icon */}
+                {t("hero_brochure")}
+                <ArrowRight className="w-5 h-5 shrink-0" />
+              </a>
             </div>
           </motion.div>
 

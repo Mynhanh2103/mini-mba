@@ -40,6 +40,7 @@ const translations = {
     nav_audience: "Đối tượng",
     nav_instructors: "Giảng viên",
     nav_register: "Đăng ký ngay",
+    nav_contact: "Liên hệ",
     hero_badge: "MINI MBA THỰC CHIẾN CHO BÁC SĨ",
     hero_title: "Quản Trị Bệnh Viện & Phòng Khám Hiện Đại",
     hero_desc:
@@ -72,6 +73,7 @@ const translations = {
     nav_audience: "Audience",
     nav_instructors: "Experts",
     nav_register: "Register Now",
+    nav_contact: "Contact",
     hero_badge: "PRACTICAL MINI MBA FOR DOCTORS",
     hero_title: "Modern Hospital & Clinic Management",
     hero_desc:
@@ -329,6 +331,12 @@ export default function HealthcareMBALanding() {
                 {item.label}
               </button>
             ))}
+            <Link
+              to="/contact"
+              className="hover:text-cyan-600 transition-colors uppercase tracking-wide text-xs font-bold"
+            >
+              {t("nav_contact")}
+            </Link>
             <button
               onClick={() => scrollTo("register")}
               className="px-6 py-2.5 bg-blue-600 text-white font-bold rounded-full hover:bg-blue-700 transition-all shadow-lg shadow-blue-600/20 text-xs uppercase tracking-wider"
@@ -374,6 +382,12 @@ export default function HealthcareMBALanding() {
                 >
                   {t("sec_schedule_title")}
                 </button>
+                <Link
+                  to="/contact"
+                  className="hover:text-cyan-600 transition-colors uppercase tracking-wide text-xs font-bold"
+                >
+                  {t("nav_contact")}
+                </Link>
                 <button
                   onClick={() => scrollTo("register")}
                   className="w-full py-3 bg-blue-600 text-white font-bold rounded-xl mt-2"

@@ -48,6 +48,7 @@ const translations = {
     nav_login: "Đăng nhập",
     cta_register: "Đăng ký ngay",
     nav_consult: "Đăng ký tư vấn",
+    nav_contact: "Liên hệ",
     partner_badge: "Partner – Traf Academy Switzerland Accredited by EduPROVED",
     hero_default_1: "Quản Trị",
     hero_default_2: "Chuyển Đổi Số Y Tế",
@@ -146,6 +147,7 @@ const translations = {
     nav_register: "Register Now",
     nav_login: "Login",
     cta_register: "Register Now",
+    nav_contact: "Contact",
     nav_consult: "Get Consultation",
     partner_badge: "Partner – Traf Academy Switzerland Accredited by EduPROVED",
     hero_default_1: "Healthcare",
@@ -430,7 +432,7 @@ const TimelineRow = ({ item, index, lang }) => {
 // --- 4. MAIN APP ---
 
 export default function MiniMBALanding() {
-  const {lang, toggleLanguage} = useLanguage();
+  const { lang, toggleLanguage } = useLanguage();
   const [scrolled, setScrolled] = useState(false);
 
   const t = (key) => translations[lang][key] || key;
@@ -578,6 +580,7 @@ export default function MiniMBALanding() {
     { id: "lo-trinh", label: t("nav_roadmap") },
     { id: "giang-vien", label: t("nav_instructors") },
     { id: "/research", label: t("nav_library"), type: "link" },
+    //{ id: "/contact", label: t("nav_contact"), type: "link" },
   ];
 
   const sortOrder = ["Volker", "Dieter", "Kathrin", "Trương Minh Chương"];
@@ -658,10 +661,10 @@ export default function MiniMBALanding() {
 
           <div className="hidden lg:flex items-center gap-4">
             <Link
-              to="/login"
+              to="/contact"
               className="px-5 py-2 bg-white hover:bg-gray-100 text-blue-900 font-bold rounded-full transition-transform active:scale-95 text-sm shadow-lg"
             >
-              {t("nav_login")}
+              {t("nav_contact")}
             </Link>
 
             <button
@@ -739,13 +742,13 @@ export default function MiniMBALanding() {
                 })}
 
                 <div className="pt-6 flex flex-col gap-3">
-                  {/* NÚT LOGIN */}
+                  {/* NÚT contact */}
                   <Link
-                    to="/login"
+                    to="/contact"
                     onClick={() => setIsOpen(false)}
                     className="w-full py-3 text-center text-slate-600 font-bold border border-slate-300 rounded-xl hover:bg-slate-100 transition-all block"
                   >
-                    {t("nav_login")}
+                    {t("nav_contact")}
                   </Link>
 
                   {/* NÚT ĐĂNG KÝ */}

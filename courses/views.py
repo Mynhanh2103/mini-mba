@@ -1,7 +1,7 @@
 from rest_framework import viewsets, permissions, filters
 from .models import Module, ScheduleItem, Instructor, Registration, CourseOverview, MiniMBAConfig
 from .serializers import ModuleSerializer, ScheduleItemSerializer, InstructorSerializer, RegistrationSerializer, CourseOverviewSerializer, MiniMBAConfigSerializer, ResearchPostSerializer
-from rest_framework import mixins, viewsets
+from rest_framework import mixins, status
 from .models import Lesson, Material, Testimonial
 from .serializers import LessonSerializer, MaterialSerializer, TestimonialSerializer, GeneralHomepageConfigSerializer
 from rest_framework.views import APIView
@@ -27,6 +27,9 @@ from .serializers import (
     AiHealthcareInstructorSerializer, AiHealthcareScheduleSerializer,
     AiHealthcareRegistrationSerializer
 )
+from django.core.mail import send_mail
+from django.conf import settings
+from .serializers import ContactSerializer
 
 class GeneralHomepageConfigViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = GeneralHomepageConfig.objects.all()
@@ -271,3 +274,44 @@ class AiHealthcareScheduleViewSet(viewsets.ModelViewSet):
 class AiHealthcareRegistrationViewSet(viewsets.ModelViewSet):
     queryset = AiHealthcareRegistration.objects.all().order_by('-created_at')
     serializer_class = AiHealthcareRegistrationSerializer
+
+class ContactAPIView(APIView):
+    def post(self, request):
+        serializer = ContactSerializer(data=request.data)
+        if serializer.is_valid():
+            # 1. Lưu vào Database
+            contact = serializer.save()
+
+            # 2. Soạn nội dung Email
+            subject = f"[Website Liên Hệ] Tin nhắn mới từ {contact.full_name}"
+            message = f"""
+            Thông tin khách hàng liên hệ:
+            ---------------------------------------------
+            Họ tên: {contact.full_name}
+            Email: {contact.email}
+            SĐT: {contact.phone}
+            
+            Nội dung:
+            {contact.content}
+            ---------------------------------------------
+            Vui lòng phản hồi sớm.
+            """
+            
+            # 3. Gửi Email (Bọc trong try/except để tránh lỗi crash nếu mail sai)
+            try:
+                send_mail(
+                    subject,
+                    message,
+                    settings.EMAIL_HOST_USER,
+                    ['smarthealthsolutions@gmail.com'], # Email nhận (Công ty)
+                    fail_silently=True,
+                )
+            except Exception as e:
+                print(f"Lỗi gửi mail: {e}")
+
+            return Response({
+                "message": "Gửi thành công!", 
+                "data": serializer.data
+            }, status=status.HTTP_201_CREATED)
+            
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

@@ -113,7 +113,7 @@ const translations = {
 };
 
 export default function HomePage() {
-  const {lang, toggleLanguage} = useLanguage();
+  const { lang, toggleLanguage } = useLanguage();
   const t = translations[lang];
   const [latestNews, setLatestNews] = useState([]);
   const [partners, setPartners] = useState([]);
@@ -531,12 +531,12 @@ export default function HomePage() {
               ? "Hãy để Smart Health Solutions trở thành đối tác tin cậy của bạn trong hành trình chuyển đổi số."
               : "Let Smart Health Solutions be your trusted partner in your digital transformation journey."}
           </p>
-          <a
-            href="mailto:mr.truongchuong@gmail.com"
+          <Link
+            to="/contact"
             className="inline-block px-10 py-4 bg-white text-blue-600 font-bold rounded-full shadow-xl hover:bg-blue-50 transition-all hover:-translate-y-1"
           >
             {t.footer_cta_btn}
-          </a>
+          </Link>
         </div>
       </section>
 

@@ -381,3 +381,11 @@ SIMPLE_JWT = {
 }
 CORS_ALLOW_CREDENTIALS = True
 ALLOWED_HOSTS = ['mini-mba-admin.onrender.com', 'localhost', '127.0.0.1']
+
+# Cấu hình gửi mail (Ví dụ dùng Gmail)
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'smarthealthsolutions@gmail.com'  
+EMAIL_HOST_PASSWORD = 'smarthealthsolutions'
