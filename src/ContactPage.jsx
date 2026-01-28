@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import axios from "axios";
 import { useLanguage } from "./LanguageContext"; // Kiểm tra đường dẫn này
+import { address } from "framer-motion/client";
 
 const API_BASE = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
 
@@ -35,6 +36,9 @@ const translations = {
     success_desc: "Chúng tôi đã nhận được thông tin và sẽ phản hồi sớm nhất.",
     home_btn: "Trang chủ",
     address_text: "268 Lý Thường Kiệt, Phường Diên Hồng, Tp. Hồ Chí Minh",
+    mobile_btn: "Điện thoại",
+    address_btn: "Địa chỉ"
+
   },
   en: {
     title: "Contact Us",
@@ -55,6 +59,8 @@ const translations = {
     success_desc: "We have received your message and will respond shortly.",
     home_btn: "Home",
     address_text: "268 Ly Thuong Kiet, Dien Hong Ward, Ho Chi Minh City",
+    mobile_btn: "Mobile",
+    address_btn: "Address",
   },
 };
 
@@ -148,7 +154,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <p className="text-blue-300 text-xs uppercase font-bold tracking-wider mb-1">
-                      Mobile
+                      {t.mobile_btn}
                     </p>
                     <a
                       href="tel:0903928127"
@@ -164,7 +170,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <p className="text-blue-300 text-xs uppercase font-bold tracking-wider mb-1">
-                      Địa chỉ
+                      {t.address_btn}
                     </p>
                     <p className="font-semibold leading-relaxed">
                       {t.address_text}
