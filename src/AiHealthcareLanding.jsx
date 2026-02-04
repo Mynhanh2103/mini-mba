@@ -4,9 +4,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   BookOpen,
   Users,
-  TrendingUp,
-  Award,
   CheckCircle,
+  Award,
   ChevronDown,
   Star,
   ArrowRight,
@@ -238,7 +237,30 @@ export default function AiHealthcareLanding() {
   const [activeModule, setActiveModule] = useState(0);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [success, setSuccess] = useState(false);
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      // Gọi API riêng cho AI Healthcare
+      await axios.post(`${API_BASE}/api/ai-registrations/`, {
+        full_name: e.target.elements[0].value,
+        phone: e.target.elements[1].value,
+        email: e.target.elements[2].value,
+        organization: e.target.elements[3].value || "Chưa cung cấp",
+      });
+
+      setSuccess(true);
+      e.target.reset();
+    } catch (error) {
+      console.error("Lỗi AI:", error);
+      alert("Có lỗi xảy ra.");
+    } finally {
+      setLoading(false);
+    }
+  };
   // FETCH API
   useEffect(() => {
     const fetchData = async () => {
@@ -918,69 +940,80 @@ export default function AiHealthcareLanding() {
       {/* REGISTER FORM */}
       <section
         id="register"
-        className="py-24 bg-gradient-to-br from-cyan-50 to-white"
+        className="py-24 bg-gradient-to-br from-amber-50 to-white"
       >
         <div className="max-w-3xl mx-auto px-6">
-          <div className="bg-white rounded-3xl shadow-2xl overflow-hidden border border-slate-100">
-            <div className="bg-slate-900 p-8 text-center relative overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-r from-cyan-900 to-blue-900 opacity-90"></div>
-              <div className="relative z-10">
-                <h2 className="text-2xl font-bold text-white mb-2">
-                  {t("form_title")}
-                </h2>
-                <p className="text-cyan-200 text-sm">{t("form_desc")}</p>
-              </div>
-            </div>
-            <form onSubmit={handleRegister} className="p-8 md:p-10 space-y-6">
-              <div className="grid md:grid-cols-2 gap-6">
-                <div className="space-y-1">
-                  <label className="text-xs font-bold text-slate-700 uppercase">
-                    Full Name
-                  </label>
-                  <input
-                    type="text"
-                    name="fullname"
-                    className="w-full p-3 bg-slate-50 border border-slate-200 rounded-lg focus:border-cyan-500 outline-none"
-                    required
-                  />
+          <div className="bg-white p-8 rounded-3xl shadow-xl border border-slate-100 relative z-10">
+            {success ? (
+              // 1. GIAO DIỆN KHI THÀNH CÔNG
+              <div className="text-center py-10">
+                <div className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <CheckCircle size={40} />
                 </div>
-                <div className="space-y-1">
-                  <label className="text-xs font-bold text-slate-700 uppercase">
-                    Phone
-                  </label>
-                  <input
-                    type="tel"
-                    name="phone"
-                    className="w-full p-3 bg-slate-50 border border-slate-200 rounded-lg focus:border-cyan-500 outline-none"
-                    required
-                  />
-                </div>
+                <h3 className="text-2xl font-bold text-slate-800 mb-2">
+                  Đăng ký thành công!
+                </h3>
+                <p className="text-slate-500 mb-8">
+                  Cảm ơn bạn đã quan tâm. Chúng tôi sẽ liên hệ tư vấn sớm nhất.
+                </p>
+                <button
+                  onClick={() => setSuccess(false)}
+                  className="px-6 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl transition-all"
+                >
+                  Đăng ký thêm người khác
+                </button>
               </div>
-              <div className="space-y-1">
-                <label className="text-xs font-bold text-slate-700 uppercase">
-                  Email
-                </label>
-                <input
-                  type="email"
-                  name="email"
-                  className="w-full p-3 bg-slate-50 border border-slate-200 rounded-lg focus:border-cyan-500 outline-none"
-                  required
-                />
-              </div>
-              <div className="space-y-1">
-                <label className="text-xs font-bold text-slate-700 uppercase">
-                  Organization / Hospital
-                </label>
-                <input
-                  type="text"
-                  name="organization"
-                  className="w-full p-3 bg-slate-50 border border-slate-200 rounded-lg focus:border-cyan-500 outline-none"
-                />
-              </div>
-              <button className="w-full py-4 bg-cyan-600 hover:bg-cyan-500 text-white font-bold rounded-xl shadow-lg shadow-cyan-600/20 transition-all text-lg flex items-center justify-center gap-2">
-                {t("form_btn_submit")} <ArrowRight size={20} />
-              </button>
-            </form>
+            ) : (
+              <>
+                <form onSubmit={handleSubmit} className="p-8 md:p-10 space-y-6">
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div className="space-y-1">
+                      <label className="text-xs font-bold text-slate-700 uppercase">
+                        Full Name
+                      </label>
+                      <input
+                        type="text"
+                        className="w-full p-3 bg-slate-50 border border-slate-200 rounded-lg focus:border-blue-500 outline-none"
+                        placeholder="Your Full Name"
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <label className="text-xs font-bold text-slate-700 uppercase">
+                        Phone
+                      </label>
+                      <input
+                        type="tel"
+                        className="w-full p-3 bg-slate-50 border border-slate-200 rounded-lg focus:border-blue-500 outline-none"
+                        placeholder="+84 ..."
+                      />
+                    </div>
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-xs font-bold text-slate-700 uppercase">
+                      Email
+                    </label>
+                    <input
+                      type="email"
+                      className="w-full p-3 bg-slate-50 border border-slate-200 rounded-lg focus:border-blue-500 outline-none"
+                      placeholder="email@hospital.com"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-xs font-bold text-slate-700 uppercase">
+                      Workplace
+                    </label>
+                    <input
+                      type="organization"
+                      className="w-full p-3 bg-slate-50 border border-slate-200 rounded-lg focus:border-blue-500 outline-none"
+                      placeholder="Hospital/Clinic"
+                    />
+                  </div>
+                  <button className="w-full py-4 bg-amber-500 hover:bg-amber-400 text-white font-bold rounded-xl shadow-lg shadow-amber-500/20 transition-all text-lg">
+                    {t("form_btn")}
+                  </button>
+                </form>
+              </>
+            )}
           </div>
         </div>
       </section>

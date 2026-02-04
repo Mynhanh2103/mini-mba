@@ -45,7 +45,7 @@ router.register(r'healthcaremba-config', HealthcareMBAConfigViewSet, basename='h
 router.register(r'healthcare-modules', HealthcareModuleViewSet)
 router.register(r'healthcare-instructors', HealthcareInstructorViewSet)
 router.register(r'healthcare-schedule', HealthcareScheduleViewSet)
-router.register(r'healthcare-register', HealthcareRegistrationViewSet)
+router.register(r'healthcare-registrations', HealthcareRegistrationViewSet, basename='healthcare-registration')
 
 
 # ... Đăng ký Router
@@ -53,15 +53,13 @@ router.register(r'jci-config', JCIConfigViewSet, basename='jci-config')
 router.register(r'jci-modules', JCIModuleViewSet)
 router.register(r'jci-instructors', JCIInstructorViewSet)
 router.register(r'jci-schedule', JCIScheduleViewSet)
-router.register(r'jci-register', JCIRegistrationViewSet)
-
+router.register(r'jci-registrations', JCIRegistrationViewSet, basename='jci-registration')
 
 router.register(r'aihealthcare-config', AiHealthcareConfigViewSet)
 router.register(r'aihealthcare-modules', AiHealthcareModuleViewSet)
 router.register(r'aihealthcare-instructors', AiHealthcareInstructorViewSet)
 router.register(r'aihealthcare-schedule', AiHealthcareScheduleViewSet)
-router.register(r'aihealthcare-register', AiHealthcareRegistrationViewSet)
-
+router.register(r'ai-registrations', AiHealthcareRegistrationViewSet, basename='ai-registration')
 
 
 urlpatterns = [
