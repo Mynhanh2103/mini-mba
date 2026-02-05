@@ -14,6 +14,7 @@ import {
   CheckCircle,
 } from "lucide-react";
 import { useLanguage } from "./LanguageContext"; // Đường dẫn tuỳ vào vị trí file
+import bannerBg from "./assets/hero-pic.avif";
 // URL API
 const API_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
 
@@ -194,7 +195,7 @@ export default function HomePage() {
           className="text-white font-bold text-2xl tracking-tighter cursor-pointer"
           onClick={() => window.scrollTo(0, 0)}
         >
-          SmartHealthSolutions<span className="text-blue-400">.vn</span>
+          SmartHealthSolutions<span className="text-blue-400"></span>
         </div>
         <button
           onClick={toggleLanguage} // Gọi hàm toggle từ Context
@@ -206,7 +207,10 @@ export default function HomePage() {
 
       {/* --- 2. HERO SECTION --- */}
       <header className="relative min-h-[90vh] flex items-center justify-center bg-slate-900 text-white overflow-hidden pt-20">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-40 scale-105 animate-pulse-slow" />
+        <div
+          style={{ backgroundImage: `url(${bannerBg})` }}
+          className="absolute inset-0 bg-cover bg-center opacity-40 scale-105 animate-pulse-slow"
+        />
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-600 rounded-full blur-[150px] opacity-20 -translate-y-1/2 translate-x-1/3"></div>
         <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-teal-600 rounded-full blur-[150px] opacity-20 translate-y-1/3 -translate-x-1/3"></div>
 
@@ -276,7 +280,7 @@ export default function HomePage() {
           <div className="relative">
             <div className="absolute -inset-4 bg-gradient-to-r from-blue-500 to-teal-500 rounded-3xl opacity-20 blur-lg"></div>
             <img
-              src="https://images.unsplash.com/photo-1551076805-e1869033e561?auto=format&fit=crop&q=80"
+              src="/public/images/premium_photo-1681843060942-3ea0f3077477.avif"
               alt="Vision"
               className="relative rounded-3xl shadow-2xl w-full"
             />

@@ -84,7 +84,7 @@ const translations = {
     prog_2: "Nhân sự & Lãnh đạo",
     prog_3: "Chuyển đổi số & AI",
     prog_4: "Quản lý Chất lượng",
-    prog_btn: "Xem chi tiết 10 Module & Đăng ký lẻ",
+    prog_btn: "Xem chi tiết 10 Module",
     prog_note: "* Bạn có thể đăng ký học từng phần hoặc trọn gói Mini MBA.",
 
     // 2. Lộ trình & Giảng viên
@@ -184,7 +184,7 @@ const translations = {
     prog_2: "HR & Leadership",
     prog_3: "Digital & AI",
     prog_4: "Quality Management",
-    prog_btn: "View 10 Modules & Register",
+    prog_btn: "View 10 Modules",
     prog_note:
       "* You can register for individual modules or the full Mini MBA.",
 
