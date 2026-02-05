@@ -131,12 +131,13 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:5174",
     "https://mini-mba-frontend.onrender.com",
     "https://mini-mba-admin.onrender.com",
-    "https://medicalinformatics.com.vn/"
+    "https://medicalinformatics.com.vn"
 ]
 
 CSRF_TRUSTED_ORIGINS = [
     "https://mini-mba-admin.onrender.com",
     "https://mini-mba-frontend.onrender.com",
+    "https://medicalinformatics.com.vn"
 ]
 
 # Config giao diện Admin Unfold (Giữ nguyên của bạn)
