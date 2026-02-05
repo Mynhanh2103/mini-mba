@@ -16,7 +16,7 @@ import {
 import { useLanguage } from "./LanguageContext"; // Đường dẫn tuỳ vào vị trí file
 import bannerBg from "./assets/hero-pic.avif";
 // URL API
-const API_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
+const API_URL = import.meta.env.VITE_API_URL || "https://127.0.0.1:8000";
 
 // --- TỪ ĐIỂN ĐA NGÔN NGỮ ---
 const translations = {
@@ -280,7 +280,7 @@ export default function HomePage() {
           <div className="relative">
             <div className="absolute -inset-4 bg-gradient-to-r from-blue-500 to-teal-500 rounded-3xl opacity-20 blur-lg"></div>
             <img
-              src="/public/images/premium_photo-1681843060942-3ea0f3077477.avif"
+              src="/images/premium_photo-1681843060942-3ea0f3077477.avif"
               alt="Vision"
               className="relative rounded-3xl shadow-2xl w-full"
             />

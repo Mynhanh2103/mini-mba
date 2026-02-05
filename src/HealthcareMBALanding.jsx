@@ -30,7 +30,7 @@ import {
 } from "lucide-react";
 import axios from "axios";
 import { useLanguage } from "./LanguageContext";
-const API_BASE = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
+const API_BASE = import.meta.env.VITE_API_URL || "https://127.0.0.1:8000";
 
 // --- TỪ ĐIỂN UI ---
 const translations = {

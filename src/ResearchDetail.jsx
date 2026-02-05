@@ -16,7 +16,7 @@ import {
 import axios from "axios";
 import { useLanguage } from "./LanguageContext";
 // 1. CẤU HÌNH API: Trỏ thẳng về Render để tránh lỗi kết nối localhost
-const API_BASE = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
+const API_BASE = import.meta.env.VITE_API_URL || "https://127.0.0.1:8000";
 
 const translations = {
   vi: {
