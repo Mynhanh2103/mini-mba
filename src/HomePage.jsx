@@ -450,7 +450,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* --- 7. LATEST NEWS (Dữ liệu động đã sửa ngôn ngữ) --- */}
+      {/* --- 7. LATEST NEWS (Dữ liệu động đã sửa ngôn ngữ) 
       <section className="py-24 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="flex justify-between items-end mb-12">
@@ -522,7 +522,7 @@ export default function HomePage() {
             )}
           </div>
         </div>
-      </section>
+      </section>--- */}
 
       {/* --- 8. FOOTER CTA --- */}
       <section className="bg-blue-600 py-20 px-6 text-center text-white">
