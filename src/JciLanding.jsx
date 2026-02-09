@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   BookOpen,
   Users,
-  TrendingUp,
+  Newspaper,
   Award,
   ChevronDown,
   Star,
@@ -22,7 +22,7 @@ import {
   Globe, // Icon cho nút ngôn ngữ
   CalendarDays,
   MapPin,
-  CheckCircle
+  CheckCircle,
 } from "lucide-react";
 import axios from "axios";
 import { useLanguage } from "./LanguageContext";
@@ -43,9 +43,9 @@ const translations = {
       "Chương trình đào tạo chuyên sâu 30 giờ, trang bị năng lực xây dựng hệ thống quản lý chất lượng đạt chuẩn quốc tế JCI phiên bản 2025.",
     hero_cta: "Tư vấn lộ trình",
     hero_brochure: "Tải Syllabus",
-    stat_hours: "30 Giờ Đào tạo",
-    stat_modules: "07 Chuyên đề", // Đã sửa thành 07
-    stat_practice: "80% Thực hành",
+    stat_hours: "Đào tạo",
+    stat_modules: "Chuyên đề", // Đã sửa thành 07
+    stat_practice: "Thực hành",
     sec_program_title: "Cấu Trúc Chương Trình",
     sec_program_sub:
       "Lộ trình bài bản từ tư duy nền tảng đến kỹ năng thực thi.",
@@ -63,6 +63,7 @@ const translations = {
     form_btn: "Gửi đăng ký",
     footer_rights: "Bản quyền thuộc về Smart Health Solutions.",
     trusted_by: "Được tin tưởng bởi các hệ thống y tế hàng đầu",
+    footer_addr: "268 Lý Thường Kiệt, Phường Diên Hồng, Tp. Hồ Chí Minh",
   },
   en: {
     nav_program: "Curriculum",
@@ -77,9 +78,9 @@ const translations = {
       "Intensive 30-hour training program equipping you with the capability to build a quality management system according to JCI Standards (2025 Edition).",
     hero_cta: "Get Consultation",
     hero_brochure: "Download Syllabus",
-    stat_hours: "30 Training Hours",
-    stat_modules: "07 Modules", // Updated to 07
-    stat_practice: "80% Practice",
+    stat_hours: "Training ",
+    stat_modules: " Modules", // Updated to 07
+    stat_practice: "Practice",
     sec_program_title: "Program Structure",
     sec_program_sub:
       "A systematic roadmap from foundational mindset to execution skills.",
@@ -97,6 +98,8 @@ const translations = {
     form_btn: "Submit Registration",
     footer_rights: "© 2025 Smart Health Solutions. All rights reserved.",
     trusted_by: "Trusted by leading healthcare systems",
+    footer_addr: "268 Ly Thuong Kiet, Dien Hong Ward, Ho Chi Minh City",
+    loading: "Loading data...",
   },
 };
 
@@ -441,59 +444,6 @@ export default function JciLanding() {
                 <ArrowRight className="w-5 h-5 shrink-0" />
               </a>
             </div>
-
-            {/* --- REPLACED GRAY BOXES WITH TRUST INDICATORS --- */}
-            <div className="mt-12">
-              <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">
-                {t("trusted_by")}
-              </p>
-              <div className="flex flex-wrap items-center gap-8 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
-                {/* Logo Phương Châu */}
-                <img
-                  src="/logo/logopcg_jrjp4d.png" // Thay bằng đường dẫn file thật của bạn
-                  alt="Phuong Chau"
-                  className="h-10 w-auto object-contain hover:scale-110 transition-transform duration-300"
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src =
-                      "https://placehold.co/120x50?text=Phuong+Chau";
-                  }}
-                />
-                {/* Logo Gia Định */}
-                <img
-                  src="/logo/Logo-Benh-Vien-Nhan-Dan-Gia-Dinh_kvpwzo.webp" // Thay bằng đường dẫn file thật của bạn
-                  alt="Gia Dinh"
-                  className="h-12 w-auto object-contain hover:scale-110 transition-transform duration-300"
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src = "https://placehold.co/120x50?text=Gia+Dinh";
-                  }}
-                />
-
-                {/* Logo Ung Bướu (Oncology) */}
-                <img
-                  src="/logo/images_qdg3n6.png" // Thay bằng đường dẫn file thật của bạn
-                  alt="Ho Chi Minh Oncology Hospital"
-                  className="h-14 w-auto object-contain hover:scale-110 transition-transform duration-300"
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src =
-                      "https://placehold.co/150x50?text=Oncology+HCMC";
-                  }}
-                />
-                {/* Logo JCI */}
-                <img
-                  src="/logo/image.webp" // Thay bằng đường dẫn file thật của bạn
-                  alt="JCI"
-                  className="h-12 w-auto object-contain hover:scale-110 transition-transform duration-300"
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src =
-                      "https://placehold.co/120x50?text=NTP+Hospital";
-                  }}
-                />
-              </div>
-            </div>
           </motion.div>
 
           <motion.div
@@ -827,61 +777,94 @@ export default function JciLanding() {
                   Đăng ký thêm người khác
                 </button>
               </div>
-            ) : ( <>
-            <form onSubmit={handleSubmit} className="p-8 md:p-10 space-y-6">
-              <div className="grid md:grid-cols-2 gap-6">
-                <div className="space-y-1">
-                  <label className="text-xs font-bold text-slate-700 uppercase">
-                    Full Name
-                  </label>
-                  <input
-                    type="text"
-                    className="w-full p-3 bg-slate-50 border border-slate-200 rounded-lg focus:border-blue-500 outline-none"
-                    placeholder="Your Full Name"
-                  />
-                </div>
-                <div className="space-y-1">
-                  <label className="text-xs font-bold text-slate-700 uppercase">
-                    Phone
-                  </label>
-                  <input
-                    type="tel"
-                    className="w-full p-3 bg-slate-50 border border-slate-200 rounded-lg focus:border-blue-500 outline-none"
-                    placeholder="+84 ..."
-                  />
-                </div>
-              </div>
-              <div className="space-y-1">
-                <label className="text-xs font-bold text-slate-700 uppercase">
-                  Email
-                </label>
-                <input
-                  type="email"
-                  className="w-full p-3 bg-slate-50 border border-slate-200 rounded-lg focus:border-blue-500 outline-none"
-                  placeholder="email@hospital.com"
-                />
-              </div>
-              <div className="space-y-1">
-                <label className="text-xs font-bold text-slate-700 uppercase">
-                  Workplace
-                </label>
-                <input
-                  type="organization"
-                  className="w-full p-3 bg-slate-50 border border-slate-200 rounded-lg focus:border-blue-500 outline-none"
-                  placeholder="Hospital/Clinic"
-                />
-              </div>
-              <button className="w-full py-4 bg-amber-500 hover:bg-amber-400 text-white font-bold rounded-xl shadow-lg shadow-amber-500/20 transition-all text-lg">
-                {t("form_btn")}
-              </button>
-            </form>
-            </>)}
+            ) : (
+              <>
+                <form onSubmit={handleSubmit} className="p-8 md:p-10 space-y-6">
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div className="space-y-1">
+                      <label className="text-xs font-bold text-slate-700 uppercase">
+                        Full Name
+                      </label>
+                      <input
+                        type="text"
+                        className="w-full p-3 bg-slate-50 border border-slate-200 rounded-lg focus:border-blue-500 outline-none"
+                        placeholder="Your Full Name"
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <label className="text-xs font-bold text-slate-700 uppercase">
+                        Phone
+                      </label>
+                      <input
+                        type="tel"
+                        className="w-full p-3 bg-slate-50 border border-slate-200 rounded-lg focus:border-blue-500 outline-none"
+                        placeholder="+84 ..."
+                      />
+                    </div>
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-xs font-bold text-slate-700 uppercase">
+                      Email
+                    </label>
+                    <input
+                      type="email"
+                      className="w-full p-3 bg-slate-50 border border-slate-200 rounded-lg focus:border-blue-500 outline-none"
+                      placeholder="email@hospital.com"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-xs font-bold text-slate-700 uppercase">
+                      Workplace
+                    </label>
+                    <input
+                      type="organization"
+                      className="w-full p-3 bg-slate-50 border border-slate-200 rounded-lg focus:border-blue-500 outline-none"
+                      placeholder="Hospital/Clinic"
+                    />
+                  </div>
+                  <button className="w-full py-4 bg-amber-500 hover:bg-amber-400 text-white font-bold rounded-xl shadow-lg shadow-amber-500/20 transition-all text-lg">
+                    {t("form_btn")}
+                  </button>
+                </form>
+              </>
+            )}
           </div>
         </div>
       </section>
 
-      <footer className="bg-white border-t border-slate-100 py-8 text-center text-slate-500 text-sm">
-        <p>{t("footer_rights")}</p>
+      <footer className="bg-slate-900 text-slate-400 py-12 border-t border-slate-800">
+        <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-8">
+          <div>
+            <h3 className="text-white text-xl font-bold mb-4 flex items-center gap-2">
+              <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold">
+                S
+              </div>
+              Smart Health Solutions
+            </h3>
+
+            <p className="mb-2 text-slate-400">{t("footer_addr")}</p>
+
+            <p className="mb-2">Email: mr.truongchuong@gmail.com</p>
+
+            <p>Mobile: 077 410 9425</p>
+          </div>
+
+          <div className="text-right flex flex-col justify-end">
+            <div className="flex gap-4 justify-end mb-4">
+              {/* Social Icons Placeholder */}
+
+              <div className="w-8 h-8 bg-slate-800 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors cursor-pointer">
+                <Globe size={16} />
+              </div>
+
+              <div className="w-8 h-8 bg-slate-800 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors cursor-pointer">
+                <Newspaper size={16} />
+              </div>
+            </div>
+
+            <p>© 2025 Smart Health Solutions. All Rights Reserved.</p>
+          </div>
+        </div>
       </footer>
     </div>
   );

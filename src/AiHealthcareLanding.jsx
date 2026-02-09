@@ -42,7 +42,7 @@ const translations = {
     nav_instructors: "Giảng viên",
     nav_register: "Đăng ký",
     nav_contact: "Liên hệ",
-    hero_badge: "Hợp tác chiến lược cùng TAMI (Đài Loan)",
+    hero_badge: "Hợp tác chiến lược cùng TAMI (Đài Loan - Trung Quốc)",
     hero_title: "AI in Healthcare",
     hero_subtitle: "Ứng dụng Trí tuệ Nhân tạo trong Y tế",
     hero_desc:
@@ -102,7 +102,7 @@ const translations = {
     nav_instructors: "Instructors",
     nav_register: "Register",
     nav_contact: "Contact",
-    hero_badge: "Strategic Partnership with TAMI (Taiwan)",
+    hero_badge: "Strategic Partnership with TAMI (Taiwan - China)",
     hero_title: "AI in Healthcare",
     hero_subtitle: "Artificial Intelligence in Medicine",
     hero_desc:

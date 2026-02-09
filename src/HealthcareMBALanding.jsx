@@ -27,6 +27,7 @@ import {
   CircleDollarSign,
   LayoutDashboard,
   BrainCircuit,
+  Newspaper,
 } from "lucide-react";
 import axios from "axios";
 import { useLanguage } from "./LanguageContext";
@@ -66,6 +67,7 @@ const translations = {
     footer_rights: "Bản quyền thuộc về Smart Health Solutions.",
     trusted_by: "Đối tác & Bệnh viện đồng hành",
     loading: "Đang tải dữ liệu...",
+    footer_addr: "268 Lý Thường Kiệt, Phường Diên Hồng, Tp. Hồ Chí Minh",
   },
   en: {
     nav_program: "Curriculum",
@@ -99,6 +101,7 @@ const translations = {
     footer_rights: "© 2025 Smart Health Solutions. All rights reserved.",
     trusted_by: "Trusted Partners & Hospitals",
     loading: "Loading data...",
+    footer_addr: "268 Ly Thuong Kiet, Dien Hong Ward, Ho Chi Minh City",
   },
 };
 
@@ -470,60 +473,6 @@ export default function HealthcareMBALanding() {
                 {t("hero_brochure")}
                 <ArrowRight className="w-5 h-5 shrink-0" />
               </a>
-            </div>
-            <div className="mt-12">
-              <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">
-                {/* Bạn nhớ thêm key "trusted_by": "Được tin tưởng bởi" vào biến translations nhé */}
-                {t("trusted_by") || "Được tin tưởng bởi"}
-              </p>
-              <div className="flex flex-wrap items-center gap-8 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
-                {/* Logo Phương Châu */}
-                <img
-                  src="/logo/logopcg_jrjp4d.png" // Thay bằng đường dẫn file thật của bạn
-                  alt="Phuong Chau"
-                  className="h-10 w-auto object-contain hover:scale-110 transition-transform duration-300"
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src =
-                      "https://placehold.co/120x50?text=Phuong+Chau";
-                  }}
-                />
-
-                {/* Logo Nguyễn Tri Phương */}
-                <img
-                  src="/logo/bvntp_j1au0x.png" // Thay bằng đường dẫn file thật của bạn
-                  alt="Nguyen Tri Phuong"
-                  className="h-12 w-auto object-contain hover:scale-110 transition-transform duration-300"
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src =
-                      "https://placehold.co/120x50?text=NTP+Hospital";
-                  }}
-                />
-
-                {/* Logo Gia Định */}
-                <img
-                  src="/logo/Logo-Benh-Vien-Nhan-Dan-Gia-Dinh_kvpwzo.webp" // Thay bằng đường dẫn file thật của bạn
-                  alt="Gia Dinh"
-                  className="h-12 w-auto object-contain hover:scale-110 transition-transform duration-300"
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src = "https://placehold.co/120x50?text=Gia+Dinh";
-                  }}
-                />
-
-                {/* Logo Ung Bướu (Oncology) */}
-                <img
-                  src="/logo/images_qdg3n6.png" // Thay bằng đường dẫn file thật của bạn
-                  alt="Ho Chi Minh Oncology Hospital"
-                  className="h-14 w-auto object-contain hover:scale-110 transition-transform duration-300"
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src =
-                      "https://placehold.co/150x50?text=Oncology+HCMC";
-                  }}
-                />
-              </div>
             </div>
           </motion.div>
           <motion.div
@@ -904,8 +853,39 @@ export default function HealthcareMBALanding() {
         </div>
       </section>
 
-      <footer className="bg-white border-t border-slate-100 py-8 text-center text-slate-500 text-sm">
-        <p>{t("footer_rights")}</p>
+      <footer className="bg-slate-900 text-slate-400 py-12 border-t border-slate-800">
+        <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-8">
+          <div>
+            <h3 className="text-white text-xl font-bold mb-4 flex items-center gap-2">
+              <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold">
+                S
+              </div>
+              Smart Health Solutions
+            </h3>
+
+            <p className="mb-2 text-slate-400">{t("footer_addr")}</p>
+
+            <p className="mb-2">Email: mr.truongchuong@gmail.com</p>
+
+            <p>Mobile: 077 410 9425</p>
+          </div>
+
+          <div className="text-right flex flex-col justify-end">
+            <div className="flex gap-4 justify-end mb-4">
+              {/* Social Icons Placeholder */}
+
+              <div className="w-8 h-8 bg-slate-800 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors cursor-pointer">
+                <Globe size={16} />
+              </div>
+
+              <div className="w-8 h-8 bg-slate-800 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors cursor-pointer">
+                <Newspaper size={16} />
+              </div>
+            </div>
+
+            <p>© 2025 Smart Health Solutions. All Rights Reserved.</p>
+          </div>
+        </div>
       </footer>
     </div>
   );
